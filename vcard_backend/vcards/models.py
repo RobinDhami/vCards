@@ -2,13 +2,13 @@ from django.db import models
 import qrcode
 from io import BytesIO
 from django.core.files import File
-from django.db import models
+
 
 class VCard(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     phone = models.CharField(max_length=15)
-    email = models.EmailField()
+    email = models.EmailField(default='default@example.com')  # Provide a default value
     website = models.URLField(blank=True, null=True)
     address = models.TextField(blank=True, null=True)
     qr_code = models.ImageField(upload_to='qr_codes/', blank=True, null=True)
@@ -18,22 +18,25 @@ class VCard(models.Model):
 
 
 class UserProfile(models.Model):
-    USER_TYPE_CHOICES = [
+    USER_TYPES = [
         ('normal', 'Normal'),
         ('vip', 'VIP'),
     ]
 
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    phone = models.CharField(max_length=20, blank=True, null=True)
-    email = models.EmailField(blank=True, null=True)
-    website = models.URLField(blank=True, null=True)
-    address = models.TextField(blank=True, null=True)
-    user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES, default='normal')
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    phone = models.CharField(max_length=15)
+    email = models.EmailField(default='default@example.com')  # Provide a default value to prevent null values
+    user_type = models.CharField(max_length=10, choices=USER_TYPES, default='normal')
+    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
+    cover_photo = models.ImageField(upload_to='cover_photos/', blank=True, null=True)  # blank=True, null=True
+    bio = models.TextField(blank=True, null=True)  # blank=True, null=True
+    facebook = models.URLField(blank=True, null=True)
+    instagram = models.URLField(blank=True, null=True)
+    linkedin = models.URLField(blank=True, null=True)
     
     # VIP exclusive fields
     portfolio_link = models.URLField(blank=True, null=True)
-    linkedin = models.URLField(blank=True, null=True)
     twitter = models.URLField(blank=True, null=True)
     qr_code = models.ImageField(upload_to='qr_codes/', blank=True, null=True)
 

@@ -1,11 +1,9 @@
-<!-- vcards/templates/vcards/dashboard.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <!-- Inline CSS for styling the dashboard -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -102,8 +100,13 @@
                     <td>{{ user.email }}</td>
                     <td>{{ user.get_user_type_display }}</td>
                     <td class="actions">
-                        <a href="#">Edit</a> | <a href="#">Delete</a>
-                    </td>
+                        <a href="{% url 'edit_user_profile' user.id %}">Edit</a> | 
+                        <a href="{% url 'delete_user_profile' user.id %}">Delete</a>
+                    </td>                    
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6" style="text-align:center;">No users found.</td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -56,3 +56,21 @@ def user_profile(request, user_id):
         return render(request, 'vip_profile.html', {'user': user})
     else:
         return render(request, 'normal_profile.html', {'user': user})
+def edit_user_profile(request, user_id):
+    user = get_object_or_404(UserProfile, pk=user_id)
+    
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')  # Redirect to dashboard after successful update
+    else:
+        form = UserProfileForm(instance=user)
+
+    return render(request, 'edit_user_profile.html', {'form': form, 'user': user})
+
+# Delete User Profile View
+def delete_user_profile(request, user_id):
+    user = get_object_or_404(UserProfile, pk=user_id)
+    user.delete()
+    return redirect('dashboard')  # Redirect to dashboard after deletion

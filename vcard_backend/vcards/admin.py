@@ -1,4 +1,3 @@
-# admin.py
 from django.contrib import admin
 from .models import VCard, UserProfile
 
@@ -11,6 +10,7 @@ class UserProfileAdmin(admin.ModelAdmin):
     search_fields = ('first_name', 'last_name', 'phone', 'email', 'user_type')
     list_filter = ('user_type',)
     readonly_fields = ('qr_code',)
+    list_display_links = ('first_name', 'last_name')
 
 admin.site.register(VCard, VCardAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
