@@ -19,3 +19,4 @@ urlpatterns = [
     path('userprofiles/', UserProfileListCreateView.as_view(), name='userprofile-list-create'),
     path('userprofiles/<int:pk>/', UserProfileDetailView.as_view(), name='userprofile-detail'),
 ]
+
