@@ -129,8 +129,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Media files (uploaded files)
+import os
+
+# For media file handling
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'public/media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 

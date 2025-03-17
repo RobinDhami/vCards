@@ -1,56 +1,56 @@
 from django.db import models
-import qrcode
-from io import BytesIO
-from django.core.files import File
+from django.contrib.auth.models import User
 
-
-class VCard(models.Model):
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    phone = models.CharField(max_length=15)
-    email = models.EmailField(default='mail@gmail.com')  # Provide a default value
-    website = models.URLField(blank=True, null=True)
-    address = models.TextField(blank=True, null=True)
-    qr_code = models.ImageField(upload_to='qr_codes/', blank=True, null=True)
+class Customer(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="User")  # This will display "User" in the admin
+    user_name = models.CharField(max_length=255, verbose_name="Full Name")  # Renamed for more readable display
+    phone = models.CharField(max_length=20, verbose_name="Phone Number")
+    company_name = models.CharField(max_length=255, verbose_name="Company Name")
+    email = models.EmailField(verbose_name="Email Address")
+    instagram = models.CharField(max_length=255, blank=True, null=True, verbose_name="Instagram Handle")
+    facebook = models.CharField(max_length=255, blank=True, null=True, verbose_name="Facebook Profile")
+    twitter = models.CharField(max_length=255, blank=True, null=True, verbose_name="Twitter Handle")
+    bio = models.TextField(blank=True, null=True, verbose_name="Bio")
+    customer_type = models.CharField(
+        max_length=10,
+        choices=[('general', 'General'), ('vip', 'VIP')],
+        verbose_name="Customer Type"
+    )
+    profile_photo = models.ImageField(upload_to='profile_photos/', blank=True, null=True, verbose_name="Profile Photo")  # Optional field
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name}"
+        return self.user_name
+
+    class Meta:
+        verbose_name = "Customer Profile"  # This will be used in the admin interface for this model
+        verbose_name_plural = "Customer Profiles"  # Plural form for the admin
 
 
-class UserProfile(models.Model):
-    USER_TYPES = [
-        ('normal', 'Normal'),
-        ('vip', 'VIP'),
-    ]
 
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    phone = models.CharField(max_length=15)
-    email = models.EmailField(default='default@example.com')  # Provide a default value to prevent null values
-    user_type = models.CharField(max_length=10, choices=USER_TYPES, default='normal')
-    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
-    cover_photo = models.ImageField(upload_to='cover_photos/', blank=True, null=True)  
-    bio = models.TextField(blank=True, null=True)  # blank=True, null=True
-    facebook = models.URLField(blank=True, null=True)
-    instagram = models.URLField(blank=True, null=True)
-    linkedin = models.URLField(blank=True, null=True)
+import qrcode
+from django.db import models
+from io import BytesIO
+from django.core.files import File
+from django.core.exceptions import ValidationError
+from PIL import Image
+from django.conf import settings
+
+class VCard(models.Model):
+    customer = models.OneToOneField(Customer, on_delete=models.CASCADE)
+    qr_code = models.ImageField(upload_to='qr_codes/', null=True, blank=True)  # To store the generated QR code image
+    portfolio_link = models.URLField()  # URL that leads to the customer's online portfolio (generated after profile creation)
     
-    # VIP exclusive fields
-    portfolio_link = models.URLField(blank=True, null=True)
-    twitter = models.URLField(blank=True, null=True)
-    qr_code = models.ImageField(upload_to='qr_codes/', blank=True, null=True)
-
-    def generate_qr_code(self):
-        qr_data = f"https://tap2solve.com/profile/{self.id}/"
-        qr = qrcode.make(qr_data)
-        buffer = BytesIO()
-        qr.save(buffer, format='PNG')
-        self.qr_code.save(f'{self.first_name}_{self.id}_qr.png', File(buffer), save=False)
-
     def save(self, *args, **kwargs):
         if not self.qr_code:
             self.generate_qr_code()
-        super().save(*args, **kwargs)
+        super(VCard, self).save(*args, **kwargs)
+    
+    def generate_qr_code(self):
+        qr = qrcode.make(self.portfolio_link)
+        qr_img = BytesIO()
+        qr.save(qr_img)
+        qr_img.seek(0)
+        self.qr_code.save(f"{self.customer.user_name}_qr.png", File(qr_img), save=False)
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name} ({self.user_type})"
+        return f"vCard for {self.customer.user_name}"

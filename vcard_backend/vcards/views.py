@@ -1,76 +1,78 @@
-# Import necessary modules
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import UserProfile
-from .forms import UserProfileForm
+from django.db import IntegrityError
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Customer, VCard
 
-# Home View
-def home(request):
-    return render(request, 'home.html')
+# View to create a customer
+from django.contrib.auth.models import User
 
-# VCard Views (already existing)
-from rest_framework import generics
-from .models import VCard
-from .serializers import UserProfileSerializer, VCardSerializer
 
-class VCardListCreateView(generics.ListCreateAPIView):
-    queryset = VCard.objects.all()
-    serializer_class = VCardSerializer
 
-class VCardDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = VCard.objects.all()
-    serializer_class = VCardSerializer
-
-# UserProfile Views (existing views for list and registration)
-class UserProfileListCreateView(generics.ListCreateAPIView):
-    queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
-
-class UserProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
-
-# Dashboard View (to display all registered users)
-def dashboard(request):
-    users = UserProfile.objects.all()
-    return render(request, 'dashboard.html', {'users': users})
-
-# Register User View (to register a new user)
-def register_user(request):
+def create_customer(request):
     if request.method == 'POST':
-        form = UserProfileForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('dashboard')  # Redirect to dashboard after successful registration
-    else:
-        form = UserProfileForm()
-    
-    return render(request, 'register_user.html', {'form': form})
+        # Get data from the form
+        user_name = request.POST['user_name']
+        phone = request.POST['phone']
+        company_name = request.POST['company_name']
+        email = request.POST['email']
+        instagram = request.POST.get('instagram', '')  # Using .get to handle optional fields
+        facebook = request.POST.get('facebook', '')
+        twitter = request.POST.get('twitter', '')
+        bio = request.POST.get('bio', '')
+        customer_type = request.POST['customer_type']
+        
+        # Handle profile photo upload
+        profile_photo = request.FILES.get('profile_photo')  # This gets the uploaded file
 
-# User Profile View
-def user_profile(request, user_id):
-    # Retrieve the user by ID or show a 404 error if not found
-    user = get_object_or_404(UserProfile, pk=user_id)
+        # Check if username already exists
+        if User.objects.filter(username=user_name).exists():
+            # Username already exists, inform the user
+            return render(request, 'create_customer.html', {'error': 'Username already exists. Please choose another one.'})
 
-    # Check the user's type (VIP or Normal) and render the appropriate profile template
-    if user.user_type == 'VIP':
-        return render(request, 'vip_profile.html', {'user': user})
-    else:
-        return render(request, 'normal_profile.html', {'user': user})
-def edit_user_profile(request, user_id):
-    user = get_object_or_404(UserProfile, pk=user_id)
-    
-    if request.method == 'POST':
-        form = UserProfileForm(request.POST, instance=user)
-        if form.is_valid():
-            form.save()
-            return redirect('dashboard')  # Redirect to dashboard after successful update
-    else:
-        form = UserProfileForm(instance=user)
+        try:
+            # Create the User instance (associated with the customer)
+            user = User.objects.create_user(
+                username=user_name,
+                password='defaultpassword',  # You might want to set a default password here or leave it blank
+                email=email
+            )
 
-    return render(request, 'edit_user_profile.html', {'form': form, 'user': user})
+            # Create the Customer instance
+            customer = Customer.objects.create(
+                user=user,  # Associate user
+                user_name=user_name,
+                phone=phone,
+                company_name=company_name,
+                email=email,
+                instagram=instagram,
+                facebook=facebook,
+                twitter=twitter,
+                bio=bio,
+                customer_type=customer_type,
+                profile_photo=profile_photo  # Save the uploaded file in the model
+            )
+            
+            # Redirect to the customer's profile page (or another success page)
+            return redirect('profile', pk=customer.pk)
 
-# Delete User Profile View
-def delete_user_profile(request, user_id):
-    user = get_object_or_404(UserProfile, pk=user_id)
-    user.delete()
-    return redirect('dashboard')  # Redirect to dashboard after deletion
+        except IntegrityError as e:
+            # Handle specific integrity errors
+            return render(request, 'create_customer.html', {'error': 'An error occurred while creating the profile.'})
+
+    return render(request, 'create_customer.html')  # Render the form page if GET request
+
+
+# View to display customer profile
+def profile(request):
+    try:
+        # Try to get the customer profile associated with the logged-in user
+        customer_profile = Customer.objects.get(user=request.user)
+    except Customer.DoesNotExist:
+        # If no customer profile exists, redirect to the create profile page
+        return redirect('create_customer')  # Adjust the URL name accordingly
+
+    context = {
+        'user': request.user,  # Pass the user object to the template
+        'profile': customer_profile,  # Pass the customer's profile
+    }
+
+    return render(request, 'customer_profile.html', context)

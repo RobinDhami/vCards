@@ -1,16 +1,9 @@
+# vcards/admin.py
+
 from django.contrib import admin
-from .models import VCard, UserProfile
+from .models import Customer
 
-class VCardAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'phone', 'email', 'qr_code')
-    search_fields = ('first_name', 'last_name', 'phone', 'email')
-
-class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'phone', 'email', 'user_type', 'portfolio_link', 'linkedin', 'twitter', 'qr_code')
-    search_fields = ('first_name', 'last_name', 'phone', 'email', 'user_type')
-    list_filter = ('user_type',)
-    readonly_fields = ('qr_code',)
-    list_display_links = ('first_name', 'last_name')
-
-admin.site.register(VCard, VCardAdmin)
-admin.site.register(UserProfile, UserProfileAdmin)
+@admin.register(Customer)
+class CustomerAdmin(admin.ModelAdmin):
+    list_display = ('user_name', 'phone', 'email', 'customer_type', 'profile_photo')
+    search_fields = ('user_name', 'email', 'phone')

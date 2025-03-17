@@ -1,0 +1,37 @@
+<!-- templates/profile.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="profile-container">
+        <h1>Welcome, {{ user.username }}</h1>
+
+        {% if profile %}
+            <div class="profile-details">
+                <p><strong>Name:</strong> {{ profile.user_name }}</p>
+                <p><strong>Phone:</strong> {{ profile.phone }}</p>
+                <p><strong>Company Name:</strong> {{ profile.company_name }}</p>
+                <p><strong>Email:</strong> {{ profile.email }}</p>
+                <p><strong>Instagram:</strong> {{ profile.instagram }}</p>
+                <p><strong>Facebook:</strong> {{ profile.facebook }}</p>
+                <p><strong>Twitter:</strong> {{ profile.twitter }}</p>
+                <p><strong>Bio:</strong> {{ profile.bio }}</p>
+                <p><strong>Customer Type:</strong> {{ profile.customer_type }}</p>
+
+                <!-- Add logic for profile photos if required -->
+                {% if profile.profile_photo %}
+                    <img src="{{ profile.profile_photo.url }}" alt="Profile Photo">
+                {% endif %}
+            </div>
+        {% else %}
+            <p>No profile found. Please complete your profile.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,18 +1,15 @@
-from django.urls import path, include
 from django.conf import settings
+from django.urls import path
+from vcards.views import *
 from django.conf.urls.static import static
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib import admin
-from django.urls import path, include  # Ensure include is imported
-from vcards.views import home  # Import the home view
-import os
-
 
 urlpatterns = [
+    # Create customer profile
+    path('create/', create_customer, name='create_customer'),
+    path('profile/', profile, name='profile'),
     path('admin/', admin.site.urls),
-    path('', include('vcards.urls')),  # Include the vcards app URLs
-]
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

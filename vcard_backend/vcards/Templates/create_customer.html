@@ -1,0 +1,42 @@
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <label for="user_name">Name:</label>
+    <input type="text" id="user_name" name="user_name" required>
+    
+    <label for="phone">Phone:</label>
+    <input type="text" id="phone" name="phone" required>
+    
+    <label for="company_name">Company Name:</label>
+    <input type="text" id="company_name" name="company_name" required>
+    
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+    
+    <label for="instagram">Instagram:</label>
+    <input type="text" id="instagram" name="instagram">
+    
+    <label for="facebook">Facebook:</label>
+    <input type="text" id="facebook" name="facebook">
+    
+    <label for="twitter">Twitter:</label>
+    <input type="text" id="twitter" name="twitter">
+    
+    <label for="bio">Bio:</label>
+    <textarea id="bio" name="bio"></textarea>
+    
+    <label for="customer_type">Customer Type:</label>
+    <select id="customer_type" name="customer_type">
+        <option value="general">General</option>
+        <option value="vip">VIP</option>
+    </select>
+    
+    <!-- Profile and cover photo fields -->
+    <label for="profile_photo">Profile Photo:</label>
+    <input type="file" id="profile_photo" name="profile_photo">
+    
+    <label for="cover_photo">Cover Photo:</label>
+    <input type="file" id="cover_photo" name="cover_photo">
+    
+    <button type="submit">Create Profile</button>
+</form>
