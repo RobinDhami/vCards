@@ -1,78 +1,124 @@
-from django.db import IntegrityError
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Customer, VCard
-
-# View to create a customer
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from .models import Customer, VCard, VIPProfile, CustomerType
 
+# ============================
+# DASHBOARD VIEW
+# ============================
+@login_required
+def dashboard(request):
+    customers = Customer.objects.prefetch_related('vcard', 'vip_profile').all()
+    return render(request, 'dashboard.html', {'customers': customers})
 
-
+# ============================
+# CREATE CUSTOMER VIEW
+# ============================
+@login_required
 def create_customer(request):
     if request.method == 'POST':
-        # Get data from the form
-        user_name = request.POST['user_name']
-        phone = request.POST['phone']
-        company_name = request.POST['company_name']
-        email = request.POST['email']
-        instagram = request.POST.get('instagram', '')  # Using .get to handle optional fields
-        facebook = request.POST.get('facebook', '')
-        twitter = request.POST.get('twitter', '')
-        bio = request.POST.get('bio', '')
-        customer_type = request.POST['customer_type']
+        user = request.user
+
+        # Extract form data
+        customer_type = request.POST.get('customer_type', CustomerType.GENERAL)
+
+        customer = Customer.objects.create(
+            user=user,
+            user_name=request.POST['user_name'],
+            phone=request.POST['phone'],
+            company_name=request.POST['company_name'],
+            email=request.POST['email'],
+            profile_photo=request.FILES.get('profile_photo'),
+            cover_photo=request.FILES.get('cover_photo'),
+            instagram=request.POST.get('instagram'),
+            facebook=request.POST.get('facebook'),
+            twitter=request.POST.get('twitter'),
+            linkedin=request.POST.get('linkedin'),
+            youtube=request.POST.get('youtube'),
+            tiktok=request.POST.get('tiktok'),
+            whatsapp=request.POST.get('whatsapp'),
+            personal_website=request.POST.get('personal_website'),
+            bio=request.POST.get('bio'),
+            customer_type=customer_type
+        )
         
-        # Handle profile photo upload
-        profile_photo = request.FILES.get('profile_photo')  # This gets the uploaded file
+        # Create a VIP profile if the user is VIP
+        if customer_type == CustomerType.VIP:
+            VIPProfile.objects.create(customer=customer)
 
-        # Check if username already exists
-        if User.objects.filter(username=user_name).exists():
-            # Username already exists, inform the user
-            return render(request, 'create_customer.html', {'error': 'Username already exists. Please choose another one.'})
+        return redirect('dashboard')
 
-        try:
-            # Create the User instance (associated with the customer)
-            user = User.objects.create_user(
-                username=user_name,
-                password='defaultpassword',  # You might want to set a default password here or leave it blank
-                email=email
-            )
+    return render(request, 'create_customer.html')
 
-            # Create the Customer instance
-            customer = Customer.objects.create(
-                user=user,  # Associate user
-                user_name=user_name,
-                phone=phone,
-                company_name=company_name,
-                email=email,
-                instagram=instagram,
-                facebook=facebook,
-                twitter=twitter,
-                bio=bio,
-                customer_type=customer_type,
-                profile_photo=profile_photo  # Save the uploaded file in the model
-            )
-            
-            # Redirect to the customer's profile page (or another success page)
-            return redirect('profile', pk=customer.pk)
+# ============================
+# CREATE OR UPDATE VCard
+# ============================
+@login_required
+def create_vcard(request):
+    customer = get_object_or_404(Customer, user=request.user)
+    vcard, created = VCard.objects.get_or_create(customer=customer)
+    
+    if request.method == 'POST':
+        vcard.portfolio_link = request.POST['portfolio_link']
+        vcard.save()
+        return redirect('dashboard')
+    
+    return render(request, 'create_vcard.html', {'vcard': vcard})
 
-        except IntegrityError as e:
-            # Handle specific integrity errors
-            return render(request, 'create_customer.html', {'error': 'An error occurred while creating the profile.'})
+# ============================
+# EDIT CUSTOMER VIEW
+# ============================
+@login_required
+def edit_customer(request, customer_id):
+    customer = get_object_or_404(Customer, id=customer_id)
+    
+    if request.method == 'POST':
+        customer.user_name = request.POST['user_name']
+        customer.phone = request.POST['phone']
+        customer.company_name = request.POST['company_name']
+        customer.email = request.POST['email']
+        customer.customer_type = request.POST.get('customer_type', CustomerType.GENERAL)
+        
+        # Handle profile photo update
+        if 'profile_photo' in request.FILES:
+            customer.profile_photo = request.FILES['profile_photo']
+        
+        # Handle cover photo update
+        if 'cover_photo' in request.FILES:
+            customer.cover_photo = request.FILES['cover_photo']
+        
+        customer.save()
+        return redirect('dashboard')
 
-    return render(request, 'create_customer.html')  # Render the form page if GET request
+    return render(request, 'edit_customer.html', {'customer': customer})
 
+# ============================
+# VCARD DETAIL VIEW
+# ============================
+@login_required
+def vcard_detail(request, customer_id):
+    customer = get_object_or_404(Customer, id=customer_id)
+    vcard = VCard.objects.filter(customer=customer).first()
+    return render(request, 'vcard_detail.html', {'customer': customer, 'vcard': vcard})
 
-# View to display customer profile
-def profile(request):
-    try:
-        # Try to get the customer profile associated with the logged-in user
-        customer_profile = Customer.objects.get(user=request.user)
-    except Customer.DoesNotExist:
-        # If no customer profile exists, redirect to the create profile page
-        return redirect('create_customer')  # Adjust the URL name accordingly
+# ============================
+# DELETE CUSTOMER VIEW
+# ============================
+@login_required
+def delete_customer(request, customer_id):
+    customer = get_object_or_404(Customer, id=customer_id)
+    
+    if request.method == 'POST':
+        customer.delete()
+        return redirect('dashboard')
 
-    context = {
-        'user': request.user,  # Pass the user object to the template
-        'profile': customer_profile,  # Pass the customer's profile
-    }
+    return render(request, 'confirm_delete.html', {'customer': customer})
 
-    return render(request, 'customer_profile.html', context)
+@login_required
+def customer_profile(request, customer_id):
+    customer = get_object_or_404(Customer, id=customer_id)
+
+    # Decide which template to use based on customer type
+    template_name = 'vprofile.html' if customer.is_vip else 'gprofile.html'
+
+    return render(request, template_name, {'customer': customer})
