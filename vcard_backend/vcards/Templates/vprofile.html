@@ -46,6 +46,9 @@
                 {% if customer.whatsapp %}
                     <a href="https://wa.me/{{ customer.whatsapp }}" target="_blank" class="text-green-500 hover:text-green-600">WhatsApp</a>
                 {% endif %}
+                {% if customer.tiktok %}
+                <a href="{{ customer.tiktok }}" target="_blank" class="text-black-500 hover:text-green-600">Tiktok</a>
+                {% endif %}
             </div>
         </div>
     </div>

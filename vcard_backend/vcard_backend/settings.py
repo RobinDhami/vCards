@@ -27,7 +27,8 @@ SECRET_KEY = 'django-insecure-xdm+uk0cq5xngun5^&0#5z7(n_q6cjjdc5+0)=&o(21hh5e+a)
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '192.168.0.100', '127.0.0.1',
+    '192.168.0.106',
+    '127.0.0.1',
 ]
 
 
@@ -58,8 +59,6 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 
 ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'public/static')
-
 ROOT_URLCONF = 'vcard_backend.urls'
 
 TEMPLATES = [
