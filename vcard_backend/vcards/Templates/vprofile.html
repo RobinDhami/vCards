@@ -1,19 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{ customer.user_name }}'s VIP Profile - Tap2Solve</title>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{ customer.user_name }}'s VIP Profile - Tap2Solve</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>{{ customer.user_name }}'s VIP Profile - Tap2Solve</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    </head>
 <body class="bg-gray-100 p-4">
     <div class="max-w-md mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
         <!-- Cover Photo -->
@@ -35,23 +29,32 @@
             <h2 class="text-lg font-semibold text-gray-800 mt-4 mb-2">Social Media</h2>
             <div class="flex justify-center space-x-4">
                 {% if customer.instagram %}
-                    <a href="{{ customer.instagram }}" target="_blank" class="text-pink-500 hover:text-pink-600">Instagram</a>
+                    <a href="{{ customer.instagram }}" target="_blank" class="text-pink-500 hover:text-pink-600 text-2xl">
+                        <i class="fab fa-instagram"></i>
+                    </a>
                 {% endif %}
                 {% if customer.linkedin %}
-                    <a href="{{ customer.linkedin }}" target="_blank" class="text-blue-700 hover:text-blue-800">LinkedIn</a>
+                    <a href="{{ customer.linkedin }}" target="_blank" class="text-blue-700 hover:text-blue-800 text-2xl">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
                 {% endif %}
                 {% if customer.twitter %}
-                    <a href="{{ customer.twitter }}" target="_blank" class="text-blue-400 hover:text-blue-500">Twitter</a>
+                    <a href="{{ customer.twitter }}" target="_blank" class="text-blue-400 hover:text-blue-500 text-2xl">
+                        <i class="fab fa-twitter"></i>
+                    </a>
                 {% endif %}
                 {% if customer.whatsapp %}
-                    <a href="https://wa.me/{{ customer.whatsapp }}" target="_blank" class="text-green-500 hover:text-green-600">WhatsApp</a>
+                    <a href="https://wa.me/{{ customer.whatsapp }}" target="_blank" class="text-green-500 hover:text-green-600 text-2xl">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
                 {% endif %}
                 {% if customer.tiktok %}
-                <a href="{{ customer.tiktok }}" target="_blank" class="text-black-500 hover:text-green-600">Tiktok</a>
+                    <a href="{{ customer.tiktok }}" target="_blank" class="text-black hover:text-gray-700 text-2xl">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
                 {% endif %}
             </div>
         </div>
     </div>
 </body>
 </html>
-</head>
