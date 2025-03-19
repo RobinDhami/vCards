@@ -1,25 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>{{ customer.user_name }}'s VIP Profile - Tap2Solve</title>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    </head>
-<body class="bg-gray-100 p-4">
-    <div class="max-w-md mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ customer.user_name }}'s Tap2Solve </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body class="bg-gradient-to-b from-gray-100 to-gray-300 min-h-screen p-4 flex items-center justify-center">
+    <div class="max-w-md w-full bg-white rounded-3xl shadow-2xl overflow-hidden transform transition-all hover:scale-105">
         <!-- Cover Photo -->
         <div class="relative">
             <img src="{{ customer.cover_photo.url }}" alt="Cover Photo" class="w-full h-40 object-cover">
             <img src="{{ customer.profile_photo.url }}" alt="Profile Photo" class="w-24 h-24 rounded-full object-cover border-4 border-white absolute -bottom-12 left-4">
+            <div class="absolute top-4 right-4 bg-yellow-500 text-white text-sm px-3 py-1 rounded-full shadow-lg">General</div>
         </div>
         <!-- Profile Info -->
         <div class="p-6 pt-16 text-center">
-            <h1 class="text-2xl font-bold text-gray-900">{{ customer.user_name }}</h1>
-            <p class="text-gray-500">{{ customer.company_name }}</p>
-            <p class="text-gray-700 mt-2">{{ customer.bio }}</p>
+            <h1 class="text-3xl font-extrabold text-gray-900">{{ customer.user_name }}</h1>
+            <p class="text-gray-500 text-sm">{{ customer.company_name }}</p>
+            <p class="text-gray-700 mt-2 leading-relaxed">{{ customer.bio }}</p>
         </div>
         <!-- Contact & Social Links -->
         <div class="px-6 pb-6">
@@ -29,31 +30,37 @@
             <h2 class="text-lg font-semibold text-gray-800 mt-4 mb-2">Social Media</h2>
             <div class="flex justify-center space-x-4">
                 {% if customer.instagram %}
-                    <a href="{{ customer.instagram }}" target="_blank" class="text-pink-500 hover:text-pink-600 text-2xl">
+                    <a href="{{ customer.instagram }}" target="_blank" class="text-pink-500 hover:text-pink-600 text-2xl transition-transform transform hover:scale-125">
                         <i class="fab fa-instagram"></i>
                     </a>
                 {% endif %}
                 {% if customer.linkedin %}
-                    <a href="{{ customer.linkedin }}" target="_blank" class="text-blue-700 hover:text-blue-800 text-2xl">
+                    <a href="{{ customer.linkedin }}" target="_blank" class="text-blue-700 hover:text-blue-800 text-2xl transition-transform transform hover:scale-125">
                         <i class="fab fa-linkedin"></i>
                     </a>
                 {% endif %}
                 {% if customer.twitter %}
-                    <a href="{{ customer.twitter }}" target="_blank" class="text-blue-400 hover:text-blue-500 text-2xl">
+                    <a href="{{ customer.twitter }}" target="_blank" class="text-blue-400 hover:text-blue-500 text-2xl transition-transform transform hover:scale-125">
                         <i class="fab fa-twitter"></i>
                     </a>
                 {% endif %}
                 {% if customer.whatsapp %}
-                    <a href="https://wa.me/{{ customer.whatsapp }}" target="_blank" class="text-green-500 hover:text-green-600 text-2xl">
+                    <a href="https://wa.me/{{ customer.whatsapp }}" target="_blank" class="text-green-500 hover:text-green-600 text-2xl transition-transform transform hover:scale-125">
                         <i class="fab fa-whatsapp"></i>
                     </a>
                 {% endif %}
                 {% if customer.tiktok %}
-                    <a href="{{ customer.tiktok }}" target="_blank" class="text-black hover:text-gray-700 text-2xl">
+                    <a href="{{ customer.tiktok }}" target="_blank" class="text-black hover:text-gray-700 text-2xl transition-transform transform hover:scale-125">
                         <i class="fab fa-tiktok"></i>
                     </a>
                 {% endif %}
             </div>
+        </div>
+        <!-- Save to Contacts Button -->
+        <div class="text-center mt-4 pb-6">
+            <a href="{% url 'download_vcard' customer.id %}" class="bg-gradient-to-r from-green-400 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-2 px-6 rounded-full shadow-lg transition-transform transform hover:scale-110">
+                <i class="fas fa-address-book mr-2"></i>Save to Contacts
+            </a>
         </div>
     </div>
 </body>

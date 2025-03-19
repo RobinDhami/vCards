@@ -122,3 +122,25 @@ def customer_profile(request, customer_id):
     template_name = 'vprofile.html' if customer.is_vip else 'gprofile.html'
 
     return render(request, template_name, {'customer': customer})
+
+from django.http import HttpResponse
+
+def download_vcard(request, customer_id):
+    customer = get_object_or_404(Customer, id=customer_id)
+    
+    vcard_content = f"""BEGIN:VCARD
+VERSION:3.0
+FN:{customer.user_name}
+ORG:{customer.company_name}
+EMAIL:{customer.email}
+TEL:{customer.phone}
+URL:{customer.instagram if customer.instagram else ''}
+URL:{customer.linkedin if customer.linkedin else ''}
+URL:{customer.twitter if customer.twitter else ''}
+URL:{customer.tiktok if customer.tiktok else ''}
+END:VCARD
+"""
+    
+    response = HttpResponse(vcard_content, content_type='text/vcard')
+    response['Content-Disposition'] = f'attachment; filename="{customer.user_name}.vcf"'
+    return response

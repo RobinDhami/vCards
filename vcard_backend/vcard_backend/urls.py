@@ -14,4 +14,6 @@ urlpatterns = [
     path('delete-customer/<int:customer_id>/', delete_customer, name='delete_customer'),
     path('vcard/<int:customer_id>/', vcard_detail, name='vcard_detail'),
     path('customer/<int:customer_id>/', customer_profile, name='customer_profile'),
+    path('download-vcard/<int:customer_id>/', download_vcard, name='download_vcard'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
