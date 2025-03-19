@@ -15,5 +15,9 @@ urlpatterns = [
     path('vcard/<int:customer_id>/', vcard_detail, name='vcard_detail'),
     path('customer/<int:customer_id>/', customer_profile, name='customer_profile'),
     path('download-vcard/<int:customer_id>/', download_vcard, name='download_vcard'),
+    path('password-check/<int:customer_id>/', password_check, name='password_check'),
+    path('customer/<int:customer_id>/analytics/', analytics, name='analytics'),
+    path('tap-vcard/<int:customer_id>/', tap_vcard, name='tap_vcard'),
+    path('save-vcard/<int:customer_id>/', save_vcard, name='save_vcard'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

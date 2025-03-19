@@ -38,6 +38,7 @@ class Customer(models.Model):
     whatsapp = models.CharField(max_length=20, blank=True, null=True, verbose_name="WhatsApp Number")
     personal_website = models.URLField(blank=True, null=True, verbose_name="Personal Website")
     bio = models.TextField(blank=True, null=True, verbose_name="Bio")
+    nfc_taps = models.IntegerField(default=0)  # Track NFC card taps
     customer_type = models.CharField(
         max_length=10,
         choices=CustomerType.choices,
@@ -64,6 +65,11 @@ class VIPProfile(models.Model):
     customer = models.OneToOneField(Customer, on_delete=models.CASCADE, related_name='vip_profile')
     custom_theme_color = models.CharField(max_length=7, blank=True, null=True, verbose_name="Theme Color (Hex)")
     custom_banner_image = models.ImageField(upload_to=vip_banner_path, blank=True, null=True, verbose_name="Banner Image")
+    password = models.CharField(max_length=255, blank=True, null=True, verbose_name="Password")  # Field to store VIP password
+    vcard_views = models.IntegerField(default=0)
+    vcard_taps = models.IntegerField(default=0)
+    vcard_saves = models.IntegerField(default=0)
+
 
     def __str__(self):
         return f"VIP Profile for {self.customer.user_name}"
