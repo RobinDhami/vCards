@@ -69,6 +69,17 @@ class VIPProfile(models.Model):
     vcard_views = models.IntegerField(default=0)
     vcard_taps = models.IntegerField(default=0)
     vcard_saves = models.IntegerField(default=0)
+    primary_color = models.CharField(max_length=7, default="#ffffff")  # Hex color code
+    company_logo = models.ImageField(upload_to='company_logos/', max_length=255)
+    custom_background = models.CharField(max_length=7, blank=True, null=True)  # Hex color or URL for background
+
+    # Other branding options
+    secondary_color = models.CharField(max_length=7, blank=True, null=True)  # For secondary branding color
+    accent_color = models.CharField(max_length=7, blank=True, null=True)  # For accent color
+    custom_font = models.CharField(max_length=100, blank=True, null=True)  # For custom fonts
+
+    # Additional features for VIP (optional)
+    custom_stylesheet = models.TextField(blank=True, null=True)
 
 
     def __str__(self):

@@ -1,0 +1,19 @@
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="primary_color">Primary Color</label>
+    <input type="color" name="primary_color" value="{{ vip_profile.primary_color }}">
+
+    <label for="secondary_color">Secondary Color</label>
+    <input type="color" name="secondary_color" value="{{ vip_profile.secondary_color }}">
+
+    <label for="accent_color">Accent Color</label>
+    <input type="color" name="accent_color" value="{{ vip_profile.accent_color }}">
+
+    <label for="company_logo">Company Logo</label>
+    <input type="file" name="company_logo">
+
+    <label for="custom_background">Custom Background</label>
+    <input type="text" name="custom_background" value="{{ vip_profile.custom_background }}">
+
+    <button type="submit">Save</button>
+</form>

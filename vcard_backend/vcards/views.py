@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Customer, VCard, VIPProfile, CustomerType
 from django.http import JsonResponse
+from vcards import models
 
 
 # ============================
@@ -73,34 +74,13 @@ def create_vcard(request):
 # ============================
 # EDIT CUSTOMER VIEW
 # ============================
-@login_required
-def edit_customer(request, customer_id):
-    customer = get_object_or_404(Customer, id=customer_id)
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from .models import Customer
 
-    # Check if the current user is an admin or VIP
-    if customer.is_vip and not request.user.is_staff:  # Only prompt non-admin VIP users for password
-        return redirect('password_check', customer_id=customer.id)  # Redirect to password check page for non-admin VIPs
-
-    if request.method == 'POST':
-        customer.user_name = request.POST['user_name']
-        customer.phone = request.POST['phone']
-        customer.company_name = request.POST['company_name']
-        customer.email = request.POST['email']
-        customer.customer_type = request.POST.get('customer_type', CustomerType.GENERAL)
-
-        # Handle profile photo update
-        if 'profile_photo' in request.FILES:
-            customer.profile_photo = request.FILES['profile_photo']
-
-        # Handle cover photo update
-        if 'cover_photo' in request.FILES:
-            customer.cover_photo = request.FILES['cover_photo']
-
-        customer.save()
-        return redirect('dashboard')
-
-    return render(request, 'edit_customer.html', {'customer': customer})
-
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from .models import Customer
 
 # ============================
 # VCARD DETAIL VIEW
@@ -265,4 +245,97 @@ def admin_analytics(request):
     
     return render(request, 'admin_analytics.html', {
         'total_taps': total_taps,
+    })
+
+@login_required
+def edit_vip_profile(request, customer_id):
+    customer = get_object_or_404(Customer, id=customer_id)
+
+    # Ensure VIP profile exists or create one
+    vip_profile, created = VIPProfile.objects.get_or_create(customer=customer)
+
+    if request.method == 'POST':
+        vip_profile.primary_color = request.POST.get('primary_color', vip_profile.primary_color)
+        vip_profile.secondary_color = request.POST.get('secondary_color', vip_profile.secondary_color)
+        vip_profile.accent_color = request.POST.get('accent_color', vip_profile.accent_color)
+
+        # Handle company logo upload
+        if 'company_logo' in request.FILES:
+            vip_profile.company_logo = request.FILES['company_logo']
+
+        # Handle custom background color
+        vip_profile.custom_background = request.POST.get('custom_background', vip_profile.custom_background)
+
+        vip_profile.save()
+        
+        # Redirect to the same page after saving the changes
+        return redirect('edit_vip_profile', customer_id=customer.id)
+
+    return render(request, 'edit_vip_profile.html', {'customer': customer, 'vip_profile': vip_profile})
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from .models import Customer, VIPProfile, CustomerType
+from django.contrib import messages
+
+@login_required
+def edit_customer(request, customer_id):
+    customer = get_object_or_404(Customer, id=customer_id)
+
+    # Check if the user is authorized to edit this customer (only the user themselves or staff can edit)
+    if request.user != customer.user and not request.user.is_staff:
+        return redirect('dashboard')  # Redirect if the user is not allowed to edit this customer
+    
+    # Check if the customer is a VIP and fetch their VIP profile
+    vip_profile = None
+    if customer.is_vip:
+        vip_profile = customer.vip_profile
+
+    if request.method == 'POST':
+        # Handle form data and update customer info
+        customer.user_name = request.POST.get('user_name', customer.user_name)
+        customer.phone = request.POST.get('phone', customer.phone)
+        customer.company_name = request.POST.get('company_name', customer.company_name)
+        customer.email = request.POST.get('email', customer.email)
+
+        # Handle customer type change (general to VIP or vice versa)
+        customer_type = request.POST.get('customer_type', customer.customer_type)
+        if customer_type != customer.customer_type:
+            customer.customer_type = customer_type
+            if customer.customer_type == CustomerType.VIP and not customer.is_vip:
+                # Create a VIP profile when switching to VIP
+                vip_profile = VIPProfile.objects.create(customer=customer)
+            elif customer.customer_type != CustomerType.VIP and customer.is_vip:
+                # Remove VIP profile when switching away from VIP
+                if vip_profile:
+                    vip_profile.delete()
+
+        # Handle file uploads for profile and cover photos
+        if 'profile_photo' in request.FILES:
+            customer.profile_photo = request.FILES['profile_photo']
+        
+        if 'cover_photo' in request.FILES:
+            customer.cover_photo = request.FILES['cover_photo']
+
+        # Handle VIP-specific fields
+        if vip_profile:
+            vip_profile.primary_color = request.POST.get('primary_color', vip_profile.primary_color)
+            vip_profile.secondary_color = request.POST.get('secondary_color', vip_profile.secondary_color)
+            vip_profile.accent_color = request.POST.get('accent_color', vip_profile.accent_color)
+
+            if 'company_logo' in request.FILES:
+                vip_profile.company_logo = request.FILES['company_logo']
+
+            vip_profile.custom_background = request.POST.get('custom_background', vip_profile.custom_background)
+
+            vip_profile.save()
+
+        customer.save()
+        messages.success(request, "Your information has been updated successfully!")
+        return redirect('dashboard')  # Redirect to dashboard after saving changes
+
+    # Prepopulate form with existing customer data
+    return render(request, 'edit_customer.html', {
+        'customer': customer,
+        'vip_profile': vip_profile,
     })
