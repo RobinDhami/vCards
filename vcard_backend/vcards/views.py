@@ -182,16 +182,21 @@ def password_check(request, customer_id):
 # ============================
 @login_required
 def analytics(request, customer_id):
+    # Get the customer object
     customer = get_object_or_404(Customer, id=customer_id)
 
+    # Check if the customer is VIP
     if customer.is_vip:
-        vip_profile = customer.vip_profile  # Access the related VIPProfile model
-        
-        # Access analytics data from VIPProfile
+        # Access the related VIPProfile
+        vip_profile = customer.vip_profile  # Get the VIPProfile to access analytics fields
         vcard_views = vip_profile.vcard_views
         vcard_taps = vip_profile.vcard_taps
         vcard_saves = vip_profile.vcard_saves
-        
+
+        # Debugging: Print the current values to ensure they are correct
+        print(f"vcard_saves: {vcard_saves}, vcard_taps: {vcard_taps}, vcard_views: {vcard_views}")
+
+        # Render the template with the analytics data
         return render(request, 'analytics.html', {
             'customer': customer,
             'vcard_views': vcard_views,
@@ -199,8 +204,8 @@ def analytics(request, customer_id):
             'vcard_saves': vcard_saves
         })
 
-    return redirect('dashboard')  # If not VIP, redirect to the dashboard
-
+    # Redirect to dashboard if the customer is not VIP
+    return redirect('dashboard')
 # ============================
 # TAPPING VCARD (Increment vcard_taps)
 # ============================
@@ -210,16 +215,18 @@ def tap_vcard(request, customer_id):
 
     if customer.is_vip:
         # Increment vcard_taps when VIP user's vcard is tapped
-        customer.vcard_taps += 1
-        customer.save()
+        vip_profile = customer.vip_profile
+        vip_profile.vcard_taps += 1
+        vip_profile.save()
 
-        # You can then display the updated tap count
+        # Display the updated tap count
         return render(request, 'vip_analytics.html', {
             'customer': customer,
-            'vcard_taps': customer.vcard_taps,
+            'vcard_taps': vip_profile.vcard_taps,  # Use vip_profile.vcard_taps here
         })
 
     return redirect('dashboard')  # Redirect to dashboard if not a VIP
+
 
 # ============================
 # SAVING VCARD (Increment vcard_saves)
@@ -229,11 +236,18 @@ def save_vcard(request, customer_id):
     customer = get_object_or_404(Customer, id=customer_id)
 
     if customer.is_vip:
-        vip_profile = customer.vip_profile
-        vip_profile.vcard_saves += 1
-        vip_profile.save()
+        vip_profile = customer.vip_profile  # Access the related VIPProfile
+        vip_profile.vcard_saves += 1  # Increment the save count
+        vip_profile.save()  # Save the updated profile
 
-    return redirect('vcard_detail', customer_id=customer_id)  # Or any redirect after saving
+        # Optional: Add logging to confirm the increment is happening
+        print(f"vCard saved for {customer.username}. New vcard_saves count: {vip_profile.vcard_saves}")
+
+    else:
+        # Redirect or show an error message if not a VIP
+        return redirect('error_page')  # Or an appropriate page for non-VIP users
+
+    return redirect('vcard_detail', customer_id=customer_id)  # Redirect to the vCard detail or another page
 
 @login_required
 def admin_analytics(request):

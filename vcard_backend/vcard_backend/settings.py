@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'vcards',
     'rest_framework',
     'corsheaders',
+    'django_extensions',
+
 
 ]
 
@@ -133,6 +135,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 
 
+SECURE_SSL_REDIRECT = True
 
 
 
