@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ customer.user_name }}'s Analytics - Tap2Solve</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-gray-100 p-4">
     <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden border-2 border-yellow-400">
@@ -19,18 +19,37 @@
         <!-- Analytics Content -->
         <div class="p-6">
             <h2 class="text-xl font-semibold text-gray-800 mb-4">Analytics Overview</h2>
-            <div class="space-y-4">
-                <p><strong>Total Profile Views:</strong> {{ vcard_views }}</p>
-                <p><strong>Total Taps:</strong> {{ vcard_taps }}</p>
-                <p><strong>Total Saves:</strong> {{ vcard_saves }}</p>
-            </div>
+            <canvas id="analyticsChart"></canvas>
         </div>
 
         <!-- CTA Buttons -->
-        <div class="p-4 border-t">
-            <h2 class="text-lg font-semibold text-gray-800 mb-2">Edit Your Profile</h2>
-            <a href="{% url 'edit_vip_profile' customer.id %}" class="bg-yellow-400 text-white p-2 rounded-lg hover:bg-yellow-500">Go to Edit</a>
+        <div class="p-4 border-t text-center">
+            <a href="{% url 'edit_vip_profile' customer.id %}" class="bg-yellow-400 text-white p-2 rounded-lg hover:bg-yellow-500">Edit Profile</a>
         </div>
     </div>
+
+    <script>
+        const ctx = document.getElementById('analyticsChart').getContext('2d');
+        const analyticsChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Views', 'Taps', 'Saves'],
+                datasets: [{
+                    label: 'Total',
+                    data: [{{ vcard_views }}, {{ vcard_taps }}, {{ vcard_saves }}],
+                    backgroundColor: ['#fbbf24', '#3b82f6', '#10b981'],
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                },
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    </script>
 </body>
 </html>

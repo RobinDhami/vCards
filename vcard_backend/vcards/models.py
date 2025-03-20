@@ -39,6 +39,8 @@ class Customer(models.Model):
     personal_website = models.URLField(blank=True, null=True, verbose_name="Personal Website")
     bio = models.TextField(blank=True, null=True, verbose_name="Bio")
     nfc_taps = models.IntegerField(default=0)  # Track NFC card taps
+    vcard_views = models.IntegerField(default=0)  # Track vCard views
+    vcard_saves = models.IntegerField(default=0)  # Track vCard saves
     customer_type = models.CharField(
         max_length=10,
         choices=CustomerType.choices,
@@ -80,7 +82,6 @@ class VIPProfile(models.Model):
 
     # Additional features for VIP (optional)
     custom_stylesheet = models.TextField(blank=True, null=True)
-
 
     def __str__(self):
         return f"VIP Profile for {self.customer.user_name}"
