@@ -49,6 +49,7 @@ class Customer(models.Model):
     )
     profile_photo = models.ImageField(upload_to='profile_photos/', blank=True, null=True, verbose_name="Profile Photo", max_length=255)
     cover_photo = models.ImageField(upload_to='cover_photos/', blank=True, null=True, verbose_name="Cover Photo", max_length=255)
+    company_logo = models.ImageField(upload_to='company_logos/', max_length=255, blank=True, null=True)
 
     @property
     def is_vip(self):
@@ -72,7 +73,6 @@ class VIPProfile(models.Model):
     vcard_taps = models.IntegerField(default=0)
     vcard_saves = models.IntegerField(default=0)
     primary_color = models.CharField(max_length=7, default="#ffffff")  # Hex color code
-    company_logo = models.ImageField(upload_to='company_logos/', max_length=255)
     custom_background = models.CharField(max_length=7, blank=True, null=True)  # Hex color or URL for background
 
     # Other branding options

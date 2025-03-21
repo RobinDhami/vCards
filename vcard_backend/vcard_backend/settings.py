@@ -29,6 +29,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '192.168.0.106',
     '127.0.0.1',
+    'localhost',
 ]
 
 
@@ -45,8 +46,6 @@ INSTALLED_APPS = [
     'vcards',
     'rest_framework',
     'corsheaders',
-    'django_extensions',
-
 
 ]
 
@@ -134,8 +133,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 
-
-SECURE_SSL_REDIRECT = True
 
 
 

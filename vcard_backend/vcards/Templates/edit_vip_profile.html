@@ -25,6 +25,48 @@
         </div>
     </div>
 
+    <!-- Social Media Links -->
+    <div class="grid grid-cols-1 gap-4">
+        <div>
+            <label for="instagram" class="font-medium text-gray-700">Instagram</label>
+            <input type="text" name="instagram" value="{{ customer.instagram }}" class="w-full border p-2 rounded-lg">
+        </div>
+        <div>
+            <label for="facebook" class="font-medium text-gray-700">Facebook</label>
+            <input type="text" name="facebook" value="{{ customer.facebook }}" class="w-full border p-2 rounded-lg">
+        </div>
+        <div>
+            <label for="twitter" class="font-medium text-gray-700">Twitter</label>
+            <input type="text" name="twitter" value="{{ customer.twitter }}" class="w-full border p-2 rounded-lg">
+        </div>
+        <div>
+            <label for="linkedin" class="font-medium text-gray-700">LinkedIn</label>
+            <input type="text" name="linkedin" value="{{ customer.linkedin }}" class="w-full border p-2 rounded-lg">
+        </div>
+        <div>
+            <label for="youtube" class="font-medium text-gray-700">YouTube</label>
+            <input type="text" name="youtube" value="{{ customer.youtube }}" class="w-full border p-2 rounded-lg">
+        </div>
+        <div>
+            <label for="tiktok" class="font-medium text-gray-700">TikTok</label>
+            <input type="text" name="tiktok" value="{{ customer.tiktok }}" class="w-full border p-2 rounded-lg">
+        </div>
+        <div>
+            <label for="whatsapp" class="font-medium text-gray-700">WhatsApp</label>
+            <input type="text" name="whatsapp" value="{{ customer.whatsapp }}" class="w-full border p-2 rounded-lg">
+        </div>
+        <div>
+            <label for="personal_website" class="font-medium text-gray-700">Personal Website</label>
+            <input type="text" name="personal_website" value="{{ customer.personal_website }}" class="w-full border p-2 rounded-lg">
+        </div>
+    </div>
+
+    <!-- Bio -->
+    <div>
+        <label for="bio" class="font-medium text-gray-700">Bio</label>
+        <textarea name="bio" rows="4" class="w-full border p-2 rounded-lg">{{ customer.bio }}</textarea>
+    </div>
+
     <!-- Customization Options -->
     <div class="grid grid-cols-1 gap-4">
         <div>

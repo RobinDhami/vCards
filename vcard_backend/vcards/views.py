@@ -269,22 +269,42 @@ def edit_vip_profile(request, customer_id):
     vip_profile, created = VIPProfile.objects.get_or_create(customer=customer)
 
     if request.method == 'POST':
+        # Update the Customer model fields
+        customer.user_name = request.POST.get('user_name', customer.user_name)
+        customer.phone = request.POST.get('phone', customer.phone)
+        customer.email = request.POST.get('email', customer.email)
+        customer.company_name = request.POST.get('company_name', customer.company_name)
+        customer.instagram = request.POST.get('instagram', customer.instagram)
+        customer.facebook = request.POST.get('facebook', customer.facebook)
+        customer.twitter = request.POST.get('twitter', customer.twitter)
+        customer.linkedin = request.POST.get('linkedin', customer.linkedin)
+        customer.youtube = request.POST.get('youtube', customer.youtube)
+        customer.tiktok = request.POST.get('tiktok', customer.tiktok)
+        customer.whatsapp = request.POST.get('whatsapp', customer.whatsapp)
+        customer.personal_website = request.POST.get('personal_website', customer.personal_website)
+        customer.bio = request.POST.get('bio', customer.bio)
+
+        # Handle the profile photo and cover photo updates
+        if 'profile_photo' in request.FILES:
+            customer.profile_photo = request.FILES['profile_photo']
+        
+        if 'cover_photo' in request.FILES:
+            customer.cover_photo = request.FILES['cover_photo']
+
+        customer.save()  # Save updated customer fields
+
+        # Update the VIPProfile model fields
         vip_profile.primary_color = request.POST.get('primary_color', vip_profile.primary_color)
         vip_profile.secondary_color = request.POST.get('secondary_color', vip_profile.secondary_color)
         vip_profile.accent_color = request.POST.get('accent_color', vip_profile.accent_color)
+        vip_profile.custom_background = request.POST.get('custom_background', vip_profile.custom_background)
 
-        # Handle company logo upload
+        # Handle the company logo update
         if 'company_logo' in request.FILES:
             vip_profile.company_logo = request.FILES['company_logo']
 
-        # Handle custom background color
-        vip_profile.custom_background = request.POST.get('custom_background', vip_profile.custom_background)
-
-        vip_profile.save()
-        
-        # Redirect to the same page after saving the changes
-        return redirect('edit_vip_profile', customer_id=customer.id)
-
+        vip_profile.save()  # Save updated VIPProfile fields
+                # Redirect to the profile view after saving
     return render(request, 'edit_vip_profile.html', {'customer': customer, 'vip_profile': vip_profile})
 
 from django.shortcuts import render, get_object_or_404, redirect
