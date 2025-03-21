@@ -158,24 +158,33 @@ END:VCARD
 # ============================
 # PASSWORD CHECK VIEW (For VIP)
 # ============================
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from .models import Customer, VIPProfile
+
 @login_required
 def password_check(request, customer_id):
     customer = get_object_or_404(Customer, id=customer_id)
 
-    if customer.is_vip:
-        vip_profile = get_object_or_404(VIPProfile, customer=customer)
-        
-        if request.method == 'POST':
-            entered_password = request.POST.get('password')
-            
-            if entered_password == vip_profile.password:
-                return redirect('analytics', customer_id=customer.id)  # Redirect to analytics page if password is correct
-            else:
-                messages.error(request, 'Incorrect password! Please try again.')
+    # Redirect non-VIP users to the dashboard
+    if not customer.is_vip:
+        return redirect('dashboard')
 
-        return render(request, 'password_check.html', {'customer': customer})
+    vip_profile = get_object_or_404(VIPProfile, customer=customer)
 
-    return redirect('dashboard')  # If not VIP, redirect to dashboard
+    if request.method == 'POST':
+        entered_password = request.POST.get('password')
+
+        if entered_password == vip_profile.password:
+            # Redirect to the VIP profile edit page if password is correct
+            return redirect('edit_vip_profile', customer_id=customer.id)
+        else:
+            messages.error(request, 'Incorrect password! Please try again.')
+    
+    # Render the password check page again if password is incorrect or GET request
+    return render(request, 'password_check.html', {'customer': customer})
+
 
 # ============================
 # ANALYTICS VIEW
@@ -261,15 +270,15 @@ def admin_analytics(request):
         'total_taps': total_taps,
     })
 
+from django.shortcuts import redirect
+
 @login_required
 def edit_vip_profile(request, customer_id):
     customer = get_object_or_404(Customer, id=customer_id)
-
-    # Ensure VIP profile exists or create one
-    vip_profile, created = VIPProfile.objects.get_or_create(customer=customer)
+    vip_profile = get_object_or_404(VIPProfile, customer=customer)
 
     if request.method == 'POST':
-        # Update the Customer model fields
+        # Update Customer fields
         customer.user_name = request.POST.get('user_name', customer.user_name)
         customer.phone = request.POST.get('phone', customer.phone)
         customer.email = request.POST.get('email', customer.email)
@@ -284,28 +293,32 @@ def edit_vip_profile(request, customer_id):
         customer.personal_website = request.POST.get('personal_website', customer.personal_website)
         customer.bio = request.POST.get('bio', customer.bio)
 
-        # Handle the profile photo and cover photo updates
+        # Handle file uploads (optional)
         if 'profile_photo' in request.FILES:
             customer.profile_photo = request.FILES['profile_photo']
-        
         if 'cover_photo' in request.FILES:
             customer.cover_photo = request.FILES['cover_photo']
+        if 'company_logo' in request.FILES:
+            customer.company_logo = request.FILES['company_logo']
 
-        customer.save()  # Save updated customer fields
+        # Save Customer first to avoid IntegrityError
+        customer.save()
 
-        # Update the VIPProfile model fields
+        # Update VIPProfile fields
         vip_profile.primary_color = request.POST.get('primary_color', vip_profile.primary_color)
         vip_profile.secondary_color = request.POST.get('secondary_color', vip_profile.secondary_color)
         vip_profile.accent_color = request.POST.get('accent_color', vip_profile.accent_color)
         vip_profile.custom_background = request.POST.get('custom_background', vip_profile.custom_background)
+        
+        vip_profile.save()
 
-        # Handle the company logo update
-        if 'company_logo' in request.FILES:
-            vip_profile.company_logo = request.FILES['company_logo']
+        messages.success(request, "VIP profile updated successfully!")
 
-        vip_profile.save()  # Save updated VIPProfile fields
-                # Redirect to the profile view after saving
+        # Redirect back to customer profile after saving
+        return redirect('customer_profile', customer_id=customer.id)
+
     return render(request, 'edit_vip_profile.html', {'customer': customer, 'vip_profile': vip_profile})
+
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
