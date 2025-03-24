@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Customer, VCard, VIPProfile, CustomerType
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from vcards import models
+from django.contrib.auth.hashers import check_password
 
 
 # ============================
@@ -105,14 +106,9 @@ def delete_customer(request, customer_id):
 
     return render(request, 'confirm_delete.html', {'customer': customer})
 
-
 # ============================
 # CUSTOMER PROFILE VIEW
 # ============================
-# ============================
-# CUSTOMER PROFILE VIEW
-# ============================
-@login_required
 def customer_profile(request, customer_id):
     customer = get_object_or_404(Customer, id=customer_id)
 
@@ -132,8 +128,6 @@ def customer_profile(request, customer_id):
 # ============================
 # DOWNLOAD VCARD
 # ============================
-from django.http import HttpResponse
-
 def download_vcard(request, customer_id):
     customer = get_object_or_404(Customer, id=customer_id)
     
@@ -158,33 +152,38 @@ END:VCARD
 # ============================
 # PASSWORD CHECK VIEW (For VIP)
 # ============================
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from .models import Customer, VIPProfile
 
 @login_required
 def password_check(request, customer_id):
     customer = get_object_or_404(Customer, id=customer_id)
-
-    # Redirect non-VIP users to the dashboard
-    if not customer.is_vip:
-        return redirect('dashboard')
-
-    vip_profile = get_object_or_404(VIPProfile, customer=customer)
-
-    if request.method == 'POST':
-        entered_password = request.POST.get('password')
-
-        if entered_password == vip_profile.password:
-            # Redirect to the VIP profile edit page if password is correct
-            return redirect('edit_vip_profile', customer_id=customer.id)
-        else:
-            messages.error(request, 'Incorrect password! Please try again.')
     
-    # Render the password check page again if password is incorrect or GET request
-    return render(request, 'password_check.html', {'customer': customer})
+    if request.method == 'POST':
+        entered_password = request.POST.get('entered_password')
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
 
+        # Check if the entered password is correct
+        if not check_password(entered_password, customer.user.password):
+            messages.error(request, "The entered password is incorrect.")
+            return redirect('edit_customer', customer_id=customer.id)
+
+        # Check if new password and confirm password match
+        if new_password != confirm_password:
+            messages.error(request, "New passwords do not match.")
+            return redirect('edit_customer', customer_id=customer.id)
+
+        # Set new password
+        if new_password and confirm_password:
+            customer.user.set_password(new_password)
+            customer.user.save()
+
+            # Update session authentication hash to keep the user logged in after password change
+            update_session_auth_hash(request, customer.user)
+
+            messages.success(request, "Your password has been updated successfully!")
+            return redirect('edit_customer', customer_id=customer.id)
+    
+    return redirect('dashboard')  # Redirect to dashboard if method is not POST
 
 # ============================
 # ANALYTICS VIEW
@@ -218,7 +217,6 @@ def analytics(request, customer_id):
 # ============================
 # TAPPING VCARD (Increment vcard_taps)
 # ============================
-@login_required
 def tap_vcard(request, customer_id):
     customer = get_object_or_404(Customer, id=customer_id)
 
@@ -240,7 +238,6 @@ def tap_vcard(request, customer_id):
 # ============================
 # SAVING VCARD (Increment vcard_saves)
 # ============================
-@login_required
 def save_vcard(request, customer_id):
     customer = get_object_or_404(Customer, id=customer_id)
 
@@ -269,8 +266,6 @@ def admin_analytics(request):
     return render(request, 'admin_analytics.html', {
         'total_taps': total_taps,
     })
-
-from django.shortcuts import redirect
 
 @login_required
 def edit_vip_profile(request, customer_id):
@@ -315,16 +310,11 @@ def edit_vip_profile(request, customer_id):
         messages.success(request, "VIP profile updated successfully!")
 
         # Redirect back to customer profile after saving
-        return redirect('customer_profile', customer_id=customer.id)
+        # return redirect('customer_profile', customer_id=customer.id)
 
     return render(request, 'edit_vip_profile.html', {'customer': customer, 'vip_profile': vip_profile})
 
-
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
-from .models import Customer, VIPProfile, CustomerType
-from django.contrib import messages
-
+from django.contrib.auth import update_session_auth_hash
 @login_required
 def edit_customer(request, customer_id):
     customer = get_object_or_404(Customer, id=customer_id)
@@ -386,3 +376,4 @@ def edit_customer(request, customer_id):
         'customer': customer,
         'vip_profile': vip_profile,
     })
+
