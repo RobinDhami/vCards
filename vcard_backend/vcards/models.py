@@ -26,7 +26,7 @@ def qr_code_path(instance, filename):
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="User")
     user_name = models.CharField(max_length=255, verbose_name="Full Name")
-    phone = models.CharField(max_length=20, verbose_name="Phone Number")
+    phone = models.CharField(max_length=20, verbose_name="Phone Number", unique=True)
     company_name = models.CharField(max_length=255, verbose_name="Company Name")
     email = models.EmailField(verbose_name="Email Address")
     instagram = models.CharField(max_length=255, blank=True, null=True, verbose_name="Instagram Handle")
@@ -61,14 +61,13 @@ class Customer(models.Model):
     class Meta:
         verbose_name = "Customer Profile"
         verbose_name_plural = "Customer Profiles"
-        ordering = ['user_name']  # Ensures consistent ordering
+        ordering = ['user_name']
 
 # VIP Profile Model (Extra Customization for VIPs)
 class VIPProfile(models.Model):
     customer = models.OneToOneField(Customer, on_delete=models.CASCADE, related_name='vip_profile')
     custom_theme_color = models.CharField(max_length=7, blank=True, null=True, verbose_name="Theme Color (Hex)")
     custom_banner_image = models.ImageField(upload_to=vip_banner_path, blank=True, null=True, verbose_name="Banner Image")
-    password = models.CharField(max_length=255, blank=True, null=True, verbose_name="Password")  # Field to store VIP password
     vcard_views = models.IntegerField(default=0)
     vcard_taps = models.IntegerField(default=0)
     vcard_saves = models.IntegerField(default=0)
