@@ -196,7 +196,6 @@ END:VCARD
 # ============================
 # PASSWORD CHECK VIEW (For VIP)
 # ============================
-@login_required
 def password_check(request, customer_id):
     customer = get_object_or_404(Customer, id=customer_id)
 
@@ -205,24 +204,26 @@ def password_check(request, customer_id):
         new_password = request.POST.get('new_password')
         confirm_password = request.POST.get('confirm_password')
 
-        # Validate the entered password and new passwords
+        # Check if the entered password is correct
         if not check_password(entered_password, customer.user.password):
             messages.error(request, "Incorrect current password.")
-            return redirect('edit_customer', customer_id=customer.id)
+            return render(request, 'edit_vip_profile.html', {'customer': customer})  # Re-render the edit page with error
 
+        # Validate new passwords
         if new_password != confirm_password:
             messages.error(request, "Passwords do not match.")
-            return redirect('edit_customer', customer_id=customer.id)
+            return render(request, 'edit_vip_profile.html', {'customer': customer})  # Re-render the edit page with error
 
         if new_password:
+            # Update the password if the new one is valid
             customer.user.set_password(new_password)
             customer.user.save()
             update_session_auth_hash(request, customer.user)  # Keep user logged in
             messages.success(request, "Password updated successfully!")
-            return redirect('edit_customer', customer_id=customer.id)
+            return redirect('edit_vip_profile', customer_id=customer.id)  # Redirect to edit page
 
-    return redirect('dashboard')  # Redirect if the method is not POST
-
+    # Default redirection if not POST
+    return redirect('customer_profile', customer_id=customer.id) 
 # ============================
 # ANALYTICS VIEW (For VIPs)
 # ============================
@@ -292,60 +293,51 @@ def admin_analytics(request):
     return render(request, 'admin_analytics.html', {'total_taps': total_taps})
 
 
-from django.contrib.auth import authenticate
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Customer, VIPProfile
 
 def edit_vip_profile(request, customer_id):
-    # Get the customer to edit
     customer = get_object_or_404(Customer, id=customer_id)
-    
-    # Check if the logged-in user is the owner of the profile
-    if request.user != customer.user:
-        messages.error(request, "You cannot edit someone else's VIP profile.")
-        return redirect('customer_profile', customer_id=customer.id)
-    
-    # Fetch the related VIP profile
     vip_profile = get_object_or_404(VIPProfile, customer=customer)
 
     if request.method == 'POST':
-        # Get username and password from form submission
         entered_username = request.POST.get('username')
         entered_password = request.POST.get('password')
 
-        # Authenticate the user with the provided username and password
-        user = authenticate(request, username=entered_username, password=entered_password)
+        # Check if the entered username matches the customer
+        if entered_username == customer.user_name:
+            # Now, authenticate using the associated User model's password
+            user = customer.user  # Assuming 'user' is a ForeignKey to Django's User model
+            
+            # Check if the entered password is correct for this user
+            if user.check_password(entered_password):
+                # If authentication is successful, proceed with profile editing
+                customer.user_name = request.POST.get('user_name', customer.user_name)
+                customer.phone = request.POST.get('phone', customer.phone)
+                customer.email = request.POST.get('email', customer.email)
+                customer.company_name = request.POST.get('company_name', customer.company_name)
 
-        # Check if authentication was successful
-        if user is None:
-            messages.error(request, "Incorrect username or password. Please try again.")
-            return render(request, 'edit_vip_profile.html', {'customer': customer, 'vip_profile': vip_profile})
+                # Update VIPProfile fields
+                vip_profile.primary_color = request.POST.get('primary_color', vip_profile.primary_color)
+                vip_profile.secondary_color = request.POST.get('secondary_color', vip_profile.secondary_color)
+                vip_profile.accent_color = request.POST.get('accent_color', vip_profile.accent_color)
+                vip_profile.custom_background = request.POST.get('custom_background', vip_profile.custom_background)
 
-        # If authentication is successful, proceed with profile editing
-        if user == request.user:
-            # Allow profile editing here
-            customer.user_name = request.POST.get('user_name', customer.user_name)
-            customer.phone = request.POST.get('phone', customer.phone)
-            customer.email = request.POST.get('email', customer.email)
-            customer.company_name = request.POST.get('company_name', customer.company_name)
+                # Save customer and VIP profile
+                customer.save()
+                vip_profile.save()
 
-            # Update VIPProfile fields
-            vip_profile.primary_color = request.POST.get('primary_color', vip_profile.primary_color)
-            vip_profile.secondary_color = request.POST.get('secondary_color', vip_profile.secondary_color)
-            vip_profile.accent_color = request.POST.get('accent_color', vip_profile.accent_color)
-            vip_profile.custom_background = request.POST.get('custom_background', vip_profile.custom_background)
-
-            # Save customer and VIP profile
-            customer.save()
-            vip_profile.save()
-
-            messages.success(request, "VIP profile updated successfully!")
-            return redirect('customer_profile', customer_id=customer.id)  # Make sure to pass the customer_id here
+                messages.success(request, "VIP profile updated successfully!")
+                return redirect('edit_vip_profile', customer_id=customer.id)  # Redirect to VIP edit page after success
+            else:
+                messages.error(request, "Incorrect username or password. Please try again.")
         else:
-            messages.error(request, "You are not authorized to edit this profile.")
-            return redirect('dashboard')
+            messages.error(request, "Incorrect username or password. Please try again.")
+
+        # If we reach here, the password was incorrect, so re-render the form with error
+        return render(request, 'vprofile.html', {'customer': customer, 'vip_profile': vip_profile})
 
     return render(request, 'edit_vip_profile.html', {'customer': customer, 'vip_profile': vip_profile})
 

@@ -24,6 +24,14 @@
             <p class="text-gray-500">{{ customer.company_name }}</p>
             <p class="text-gray-700 mt-2">{{ customer.bio }}</p>
         </div>
+        <div class="messages">
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+</div>
+
         <!-- Custom Background -->
         {% if customer.custom_background %}
         <style>
