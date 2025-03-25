@@ -6,6 +6,9 @@ from django.contrib.auth import update_session_auth_hash
 from django.http import HttpResponse
 from .models import Customer, VCard, VIPProfile, CustomerType
 from vcards import models
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
+
 
 # ============================
 # DASHBOARD VIEW
@@ -19,43 +22,92 @@ def dashboard(request):
 # ============================
 # CREATE CUSTOMER VIEW
 # ============================
+from django.contrib.auth.hashers import make_password
+
 @login_required
 def create_customer(request):
     if request.method == 'POST':
-        # Ensure necessary fields are provided
-        required_fields = ['user_name', 'phone', 'company_name', 'email']
-        if not all(request.POST.get(field) for field in required_fields):
-            messages.error(request, "Please fill in all required fields.")
-            return render(request, 'create_customer.html')
-
         # Extract form data
         customer_type = request.POST.get('customer_type', CustomerType.GENERAL)
-        customer = Customer.objects.create(
-            user=request.user,
-            user_name=request.POST['user_name'],
-            phone=request.POST['phone'],
-            company_name=request.POST['company_name'],
-            email=request.POST['email'],
-            profile_photo=request.FILES.get('profile_photo'),
-            cover_photo=request.FILES.get('cover_photo'),
-            instagram=request.POST.get('instagram'),
-            facebook=request.POST.get('facebook'),
-            twitter=request.POST.get('twitter'),
-            linkedin=request.POST.get('linkedin'),
-            youtube=request.POST.get('youtube'),
-            tiktok=request.POST.get('tiktok'),
-            whatsapp=request.POST.get('whatsapp'),
-            personal_website=request.POST.get('personal_website'),
-            bio=request.POST.get('bio'),
-            customer_type=customer_type
-        )
+        user_email = request.POST['email']
+        user_username = request.POST['user_name']  # Get the username from form input
 
-        # Create VIP profile if customer is VIP
-        if customer_type == CustomerType.VIP:
-            VIPProfile.objects.create(customer=customer)
+        # Check if the user already exists
+        existing_user = User.objects.filter(username=user_username).first()
 
-        messages.success(request, "Customer created successfully!")
-        return redirect('dashboard')
+        if existing_user:
+            # Check if the user already has a linked customer profile
+            if hasattr(existing_user, 'customer'):
+                messages.error(request, "This user already has a customer profile.")
+                return render(request, 'create_customer.html')
+            else:
+                # The user exists but doesn't have a customer profile, so you can create one.
+                customer = Customer.objects.create(
+                    user=existing_user,
+                    user_name=user_username,
+                    phone=request.POST['phone'],
+                    company_name=request.POST['company_name'],
+                    email=user_email,
+                    profile_photo=request.FILES.get('profile_photo'),
+                    cover_photo=request.FILES.get('cover_photo'),
+                    instagram=request.POST.get('instagram'),
+                    facebook=request.POST.get('facebook'),
+                    twitter=request.POST.get('twitter'),
+                    linkedin=request.POST.get('linkedin'),
+                    youtube=request.POST.get('youtube'),
+                    tiktok=request.POST.get('tiktok'),
+                    whatsapp=request.POST.get('whatsapp'),
+                    personal_website=request.POST.get('personal_website'),
+                    bio=request.POST.get('bio'),
+                    customer_type=customer_type
+                )
+                if customer_type == CustomerType.VIP:
+                    VIPProfile.objects.create(customer=customer)
+                messages.success(request, "Customer created successfully!")
+                return redirect('dashboard')
+
+        else:
+            # Check if the passwords match
+            password = request.POST.get('password')
+            confirm_password = request.POST.get('confirm_password')
+
+            if password != confirm_password:
+                messages.error(request, "Passwords do not match!")
+                return render(request, 'create_customer.html')
+
+            # Create a new User object with hashed password
+            user = User.objects.create_user(
+                username=user_username,
+                email=user_email,
+                password=password  # Ensure password is hashed by create_user()
+            )
+
+            # Now create the associated customer profile
+            customer = Customer.objects.create(
+                user=user,
+                user_name=user_username,
+                phone=request.POST['phone'],
+                company_name=request.POST['company_name'],
+                email=user_email,
+                profile_photo=request.FILES.get('profile_photo'),
+                cover_photo=request.FILES.get('cover_photo'),
+                instagram=request.POST.get('instagram'),
+                facebook=request.POST.get('facebook'),
+                twitter=request.POST.get('twitter'),
+                linkedin=request.POST.get('linkedin'),
+                youtube=request.POST.get('youtube'),
+                tiktok=request.POST.get('tiktok'),
+                whatsapp=request.POST.get('whatsapp'),
+                personal_website=request.POST.get('personal_website'),
+                bio=request.POST.get('bio'),
+                customer_type=customer_type
+            )
+
+            if customer_type == CustomerType.VIP:
+                VIPProfile.objects.create(customer=customer)
+
+            messages.success(request, "Customer created successfully!")
+            return redirect('dashboard')
 
     return render(request, 'create_customer.html')
 
@@ -171,7 +223,6 @@ def password_check(request, customer_id):
 
     return redirect('dashboard')  # Redirect if the method is not POST
 
-
 # ============================
 # ANALYTICS VIEW (For VIPs)
 # ============================
@@ -241,35 +292,62 @@ def admin_analytics(request):
     return render(request, 'admin_analytics.html', {'total_taps': total_taps})
 
 
-# ============================
-# EDIT VIP PROFILE
-# ============================
-@login_required
+from django.contrib.auth import authenticate
+from django.contrib import messages
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from .models import Customer, VIPProfile
+
 def edit_vip_profile(request, customer_id):
+    # Get the customer to edit
     customer = get_object_or_404(Customer, id=customer_id)
+    
+    # Check if the logged-in user is the owner of the profile
+    if request.user != customer.user:
+        messages.error(request, "You cannot edit someone else's VIP profile.")
+        return redirect('customer_profile', customer_id=customer.id)
+    
+    # Fetch the related VIP profile
     vip_profile = get_object_or_404(VIPProfile, customer=customer)
 
     if request.method == 'POST':
-        customer.user_name = request.POST.get('user_name', customer.user_name)
-        customer.phone = request.POST.get('phone', customer.phone)
-        customer.email = request.POST.get('email', customer.email)
-        customer.company_name = request.POST.get('company_name', customer.company_name)
+        # Get username and password from form submission
+        entered_username = request.POST.get('username')
+        entered_password = request.POST.get('password')
 
-        # Update VIPProfile fields
-        vip_profile.primary_color = request.POST.get('primary_color', vip_profile.primary_color)
-        vip_profile.secondary_color = request.POST.get('secondary_color', vip_profile.secondary_color)
-        vip_profile.accent_color = request.POST.get('accent_color', vip_profile.accent_color)
-        vip_profile.custom_background = request.POST.get('custom_background', vip_profile.custom_background)
+        # Authenticate the user with the provided username and password
+        user = authenticate(request, username=entered_username, password=entered_password)
 
-        # Save customer and VIP profile
-        customer.save()
-        vip_profile.save()
+        # Check if authentication was successful
+        if user is None:
+            messages.error(request, "Incorrect username or password. Please try again.")
+            return render(request, 'edit_vip_profile.html', {'customer': customer, 'vip_profile': vip_profile})
 
-        messages.success(request, "VIP profile updated successfully!")
-        # return redirect('customer_profile', customer_id=customer.id)
+        # If authentication is successful, proceed with profile editing
+        if user == request.user:
+            # Allow profile editing here
+            customer.user_name = request.POST.get('user_name', customer.user_name)
+            customer.phone = request.POST.get('phone', customer.phone)
+            customer.email = request.POST.get('email', customer.email)
+            customer.company_name = request.POST.get('company_name', customer.company_name)
+
+            # Update VIPProfile fields
+            vip_profile.primary_color = request.POST.get('primary_color', vip_profile.primary_color)
+            vip_profile.secondary_color = request.POST.get('secondary_color', vip_profile.secondary_color)
+            vip_profile.accent_color = request.POST.get('accent_color', vip_profile.accent_color)
+            vip_profile.custom_background = request.POST.get('custom_background', vip_profile.custom_background)
+
+            # Save customer and VIP profile
+            customer.save()
+            vip_profile.save()
+
+            messages.success(request, "VIP profile updated successfully!")
+            return redirect('customer_profile', customer_id=customer.id)  # Make sure to pass the customer_id here
+        else:
+            messages.error(request, "You are not authorized to edit this profile.")
+            return redirect('dashboard')
 
     return render(request, 'edit_vip_profile.html', {'customer': customer, 'vip_profile': vip_profile})
-
 
 # ============================
 # EDIT CUSTOMER PROFILE

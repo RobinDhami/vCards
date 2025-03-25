@@ -5,7 +5,7 @@ from django.contrib import admin
 from vcards.views import *
 
 urlpatterns = [
-    path('admin/', admin.site.urls),  # Admin URL
+    path('rabin/', admin.site.urls),  # Admin URL
     path('', dashboard, name='home'),
     path('dashboard/', dashboard, name='dashboard'),
     path('create-customer/', create_customer, name='create_customer'),
