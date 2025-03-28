@@ -381,3 +381,64 @@ def edit_customer(request, customer_id):
 def student_profile(request, student_id):
     student = get_object_or_404(Student, student_id=student_id)
     return render(request, 'student_profile.html', {'student': student})
+
+
+
+# Dummy view for School & Student Dashboard
+def school_dashboard(request):
+    schools = []  # Add dummy data or query from the database
+    return render(request, 'school_dashboard.html', {'schools': schools})
+
+# Dummy view for managing Students under a School
+def view_students(request, school_id):
+    # Get students of a particular school (dummy data or query from the database)
+    students = []  
+    return render(request, 'view_students.html', {'students': students, 'school_id': school_id})
+
+# Dummy view for creating a new customer
+def create_customer(request):
+    return render(request, 'create_customer.html')
+
+# Dummy view for editing customer
+def edit_customer(request, customer_id):
+    return render(request, 'edit_customer.html', {'customer_id': customer_id})
+
+# Dummy view for deleting customer
+def delete_customer(request, customer_id):
+    # Deletion logic would go here
+    return render(request, 'delete_customer.html', {'customer_id': customer_id})
+
+# View for creating a new school
+def create_school(request):
+    if request.method == 'POST':
+        # Get data from the form and create a new School object
+        school_name = request.POST.get('school_name')
+        address = request.POST.get('address')
+        phone = request.POST.get('phone')
+        email = request.POST.get('email')
+        school_type = request.POST.get('school_type')
+        
+        # Save data to the database
+        new_school = School(
+            name=school_name,
+            address=address,
+            phone=phone,
+            email=email,
+            school_type=school_type
+        )
+        new_school.save()
+
+        # Redirect to the school dashboard or success page after saving
+        return redirect('school_dashboard')
+
+    return render(request, 'create_school.html')
+
+# Dummy view for editing school
+def edit_school(request, school_id):
+    return render(request, 'edit_school.html', {'school_id': school_id})
+
+# Dummy view for deleting school
+def delete_school(request, school_id):
+    # Deletion logic would go here
+    return render(request, 'delete_school.html', {'school_id': school_id})
+

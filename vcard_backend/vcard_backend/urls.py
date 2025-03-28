@@ -20,7 +20,14 @@ urlpatterns = [
     path('tap-vcard/<int:customer_id>/', tap_vcard, name='tap_vcard'),
     path('save-vcard/<int:customer_id>/', save_vcard, name='save_vcard'),
     path('edit-vip-profile/<int:customer_id>/', edit_vip_profile, name='edit_vip_profile'),
-    path('student/<str:student_id>/', student_profile, name='student_profile'),
+    # School & Student Management URLs
+    path('school_dashboard/', school_dashboard, name='school_dashboard'),
+    path('create_school/', create_school, name='create_school'),
+    path('edit_school/<int:school_id>/', edit_school, name='edit_school'),
+    path('delete_school/<int:school_id>/', delete_school, name='delete_school'),
+    
+    # View Students under a School
+    path('view_students/<int:school_id>/', view_students, name='view_students'),
 
 
 

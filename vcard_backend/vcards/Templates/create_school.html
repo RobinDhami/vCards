@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create School - Tap2Solve</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 text-gray-900">
+    <div class="container mx-auto p-6">
+        <header class="mb-8 text-center">
+            <h1 class="text-4xl font-bold text-indigo-600">Create School</h1>
+            <p class="text-lg text-gray-600">Add a new school to the system</p>
+        </header>
+
+        <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+            <form method="POST" action="{% url 'create_school' %}">
+                {% csrf_token %}
+                <div class="space-y-6">
+                    <!-- School Name -->
+                    <div>
+                        <label for="school_name" class="block text-lg font-medium text-gray-700">School Name</label>
+                        <input type="text" id="school_name" name="school_name" class="mt-2 block w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                    </div>
+
+                    <!-- School Address -->
+                    <div>
+                        <label for="address" class="block text-lg font-medium text-gray-700">Address</label>
+                        <input type="text" id="address" name="address" class="mt-2 block w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                    </div>
+
+                    <!-- Phone Number -->
+                    <div>
+                        <label for="phone" class="block text-lg font-medium text-gray-700">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" class="mt-2 block w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                    </div>
+
+                    <!-- Email Address -->
+                    <div>
+                        <label for="email" class="block text-lg font-medium text-gray-700">Email</label>
+                        <input type="email" id="email" name="email" class="mt-2 block w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                    </div>
+
+                    <!-- School Type -->
+                    <div>
+                        <label for="school_type" class="block text-lg font-medium text-gray-700">School Type</label>
+                        <select id="school_type" name="school_type" class="mt-2 block w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                            <option value="">Select School Type</option>
+                            <option value="Primary">Primary</option>
+                            <option value="Secondary">Secondary</option>
+                            <option value="University">University</option>
+                        </select>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="mt-6">
+                        <button type="submit" class="w-full bg-indigo-600 text-white p-3 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">Create School</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="mt-8 text-center">
+            <a href="{% url 'school_dashboard' %}" class="text-indigo-600 hover:underline">Back to School Dashboard</a>
+        </div>
+    </div>
+</body>
+
+</html>

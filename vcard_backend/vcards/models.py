@@ -159,3 +159,20 @@ class Student(models.Model):
 
     def __str__(self):
         return f"{self.full_name} - {self.student_id}"
+
+class School(models.Model):
+    SCHOOL_TYPES = [
+        ('public', 'Public'),
+        ('private', 'Private'),
+        ('charter', 'Charter'),
+        ('online', 'Online'),
+    ]
+    
+    name = models.CharField(max_length=255)
+    address = models.TextField()
+    phone = models.CharField(max_length=20)
+    email = models.EmailField()
+    school_type = models.CharField(max_length=10, choices=SCHOOL_TYPES)
+    
+    def __str__(self):
+        return self.name

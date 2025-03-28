@@ -3,55 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tap2Solve - Customer Dashboard</title>
+    <title>Tap2Solve - Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 text-gray-900">
     <div class="container mx-auto p-6">
         <header class="mb-8 text-center">
             <h1 class="text-4xl font-bold text-indigo-600">Tap2Solve</h1>
-            <p class="text-lg text-gray-600">Customer Management Dashboard</p>
+            <p class="text-lg text-gray-600">Business & School Management Dashboard</p>
         </header>
 
-        <div class="mb-6 flex justify-between items-center">
-            <h2 class="text-2xl font-semibold">Customers</h2>
-            <a href="{% url 'create_customer' %}" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">+ Create Customer</a>
+        <!-- Toggle between Customer & School Sections -->
+        <div class="flex justify-center mb-6">
+            <button id="customerTab" class="tab-button bg-indigo-600 text-white px-6 py-2 rounded-l-lg">Customers</button>
+            <button id="schoolTab" class="tab-button bg-gray-300 text-gray-800 px-6 py-2 rounded-r-lg">Schools & Students</button>
         </div>
 
-        <div class="overflow-x-auto">
-            <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-                <thead class="bg-indigo-600 text-white">
-                    <tr>
-                        <th class="py-3 px-4 text-left">Name</th>
-                        <th class="py-3 px-4 text-left">Phone</th>
-                        <th class="py-3 px-4 text-left">Company</th>
-                        <th class="py-3 px-4 text-left">Email</th>
-                        <th class="py-3 px-4 text-left">Type</th>
-                        <th class="py-3 px-4 text-left">Actions</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200">
-                    {% for customer in customers %}
-                    <tr class="hover:bg-gray-50">
-                        <td class="py-3 px-4">{{ customer.user_name }}</td>
-                        <td class="py-3 px-4">{{ customer.phone }}</td>
-                        <td class="py-3 px-4">{{ customer.company_name }}</td>
-                        <td class="py-3 px-4">{{ customer.email }}</td>
-                        <td class="py-3 px-4">
-                            <span class="px-2 py-1 text-sm font-semibold rounded-full {% if customer.customer_type == 'vip' %}bg-yellow-200 text-yellow-800{% else %}bg-gray-200 text-gray-800{% endif %}">
-                                {{ customer.customer_type|title }}
-                            </span>
-                        </td>
-                        <td class="py-3 px-4">
-                            <a href="{% url 'customer_profile' customer.id %}" class="text-blue-600 hover:underline">View</a> |
-                            <a href="{% url 'edit_customer' customer.id %}" class="text-indigo-600 hover:underline">Edit</a> |
-                            <a href="{% url 'delete_customer' customer.id %}" class="text-red-600 hover:underline" onclick="return confirm('Are you sure?');">Delete</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <!-- Customer Management Section -->
+        <div id="customerSection" class="dashboard-section">
+            <div class="mb-6 flex justify-between items-center">
+                <h2 class="text-2xl font-semibold">Customers</h2>
+                <a href="{% url 'create_customer' %}" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">+ Create Customer</a>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+                    <thead class="bg-indigo-600 text-white">
+                        <tr>
+                            <th class="py-3 px-4 text-left">Name</th>
+                            <th class="py-3 px-4 text-left">Phone</th>
+                            <th class="py-3 px-4 text-left">Company</th>
+                            <th class="py-3 px-4 text-left">Email</th>
+                            <th class="py-3 px-4 text-left">Type</th>
+                            <th class="py-3 px-4 text-left">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        {% for customer in customers %}
+                        <tr class="hover:bg-gray-50">
+                            <td class="py-3 px-4">{{ customer.user_name }}</td>
+                            <td class="py-3 px-4">{{ customer.phone }}</td>
+                            <td class="py-3 px-4">{{ customer.company_name }}</td>
+                            <td class="py-3 px-4">{{ customer.email }}</td>
+                            <td class="py-3 px-4">
+                                <span class="px-2 py-1 text-sm font-semibold rounded-full {% if customer.customer_type == 'vip' %}bg-yellow-200 text-yellow-800{% else %}bg-gray-200 text-gray-800{% endif %}">
+                                    {{ customer.customer_type|title }}
+                                </span>
+                            </td>
+                            <td class="py-3 px-4">
+                                <a href="{% url 'customer_profile' customer.id %}" class="text-blue-600 hover:underline">View</a> |
+                                <a href="{% url 'edit_customer' customer.id %}" class="text-indigo-600 hover:underline">Edit</a> |
+                                <a href="{% url 'delete_customer' customer.id %}" class="text-red-600 hover:underline" onclick="return confirm('Are you sure?');">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- School & Student Management Section -->
+        <div id="schoolSection" class="dashboard-section hidden">
+            <div class="mb-6 flex justify-between items-center">
+                <h2 class="text-2xl font-semibold">Schools & Students</h2>
+                <a href="{% url 'create_school' %}" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">+ Add School</a>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+                    <thead class="bg-green-600 text-white">
+                        <tr>
+                            <th class="py-3 px-4 text-left">School Name</th>
+                            <th class="py-3 px-4 text-left">Location</th>
+                            <th class="py-3 px-4 text-left">Students</th>
+                            <th class="py-3 px-4 text-left">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        {% for school in schools %}
+                        <tr class="hover:bg-gray-50">
+                            <td class="py-3 px-4">{{ school.name }}</td>
+                            <td class="py-3 px-4">{{ school.location }}</td>
+                            <td class="py-3 px-4">{{ school.students.count }}</td>
+                            <td class="py-3 px-4">
+                                <a href="{% url 'view_students' school.id %}" class="text-blue-600 hover:underline">Manage Students</a> |
+                                <a href="{% url 'edit_school' school.id %}" class="text-indigo-600 hover:underline">Edit</a> |
+                                <a href="{% url 'delete_school' school.id %}" class="text-red-600 hover:underline" onclick="return confirm('Are you sure?');">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
+
+    <script>
+        document.getElementById('customerTab').addEventListener('click', function() {
+            document.getElementById('customerSection').classList.remove('hidden');
+            document.getElementById('schoolSection').classList.add('hidden');
+            this.classList.add('bg-indigo-600', 'text-white');
+            document.getElementById('schoolTab').classList.remove('bg-green-600', 'text-white');
+            document.getElementById('schoolTab').classList.add('bg-gray-300', 'text-gray-800');
+        });
+
+        document.getElementById('schoolTab').addEventListener('click', function() {
+            document.getElementById('schoolSection').classList.remove('hidden');
+            document.getElementById('customerSection').classList.add('hidden');
+            this.classList.add('bg-green-600', 'text-white');
+            document.getElementById('customerTab').classList.remove('bg-indigo-600', 'text-white');
+            document.getElementById('customerTab').classList.add('bg-gray-300', 'text-gray-800');
+        });
+    </script>
 </body>
 </html>
