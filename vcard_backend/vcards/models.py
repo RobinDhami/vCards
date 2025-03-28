@@ -111,3 +111,51 @@ class VCard(models.Model):
 
     def __str__(self):
         return f"vCard for {self.customer.user_name}"
+
+
+# Dynamic Upload Paths
+def profile_photo_path(instance, filename):
+    return f"students/profile_photos/{instance.user.id}/{filename}"
+
+def qr_code_path(instance, filename):
+    return f"students/qr_codes/{instance.user.id}/{filename}"
+
+class Student(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="User Account")
+    student_id = models.CharField(max_length=20, unique=True, verbose_name="Student ID")
+    full_name = models.CharField(max_length=255, verbose_name="Full Name")
+    phone = models.CharField(max_length=15, verbose_name="Phone Number", unique=True)
+    email = models.EmailField(verbose_name="Email Address", unique=True)
+    date_of_birth = models.DateField(verbose_name="Date of Birth")
+    address = models.TextField(verbose_name="Address")
+    guardian_name = models.CharField(max_length=255, verbose_name="Guardian Name")
+    guardian_phone = models.CharField(max_length=15, verbose_name="Guardian Phone Number")
+    
+    school_name = models.CharField(max_length=255, verbose_name="School Name")
+    department = models.CharField(max_length=255, verbose_name="Department")
+    course = models.CharField(max_length=255, verbose_name="Course")
+    year_of_study = models.PositiveIntegerField(verbose_name="Year of Study")
+
+    linkedin = models.URLField(blank=True, null=True, verbose_name="LinkedIn Profile")
+    portfolio_link = models.URLField(blank=True, null=True, verbose_name="Portfolio Link")
+    
+    profile_photo = models.ImageField(upload_to=profile_photo_path, blank=True, null=True, verbose_name="Profile Photo")
+    qr_code = models.ImageField(upload_to=qr_code_path, blank=True, null=True, verbose_name="QR Code")
+
+    def save(self, *args, **kwargs):
+        if not self.pk or not self.qr_code:
+            self.generate_qr_code()
+        super(Student, self).save(*args, **kwargs)
+
+    def generate_qr_code(self):
+        local_ip = "192.168.0.105"  # Replace with your actual local IP
+        qr_url = f"http://{local_ip}:8000/student/{self.student_id}"
+        qr = qrcode.make(qr_url)
+        qr_img = BytesIO()
+        qr.save(qr_img)
+        qr_img.seek(0)
+        qr_filename = f"{self.student_id}_qr.png"
+        self.qr_code.save(qr_filename, File(qr_img), save=False)
+
+    def __str__(self):
+        return f"{self.full_name} - {self.student_id}"

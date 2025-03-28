@@ -20,6 +20,8 @@ urlpatterns = [
     path('tap-vcard/<int:customer_id>/', tap_vcard, name='tap_vcard'),
     path('save-vcard/<int:customer_id>/', save_vcard, name='save_vcard'),
     path('edit-vip-profile/<int:customer_id>/', edit_vip_profile, name='edit_vip_profile'),
+    path('student/<str:student_id>/', student_profile, name='student_profile'),
+
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

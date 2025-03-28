@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from .models import Customer, VCard, VIPProfile, CustomerType
 from vcards import models
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
+from .models import Student
 
 
 # ============================
@@ -375,3 +375,9 @@ def edit_customer(request, customer_id):
         return redirect('dashboard')
 
     return render(request, 'edit_customer.html', {'customer': customer, 'vip_profile': vip_profile})
+
+
+
+def student_profile(request, student_id):
+    student = get_object_or_404(Student, student_id=student_id)
+    return render(request, 'student_profile.html', {'student': student})
