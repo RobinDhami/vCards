@@ -13,11 +13,6 @@
             <p class="text-lg text-gray-600">Business & School Management Dashboard</p>
         </header>
 
-        <!-- Toggle between Customer & School Sections -->
-        <div class="flex justify-center mb-6">
-            <button id="customerTab" class="tab-button bg-indigo-600 text-white px-6 py-2 rounded-l-lg">Customers</button>
-            <button id="schoolTab" class="tab-button bg-gray-300 text-gray-800 px-6 py-2 rounded-r-lg">Schools & Students</button>
-        </div>
 
         <!-- Customer Management Section -->
         <div id="customerSection" class="dashboard-section">
@@ -61,42 +56,6 @@
                 </table>
             </div>
         </div>
-
-        <!-- School & Student Management Section -->
-        <div id="schoolSection" class="dashboard-section hidden">
-            <div class="mb-6 flex justify-between items-center">
-                <h2 class="text-2xl font-semibold">Schools & Students</h2>
-                <a href="{% url 'create_school' %}" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">+ Add School</a>
-            </div>
-
-            <div class="overflow-x-auto">
-                <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-                    <thead class="bg-green-600 text-white">
-                        <tr>
-                            <th class="py-3 px-4 text-left">School Name</th>
-                            <th class="py-3 px-4 text-left">Location</th>
-                            <th class="py-3 px-4 text-left">Students</th>
-                            <th class="py-3 px-4 text-left">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200">
-                        {% for school in schools %}
-                        <tr class="hover:bg-gray-50">
-                            <td class="py-3 px-4">{{ school.name }}</td>
-                            <td class="py-3 px-4">{{ school.location }}</td>
-                            <td class="py-3 px-4">{{ school.students.count }}</td>
-                            <td class="py-3 px-4">
-                                <a href="{% url 'view_students' school.id %}" class="text-blue-600 hover:underline">Manage Students</a> |
-                                <a href="{% url 'edit_school' school.id %}" class="text-indigo-600 hover:underline">Edit</a> |
-                                <a href="{% url 'delete_school' school.id %}" class="text-red-600 hover:underline" onclick="return confirm('Are you sure?');">Delete</a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
 
     <script>
         document.getElementById('customerTab').addEventListener('click', function() {
