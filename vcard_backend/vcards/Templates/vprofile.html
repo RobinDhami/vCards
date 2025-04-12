@@ -54,15 +54,6 @@
 </head>
 <body class="bg-gray-100 p-4">
 
-    <!-- Floating Message -->
-    <div id="messageContainer" class="toast">
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}">
-                <strong>{{ message }}</strong>
-            </div>
-        {% endfor %}
-    </div>
-
     <div class="max-w-md mx-auto bg-white rounded-xl shadow-lg overflow-hidden border-2 border-yellow-400">
         <!-- Cover Photo -->
         <div class="relative">
