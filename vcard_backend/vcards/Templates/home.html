@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ContactMe | Your Digital Identity</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    
+
+<nav class="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+      <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
+          <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo" />
+          <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">ContactMe</span>
+      </a>
+      <button data-collapse-toggle="navbar-dropdown" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-dropdown" aria-expanded="false">
+          <span class="sr-only">Open main menu</span>
+          <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+          </svg>
+      </button>
+      <div class="hidden w-full md:block md:w-auto" id="navbar-dropdown">
+        <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+          <li>
+            <a href="#" class="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent" aria-current="page">Home</a>
+          </li>
+          <li>
+              <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" class="flex items-center justify-between w-full py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">Dropdown <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+    </svg></button>
+              <!-- Dropdown menu -->
+              <div id="dropdownNavbar" class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600">
+                  <ul class="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
+                    <li>
+                      <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+                    </li>
+                    <li>
+                      <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
+                    </li>
+                    <li>
+                      <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
+                    </li>
+                  </ul>
+                  <div class="py-1">
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+                  </div>
+              </div>
+          </li>
+          <li>
+            <a href="#" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Services</a>
+          </li>
+          <li>
+            <a href="#" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Pricing</a>
+          </li>
+          <li>
+            <a href="#" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+
+<!-- Hero Section -->
+<section class="bg-white dark:bg-gray-900">
+    <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
+        <div class="mr-auto place-self-center lg:col-span-7">
+            <h1 class="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white">Payments tool for software companies</h1>
+            <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">From checkout to global sales tax compliance, companies around the world use Flowbite to simplify their payment stack.</p>
+            <a href="#" class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900">
+                Get started
+                <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+            </a>
+            <a href="#" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+                Speak to Sales
+            </a> 
+        </div>
+        <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
+            <img src="https://oraid.com.au/wp-content/uploads/2023/03/Hero-3img.png" alt="mockup">
+        </div>                
+    </div>
+</section>
+
+<!-- Problem & Solution -->
+<section id="how" class="py-16">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold">The Problem & Our Solution</h2>
+        </div>
+        <div class="grid md:grid-cols-2 gap-12">
+            <div>
+                <h3 class="text-2xl font-semibold mb-4">The Problem</h3>
+                <ul class="list-disc list-inside space-y-2">
+                    <li>Outdated resumes and traditional CVs</li>
+                    <li>Difficulty showcasing real skills and achievements</li>
+                    <li>Recruiters struggling to find talent efficiently</li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-2xl font-semibold mb-4">Our Solution</h3>
+                <ul class="list-disc list-inside space-y-2">
+                    <li>Smart digital profiles for every student</li>
+                    <li>QR & NFC based instant access</li>
+                    <li>Analytics, Direct Call, Download CV, Save Contact</li>
+                    <li>Company filter dashboard coming soon!</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How it Works -->
+<section class="bg-blue-50 py-16">
+    <div class="container mx-auto px-6 text-center">
+        <h2 class="text-3xl font-bold mb-12">How It Works</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div>
+                <div class="text-5xl mb-4">📸</div>
+                <h3 class="font-semibold text-xl mb-2">Create Your Profile</h3>
+                <p>Build your digital profile in minutes with achievements, links, and projects.</p>
+            </div>
+            <div>
+                <div class="text-5xl mb-4">📱</div>
+                <h3 class="font-semibold text-xl mb-2">Get Your QR or NFC</h3>
+                <p>Receive your personal QR code. Upgrade to NFC cards later!</p>
+            </div>
+            <div>
+                <div class="text-5xl mb-4">🚀</div>
+                <h3 class="font-semibold text-xl mb-2">Share and Shine</h3>
+                <p>Connect easily at events, interviews, and networking sessions.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features -->
+<section class="py-16">
+    <div class="container mx-auto px-6 text-center">
+        <h2 class="text-3xl font-bold mb-12">Key Features</h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
+            <div><h4 class="font-semibold mb-2">✅ Beautiful Digital Profiles</h4><p>Photo, Cover, Bio, and Contact Info.</p></div>
+            <div><h4 class="font-semibold mb-2">✅ Project & Certification Showcase</h4><p>Highlight your best work easily.</p></div>
+            <div><h4 class="font-semibold mb-2">✅ Real-Time Analytics</h4><p>Track profile views and engagement.</p></div>
+            <div><h4 class="font-semibold mb-2">✅ Direct Call & Save Contact</h4><p>Make connecting effortless.</p></div>
+            <div><h4 class="font-semibold mb-2">✅ Download CV Option</h4><p>Recruiters can grab your resume instantly.</p></div>
+            <div><h4 class="font-semibold mb-2">✅ Recruiter Dashboard (Coming Soon)</h4><p>Companies can filter students by skills, achievements, and availability.</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- About Us -->
+<section class="bg-gray-100 py-16">
+    <div class="container mx-auto px-6 text-center">
+        <h2 class="text-3xl font-bold mb-4">About Us</h2>
+        <p class="max-w-2xl mx-auto">We are a passionate team from Nepal, focused on building smart tools that bridge the gap between students and recruiters. Our mission is to create real-world opportunities through technology.</p>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="py-16">
+    <div class="container mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center mb-12">Contact Us</h2>
+        <form class="max-w-3xl mx-auto grid gap-6">
+            <input type="text" placeholder="Your Name" class="border rounded-lg p-4 w-full" required>
+            <input type="email" placeholder="Your Email" class="border rounded-lg p-4 w-full" required>
+            <textarea placeholder="Your Message" rows="5" class="border rounded-lg p-4 w-full" required></textarea>
+            <button type="submit" class="bg-blue-600 text-white py-4 rounded-lg font-bold hover:bg-blue-700">Send Message</button>
+        </form>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-white py-6">
+    <div class="container mx-auto text-center text-sm">
+        &copy; 2025 ContactMe | All Rights Reserved | <a href="#" class="underline">Privacy Policy</a>
+    </div>
+</footer>
+
+</body>
+</html>

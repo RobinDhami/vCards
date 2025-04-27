@@ -6,7 +6,7 @@ from vcards.views import *
 
 urlpatterns = [
     path('rabin/', admin.site.urls),  # Admin URL
-    path('', dashboard, name='home'),
+    path('', home, name='home'),
     path('dashboard/', dashboard, name='dashboard'),
     path('create-customer/', create_customer, name='create_customer'),
     path('create-vcard/', create_vcard, name='create_vcard'),

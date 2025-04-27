@@ -8,6 +8,9 @@ from .models import Customer, VCard, VIPProfile, CustomerType
 from vcards import models
 from django.contrib.auth.models import User
 
+
+def home(request):
+    return render(request, 'home.html')
 # ============================
 # DASHBOARD VIEW
 # ============================
