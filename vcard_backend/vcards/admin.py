@@ -1,7 +1,9 @@
 from django.contrib import admin
-from .models import Customer, VIPProfile, VCard
+from .models import Student, Skill
 
-# Register the models without custom ModelAdmin classes
-admin.site.register(Customer)
-admin.site.register(VIPProfile)
-admin.site.register(VCard)
+class StudentAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email', 'phone')
+    filter_horizontal = ('skills',)
+
+admin.site.register(Student, StudentAdmin)
+admin.site.register(Skill)

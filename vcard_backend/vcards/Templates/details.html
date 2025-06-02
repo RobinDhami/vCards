@@ -1,0 +1,26 @@
+<!-- detail.html -->
+<div class="max-w-xl mx-auto p-4 shadow-lg rounded-xl">
+    <img src="{{ portfolio.cover_photo.url }}" class="w-full h-48 object-cover rounded-t-xl" />
+    <div class="p-4">
+        <img src="{{ portfolio.profile_photo.url }}" class="w-24 h-24 rounded-full -mt-12 border-4 border-white mx-auto" />
+        <h2 class="text-2xl font-bold text-center mt-2">{{ portfolio.full_name }}</h2>
+        <p class="text-center text-gray-500">{{ portfolio.about }}</p>
+        <div class="mt-4">
+            <h3 class="font-semibold">Skills:</h3>
+            <p>{{ portfolio.skills }}</p>
+        </div>
+        <div class="mt-4">
+            <h3 class="font-semibold">Experience:</h3>
+            <p>{{ portfolio.experience }}</p>
+        </div>
+        <div class="mt-4">
+            <h3 class="font-semibold">Achievements:</h3>
+            <p>{{ portfolio.achievements }}</p>
+        </div>
+        <div class="mt-4 flex justify-between">
+            <a href="{% url 'download_cv' portfolio.id %}" class="bg-blue-500 text-white px-4 py-2 rounded">Download CV</a>
+            <a href="tel:{{ portfolio.phone }}" class="bg-green-500 text-white px-4 py-2 rounded">Call</a>
+        </div>
+        <p class="text-sm text-gray-400 text-center mt-4">Views: {{ portfolio.view_count }}</p>
+    </div>
+</div>
