@@ -509,117 +509,112 @@
         </div>
       </div>
 
-      <!-- FAQ Container -->
-      <div class="w-full px-8 md:px-12 bg-white flex flex-col items-center -mt-28 mb-24">
-        <div class="bg-white shadow-lg max-w-[850px] w-full flex flex-col px-6 md:px-10 py-8">
-          <p class="text-center text-3xl md:text-4xl font-extrabold mb-12">Frequently Asked Questions</p>
-
-          <!-- FAQ Item -->
-          <div class="border-b border-gray-300 mb-6">
-            <div class="flex justify-between items-center cursor-pointer faq-question py-4">
-              <p class="text-gray-700 text-lg md:text-xl">Lorem ipsum dolor sit amet?</p>
-              <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/arrow.svg" alt="arrow" class="w-5 h-5 transition-transform duration-300">
-            </div>
-            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-500 ease-in-out text-gray-500 text-base md:text-lg pl-5 mb-4">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </div>
-          </div>
-
-          <!-- Duplicate the same FAQ structure -->
-          <div class="border-b border-gray-300 mb-6">
-            <div class="flex justify-between items-center cursor-pointer faq-question py-4">
-              <p class="text-gray-700 text-lg md:text-xl">Lorem ipsum dolor sit amet?</p>
-              <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/arrow.svg" alt="arrow" class="w-5 h-5 transition-transform duration-300">
-            </div>
-            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-500 ease-in-out text-gray-500 text-base md:text-lg pl-5 mb-4">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </div>
-          </div>
-
-          <div class="border-b border-gray-300 mb-6">
-            <div class="flex justify-between items-center cursor-pointer faq-question py-4">
-              <p class="text-gray-700 text-lg md:text-xl">Lorem ipsum dolor sit amet?</p>
-              <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/arrow.svg" alt="arrow" class="w-5 h-5 transition-transform duration-300">
-            </div>
-            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-500 ease-in-out text-gray-500 text-base md:text-lg pl-5 mb-4">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </div>
-          </div>
-
-          <div class="border-b border-gray-300 mb-6">
-            <div class="flex justify-between items-center cursor-pointer faq-question py-4">
-              <p class="text-gray-700 text-lg md:text-xl">Lorem ipsum dolor sit amet?</p>
-              <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/arrow.svg" alt="arrow" class="w-5 h-5 transition-transform duration-300">
-            </div>
-            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-500 ease-in-out text-gray-500 text-base md:text-lg pl-5 mb-4">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </div>
-          </div>
-
-          <div class="border-b border-gray-300 mb-6">
-            <div class="flex justify-between items-center cursor-pointer faq-question py-4">
-              <p class="text-gray-700 text-lg md:text-xl">Lorem ipsum dolor sit amet?</p>
-              <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/arrow.svg" alt="arrow" class="w-5 h-5 transition-transform duration-300">
-            </div>
-            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-500 ease-in-out text-gray-500 text-base md:text-lg pl-5 mb-4">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <script>
-    const questions = document.querySelectorAll('.faq-question');
-
-    questions.forEach(question => {
-      question.addEventListener('click', () => {
-        const answer = question.nextElementSibling;
-        const img = question.querySelector('img');
-
-        if (answer.style.maxHeight) {
-          answer.style.maxHeight = null;
-          img.style.transform = 'rotate(0deg)';
-        } else {
-          document.querySelectorAll('.faq-answer').forEach(a => a.style.maxHeight = null);
-          document.querySelectorAll('.faq-question img').forEach(i => i.style.transform = 'rotate(0deg)');
-
-          answer.style.maxHeight = answer.scrollHeight + "px";
-          img.style.transform = 'rotate(180deg)';
-        }
-      });
-    });
-  </script>
-  
   <!-- ======= About Us Section ======= -->
-  <section id="about" class="bg-gray-100 py-16">
-    <div class="container mx-auto px-6 text-center">
-      <h2 class="text-4xl font-bold mb-6">About Us</h2>
-      <p class="max-w-2xl mx-auto text-gray-600 mb-6">
-        We are a passionate team from Nepal dedicated to building smart, simple, and affordable digital tools for students to showcase their skills and grow their careers.
-      </p>
-      <p class="max-w-2xl mx-auto text-gray-600">
-        Our mission is to help every student have a digital identity that opens doors to new opportunities.
-      </p>
+  <section class="py-24 ">
+    <div class="w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto">
+        <div class="w-full justify-start items-center gap-8 grid lg:grid-cols-2 grid-cols-1">
+            <div class="w-full flex-col justify-start lg:items-start items-center gap-10 inline-flex">
+                <div class="w-full flex-col justify-start lg:items-start items-center gap-4 flex">
+                    <h2 class="text-gray-900 text-4xl font-bold font-manrope leading-normal lg:text-start text-center">Building Stronger Communities through Collaboration and Empowerment</h2>
+                    <p class="text-gray-500 text-base font-normal leading-relaxed lg:text-start text-center">Through collaborationperse perspectives and strengths are leveraged to create inclusive environments where everyone has the opportunity to thrive. This approach not only fosters personal growth and achievement but also strengthens the fabric of society.</p>
+                </div>
+                <button class="sm:w-fit w-full px-3.5 py-2 bg-indigo-600 hover:bg-indigo-800 transition-all duration-700 ease-in-out rounded-lg shadow-[0px_1px_2px_0px_rgba(16,_24,_40,_0.05)] justify-center items-center flex">
+                    <span class="px-1.5 text-white text-sm font-medium leading-6">Get Started</span>
+                </button>
+            </div>
+            <img class="lg:mx-0 mx-auto h-full rounded-3xl object-cover" src="https://pagedone.io/asset/uploads/1717751272.png" alt="about Us image" />
+        </div>
     </div>
-  </section>
+</section>
+                                        
   
   <!-- ======= Contact Section ======= -->
-  <section id="contact" class="py-16">
-    <div class="container mx-auto px-6">
-      <h2 class="text-4xl font-bold text-center mb-12">Contact Us</h2>
-      <form class="max-w-3xl mx-auto grid gap-6">
-        <input type="text" placeholder="Your Name" class="border rounded-lg p-4 w-full" required>
-        <input type="email" placeholder="Your Email" class="border rounded-lg p-4 w-full" required>
-        <textarea placeholder="Your Message" rows="5" class="border rounded-lg p-4 w-full" required></textarea>
-        <button type="submit" class="bg-blue-600 text-white py-4 rounded-lg font-bold hover:bg-blue-700">Send Message</button>
-      </form>
-    </div>
-  </section>
+
+        <!-- FAQ Container -->
+        <div class="w-full px-8 md:px-12 bg-white flex flex-col items-center -mt-28 mb-24">
+          <div class="bg-white shadow-lg max-w-[850px] w-full flex flex-col px-6 md:px-10 py-8">
+            <p class="text-center text-3xl md:text-4xl font-extrabold mb-12">Frequently Asked Questions</p>
   
+            <!-- FAQ Item -->
+            <div class="border-b border-gray-300 mb-6">
+              <div class="flex justify-between items-center cursor-pointer faq-question py-4">
+                <p class="text-gray-700 text-lg md:text-xl">Lorem ipsum dolor sit amet?</p>
+                <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/arrow.svg" alt="arrow" class="w-5 h-5 transition-transform duration-300">
+              </div>
+              <div class="faq-answer max-h-0 overflow-hidden transition-all duration-500 ease-in-out text-gray-500 text-base md:text-lg pl-5 mb-4">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              </div>
+            </div>
+  
+            <!-- Duplicate the same FAQ structure -->
+            <div class="border-b border-gray-300 mb-6">
+              <div class="flex justify-between items-center cursor-pointer faq-question py-4">
+                <p class="text-gray-700 text-lg md:text-xl">Lorem ipsum dolor sit amet?</p>
+                <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/arrow.svg" alt="arrow" class="w-5 h-5 transition-transform duration-300">
+              </div>
+              <div class="faq-answer max-h-0 overflow-hidden transition-all duration-500 ease-in-out text-gray-500 text-base md:text-lg pl-5 mb-4">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              </div>
+            </div>
+  
+            <div class="border-b border-gray-300 mb-6">
+              <div class="flex justify-between items-center cursor-pointer faq-question py-4">
+                <p class="text-gray-700 text-lg md:text-xl">Lorem ipsum dolor sit amet?</p>
+                <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/arrow.svg" alt="arrow" class="w-5 h-5 transition-transform duration-300">
+              </div>
+              <div class="faq-answer max-h-0 overflow-hidden transition-all duration-500 ease-in-out text-gray-500 text-base md:text-lg pl-5 mb-4">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              </div>
+            </div>
+  
+            <div class="border-b border-gray-300 mb-6">
+              <div class="flex justify-between items-center cursor-pointer faq-question py-4">
+                <p class="text-gray-700 text-lg md:text-xl">Lorem ipsum dolor sit amet?</p>
+                <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/arrow.svg" alt="arrow" class="w-5 h-5 transition-transform duration-300">
+              </div>
+              <div class="faq-answer max-h-0 overflow-hidden transition-all duration-500 ease-in-out text-gray-500 text-base md:text-lg pl-5 mb-4">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              </div>
+            </div>
+  
+            <div class="border-b border-gray-300 mb-6">
+              <div class="flex justify-between items-center cursor-pointer faq-question py-4">
+                <p class="text-gray-700 text-lg md:text-xl">Lorem ipsum dolor sit amet?</p>
+                <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/arrow.svg" alt="arrow" class="w-5 h-5 transition-transform duration-300">
+              </div>
+              <div class="faq-answer max-h-0 overflow-hidden transition-all duration-500 ease-in-out text-gray-500 text-base md:text-lg pl-5 mb-4">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              </div>
+            </div>
+  
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  
+    <script>
+      const questions = document.querySelectorAll('.faq-question');
+  
+      questions.forEach(question => {
+        question.addEventListener('click', () => {
+          const answer = question.nextElementSibling;
+          const img = question.querySelector('img');
+  
+          if (answer.style.maxHeight) {
+            answer.style.maxHeight = null;
+            img.style.transform = 'rotate(0deg)';
+          } else {
+            document.querySelectorAll('.faq-answer').forEach(a => a.style.maxHeight = null);
+            document.querySelectorAll('.faq-question img').forEach(i => i.style.transform = 'rotate(0deg)');
+  
+            answer.style.maxHeight = answer.scrollHeight + "px";
+            img.style.transform = 'rotate(180deg)';
+          }
+        });
+      });
+    </script>
+    
   <!-- ======= Footer ======= -->
   <footer class="bg-gray-800 text-white py-6">
     <div class="container mx-auto text-center text-sm">
