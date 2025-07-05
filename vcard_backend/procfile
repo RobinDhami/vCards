@@ -1,1 +1,0 @@
-web: gunicorn vcard_backend.wsgi

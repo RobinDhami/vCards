@@ -9,7 +9,7 @@ def home(request):
     return render(request,'home.html')
 def profile(request, student_id):
     student = get_object_or_404(Student, id=student_id)
-    return render(request, 'vprofile.html', {'student': student})
+    return render(request, 'profile5.html', {'student': student})
 
 
 def admin_dashboard(request):
