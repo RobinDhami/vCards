@@ -3,6 +3,15 @@ from django.http import JsonResponse
 from .models import Student, Skill
 from django.contrib import messages
 
+
+
+def home(request):
+    return render(request,'home.html')
+def profile(request, student_id):
+    student = get_object_or_404(Student, id=student_id)
+    return render(request, 'vprofile.html', {'student': student})
+
+
 def admin_dashboard(request):
     students = Student.objects.all()
     return render(request, 'dashboard.html', {'students': students})

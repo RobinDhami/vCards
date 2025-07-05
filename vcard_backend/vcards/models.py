@@ -26,6 +26,18 @@ class Student(models.Model):
     upwork = models.URLField(blank=True, null=True)
     other = models.URLField(blank=True, null=True)
 
+
+
+
+    about = models.TextField(blank=True)
+    education = models.TextField(blank=True)
+    projects = models.TextField(blank=True)
+    bio = models.TextField(blank=True)
+    profile_photo = models.ImageField(upload_to='profiles/', blank=True, null=True)
+    cover_photo = models.ImageField(upload_to='covers/', blank=True, null=True)
+    resume = models.FileField(upload_to='resumes/', blank=True, null=True)
+
+
     def set_password(self, raw_password):
         self.password = make_password(raw_password)
 
