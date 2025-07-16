@@ -12,4 +12,6 @@ urlpatterns = [
     path('dashboard/create/', create_student, name='create_student'),
     path('dashboard/edit-auth/<int:student_id>/', edit_student_auth, name='edit_student_auth'),
     path('dashboard/edit/<int:student_id>/', edit_student, name='edit_student'),
+    path('bulk-upload/', bulk_upload, name='bulk_upload'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

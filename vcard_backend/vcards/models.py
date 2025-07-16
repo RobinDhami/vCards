@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.hashers import make_password, check_password
 
+
 # Existing Skill model (keep as is)
 class Skill(models.Model):
     name = models.CharField(max_length=50)
@@ -18,7 +19,7 @@ class Student(models.Model):
 
     # New fields
     address = models.CharField(max_length=255, blank=True)
-    college = models.CharField(max_length=255, blank=True)
+    college = models.CharField(max_length=255, blank=True, null=True)
     education_completed = models.CharField(max_length=255, blank=True)
     bio = models.TextField(blank=True)
     about_me = models.TextField(blank=True)
