@@ -1,68 +1,98 @@
 from django.db import models
-from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth.hashers import make_password
 
-
-# Existing Skill model (keep as is)
+# -------------------------
+# Skill model
+# -------------------------
 class Skill(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
         return self.name
 
-# Improved Student model with all new fields
-class Student(models.Model):
-    name = models.CharField(max_length=100)
-    phone = models.CharField(max_length=20, blank=True)
-    email = models.EmailField(unique=True)
-    username = models.CharField(max_length=50, unique=True)
-    password = models.CharField(max_length=128)  # Use hashed password if possible
 
-    # New fields
-    address = models.CharField(max_length=255, blank=True)
-    college = models.CharField(max_length=255, blank=True, null=True)
-    education_completed = models.CharField(max_length=255, blank=True)
-    bio = models.TextField(blank=True)
-    about_me = models.TextField(blank=True)
+# -------------------------
+# College model
+# -------------------------
+class College(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    location = models.CharField(max_length=255, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
-    # Media fields
-    photo = models.ImageField(upload_to='photos/', blank=True, null=True)
+    def __str__(self):
+        return self.name
+
+
+# -------------------------
+# Abstract Base Profile
+# -------------------------
+class BaseProfile(models.Model):
+    name = models.CharField(max_length=255)
+    phone = models.CharField(max_length=20)
+    email = models.EmailField()
+    bio = models.TextField(blank=True, null=True)
+
+    username = models.CharField(max_length=150, unique=True)
+    password = models.CharField(max_length=128)  # store hashed version
+
+    profile_photo = models.ImageField(upload_to='profile_photos/', blank=True, null=True)
     cover_photo = models.ImageField(upload_to='cover_photos/', blank=True, null=True)
-    resume = models.FileField(upload_to='resumes/', blank=True, null=True)
 
-    # Skills
     skills = models.ManyToManyField(Skill, blank=True)
 
-    # Social links
+    # Show/hide toggles
+    show_portfolio = models.BooleanField(default=True)
+    show_contact_card = models.BooleanField(default=True)
+
+    # Social media links
     facebook = models.URLField(blank=True, null=True)
     instagram = models.URLField(blank=True, null=True)
     twitter = models.URLField(blank=True, null=True)
+    linkedin = models.URLField(blank=True, null=True)
     youtube = models.URLField(blank=True, null=True)
-    figma = models.URLField(blank=True, null=True)
+    tiktok = models.URLField(blank=True, null=True)
     github = models.URLField(blank=True, null=True)
+    figma = models.URLField(blank=True, null=True)
     upwork = models.URLField(blank=True, null=True)
-    other = models.URLField(blank=True, null=True)
+    website = models.URLField(blank=True, null=True)
+
+    # Analytics
+    views = models.PositiveIntegerField(default=0)
+    contact_clicks = models.PositiveIntegerField(default=0)
+    downloads = models.PositiveIntegerField(default=0)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        abstract = True
+
+
+# -------------------------
+# Student Profile (College)
+# -------------------------
+class StudentProfile(BaseProfile):
+    college = models.ForeignKey(College, on_delete=models.CASCADE, related_name='students')
+
+    def __str__(self):
+        return f"{self.name} - {self.college.name}"
+
+
+# -------------------------
+# Client Profile (Normal User)
+# -------------------------
+class ClientProfile(BaseProfile):
+    company_name = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return self.name
 
-# New Project model
-class Project(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='projects')
-    title = models.CharField(max_length=200)
-    description = models.TextField(blank=True)
-    link = models.URLField(blank=True, null=True)
-    image = models.ImageField(upload_to='project_images/', blank=True, null=True)
 
-    def __str__(self):
-        return f"{self.title} ({self.student.name})"
+# -------------------------
+# Optional: Auto-hash password on save
+# -------------------------
+def save(self, *args, **kwargs):
+    if not self.pk or 'password' in self.get_dirty_fields():
+        self.password = make_password(self.password)
+    super().save(*args, **kwargs)
 
-
-
-    def set_password(self, raw_password):
-        self.password = make_password(raw_password)
-
-    def check_password(self, raw_password):
-        return check_password(raw_password, self.password)
-
-    def __str__(self):
-        return self.name
+BaseProfile.save = save

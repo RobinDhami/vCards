@@ -5,59 +5,104 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="container mt-5">
-  <h2 class="mb-4">Admin Dashboard</h2>
 
-  <a href="{% url 'create_student' %}" class="btn btn-primary mb-3">Add New Student</a>
-  <a href="{% url 'bulk_upload' %}" class="btn btn-secondary mb-3 ms-2">Bulk Upload</a>
+  <h2 class="mb-4">🎓 Admin Dashboard</h2>
 
+  <!-- Global Buttons -->
+  <div class="mb-4">
+    <a href="{% url 'create_student' %}" class="btn btn-primary me-2">➕ Add Student</a>
+    <a href="{% url 'bulk_upload' %}" class="btn btn-secondary">📁 Bulk Upload Students</a>
+  </div>
+
+  <!-- Flash Messages -->
   {% if messages %}
     {% for message in messages %}
       <div class="alert alert-info">{{ message }}</div>
     {% endfor %}
   {% endif %}
 
-  <!-- Section: Students grouped by College -->
-  {% for college, students_in_college in students_by_college.items %}
-    <div class="card mb-4">
+  <!-- 🔸 College-wise Students Section -->
+  <h4 class="text-primary">🎓 Students Grouped by College</h4>
+  {% for college in colleges %}
+    <div class="card mb-4 shadow-sm">
       <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-        <h5 class="mb-0">{{ college|default:"No College (Individual Students)" }}</h5>
-        <a href="{% url 'create_student' %}?college={{ college }}" class="btn btn-sm btn-success">Add Student to this College</a>
+        <strong>{{ college.name }}</strong>
+        <a href="{% url 'create_student' %}?college_id={{ college.id }}" class="btn btn-sm btn-success">
+          Add Student to {{ college.name }}
+        </a>
       </div>
       <div class="card-body p-0">
-        <table class="table mb-0">
-          <thead>
+        {% if college.students.all %}
+          <table class="table table-striped table-hover mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for student in college.students.all %}
+                <tr>
+                  <td>{{ student.name }}</td>
+                  <td>{{ student.email }}</td>
+                  <td>{{ student.phone }}</td>
+                  <td>
+                    <a href="{% url 'profile' student.id %}" class="btn btn-sm btn-info">View</a>
+                    <a href="{% url 'edit_student_auth' student.id %}" class="btn btn-sm btn-warning">Edit</a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <div class="p-3 text-muted">No students yet for this college.</div>
+        {% endif %}
+      </div>
+    </div>
+  {% empty %}
+    <p>No colleges found. Please add students with college info.</p>
+  {% endfor %}
+
+  <!-- 🔹 Normal Users / Clients Section -->
+  <hr class="my-5">
+  <h4 class="text-primary">👤 Normal Users (Clients not associated with a college)</h4>
+
+  <div class="card shadow-sm">
+    <div class="card-header bg-secondary text-white">
+      <strong>Clients List</strong>
+    </div>
+    <div class="card-body p-0">
+      {% if clients %}
+        <table class="table table-striped table-hover mb-0">
+          <thead class="table-light">
             <tr>
               <th>Name</th>
               <th>Email</th>
               <th>Phone</th>
               <th>Actions</th>
-              <th>Profile</th>
             </tr>
           </thead>
           <tbody>
-            {% for student in students_in_college %}
+            {% for client in clients %}
               <tr>
-                <td>{{ student.name }}</td>
-                <td>{{ student.email }}</td>
-                <td>{{ student.phone }}</td>
+                <td>{{ client.name }}</td>
+                <td>{{ client.email }}</td>
+                <td>{{ client.phone }}</td>
                 <td>
-                  <a href="{% url 'edit_student_auth' student.id %}" class="btn btn-sm btn-warning">Edit</a>
+                  <a href="{% url 'profile' client.id %}" class="btn btn-sm btn-info">View</a>
+                  <a href="{% url 'edit_student_auth' client.id %}" class="btn btn-sm btn-warning">Edit</a>
                 </td>
-                <td>
-                  <a href="{% url 'profile' student.id %}" class="btn btn-sm btn-info">View Profile</a>
-                </td>
-              </tr>
-            {% empty %}
-              <tr>
-                <td colspan="5" class="text-center text-muted">No students found for this college.</td>
               </tr>
             {% endfor %}
           </tbody>
         </table>
-      </div>
+      {% else %}
+        <div class="p-3 text-muted">No individual clients found.</div>
+      {% endif %}
     </div>
-  {% empty %}
-    <p>No students found yet. Add some to get started!</p>
-  {% endfor %}
+  </div>
+
 </body>
 </html>
