@@ -4,7 +4,7 @@ from django.contrib import messages
 from .models import StudentProfile, ClientProfile, College, Skill
 import pandas as pd
 from collections import defaultdict
-
+from .models import College
 def home(request):
     return render(request, 'home.html')
 
@@ -116,3 +116,62 @@ def bulk_upload(request):
         return redirect('admin_dashboard')
 
     return render(request, 'bulk_upload.html')
+    
+def college_details(request, college_id):
+    college = get_object_or_404(College, id=college_id)
+    students = college.students.all()
+    return render(request, 'college_details.html', {'college': college, 'students': students})
+
+
+def add_college(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        slogan = request.POST.get('slogan')
+        address = request.POST.get('address')
+        logo = request.FILES.get('logo')
+        website = request.POST.get('website')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        description = request.POST.get('description')
+
+        college = College(
+            name=name,
+            slogan=slogan,
+            address=address,
+            logo=logo,
+            website=website,
+            email=email,
+            phone=phone,
+            description=description
+        )
+        college.save()
+        messages.success(request, "College added successfully!")
+        return redirect('admin_dashboard')  # or wherever you want to redirect
+
+    return render(request, 'add_college.html')
+
+
+def edit_college(request, college_id):
+    college = get_object_or_404(College, id=college_id)
+    if request.method == 'POST':
+        college.name = request.POST.get('name')
+        college.slogan = request.POST.get('slogan')
+        college.address = request.POST.get('address')
+        if request.FILES.get('logo'):
+            college.logo = request.FILES['logo']
+        college.website = request.POST.get('website')
+        college.email = request.POST.get('email')
+        college.phone = request.POST.get('phone')
+        college.description = request.POST.get('description')
+        college.save()
+        messages.success(request, "College updated successfully!")
+        return redirect('college_details', college_id=college.id)
+    return render(request, 'edit_college.html', {'college': college})
+
+def delete_college(request, college_id):
+    college = get_object_or_404(College, id=college_id)
+    if request.method == 'POST':
+        college.delete()
+        messages.success(request, "College deleted successfully!")
+        return redirect('admin_dashboard')
+    return render(request, 'confirm_delete_college.html', {'college': college})
