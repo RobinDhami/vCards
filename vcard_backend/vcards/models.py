@@ -68,6 +68,11 @@ class BaseProfile(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def save(self, *args, **kwargs):
+        if self.password and not self.password.startswith('pbkdf2_'):
+            self.password = make_password(self.password)
+        super().save(*args, **kwargs)
+
     class Meta:
         abstract = True
 
@@ -90,14 +95,3 @@ class ClientProfile(BaseProfile):
 
     def __str__(self):
         return self.name
-
-
-# -------------------------
-# Optional: Auto-hash password on save
-# -------------------------
-def save(self, *args, **kwargs):
-    if not self.pk or 'password' in self.get_dirty_fields():
-        self.password = make_password(self.password)
-    super().save(*args, **kwargs)
-
-BaseProfile.save = save

@@ -1,26 +1,53 @@
-<!-- detail.html -->
-<div class="max-w-xl mx-auto p-4 shadow-lg rounded-xl">
-    <img src="{{ portfolio.cover_photo.url }}" class="w-full h-48 object-cover rounded-t-xl" />
-    <div class="p-4">
-        <img src="{{ portfolio.profile_photo.url }}" class="w-24 h-24 rounded-full -mt-12 border-4 border-white mx-auto" />
-        <h2 class="text-2xl font-bold text-center mt-2">{{ portfolio.full_name }}</h2>
-        <p class="text-center text-gray-500">{{ portfolio.about }}</p>
-        <div class="mt-4">
-            <h3 class="font-semibold">Skills:</h3>
-            <p>{{ portfolio.skills }}</p>
+{% extends "base.html" %}
+{% block title %}{{ college.name }} Details{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">{{ college.name }}</h2>
+        <a href="{% url 'add_student_to_college' college.id %}?college={{ college.id }}" class="btn btn-primary">
+            <i class="bi bi-person-plus"></i> Add Student
+        </a>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            Students List
         </div>
-        <div class="mt-4">
-            <h3 class="font-semibold">Experience:</h3>
-            <p>{{ portfolio.experience }}</p>
+        <div class="card-body p-0">
+            {% if students %}
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th style="width:160px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                        <tr>
+                            <td>{{ student.name }}</td>
+                            <td>{{ student.email }}</td>
+                            <td>{{ student.phone }}</td>
+                            <td>
+                                <a href="{% url 'profile' student.id %}" class="btn btn-sm btn-outline-primary" title="View Profile">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a href="{% url 'edit_student_auth' student.id %}" class="btn btn-sm btn-outline-warning" title="Edit">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <!-- Add more actions as needed -->
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+                <div class="p-4 text-center text-muted">No students found for this college.</div>
+            {% endif %}
         </div>
-        <div class="mt-4">
-            <h3 class="font-semibold">Achievements:</h3>
-            <p>{{ portfolio.achievements }}</p>
-        </div>
-        <div class="mt-4 flex justify-between">
-            <a href="{% url 'download_cv' portfolio.id %}" class="bg-blue-500 text-white px-4 py-2 rounded">Download CV</a>
-            <a href="tel:{{ portfolio.phone }}" class="bg-green-500 text-white px-4 py-2 rounded">Call</a>
-        </div>
-        <p class="text-sm text-gray-400 text-center mt-4">Views: {{ portfolio.view_count }}</p>
     </div>
 </div>
+{% endblock %}

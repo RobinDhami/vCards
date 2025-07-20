@@ -5,6 +5,7 @@ from .models import StudentProfile, ClientProfile, College, Skill
 import pandas as pd
 from collections import defaultdict
 from .models import College
+from django.contrib.auth.hashers import make_password
 def home(request):
     return render(request, 'home.html')
 
@@ -20,7 +21,7 @@ def admin_dashboard(request):
         'clients': clients,
     })
 
-def create_student(request):
+def add_user(request):
     if request.method == 'POST':
         college_id = request.POST.get('college')
         college = get_object_or_404(College, id=college_id)
@@ -56,7 +57,7 @@ def create_student(request):
 
     skills = Skill.objects.all()
     colleges = College.objects.all()
-    return render(request, 'create_student.html', {'skills': skills, 'colleges': colleges})
+    return render(request, 'add_user.html', {'skills': skills, 'colleges': colleges})
 
 def edit_student_auth(request, student_id):
     student = get_object_or_404(StudentProfile, id=student_id)
@@ -175,3 +176,35 @@ def delete_college(request, college_id):
         messages.success(request, "College deleted successfully!")
         return redirect('admin_dashboard')
     return render(request, 'confirm_delete_college.html', {'college': college})
+
+
+def add_student_to_college(request, college_id):
+    college = get_object_or_404(College, id=college_id)
+    skills = Skill.objects.all()
+    if request.method == 'POST':
+        student = StudentProfile(
+            name=request.POST['name'],
+            phone=request.POST['phone'],
+            email=request.POST['email'],
+            username=request.POST['username'],
+            college=college,
+            bio=request.POST.get('bio'),
+        )
+        if request.FILES.get('profile_photo'):
+            student.profile_photo = request.FILES['profile_photo']
+        if request.FILES.get('cover_photo'):
+            student.cover_photo = request.FILES['cover_photo']
+        student.password = make_password(request.POST['password'])
+        student.save()
+        skill_ids = request.POST.getlist('skills')
+        student.skills.set(skill_ids)
+        # Socials
+        for field in ['facebook', 'instagram', 'twitter', 'linkedin', 'youtube', 'tiktok', 'github', 'figma', 'upwork', 'website']:
+            setattr(student, field, request.POST.get(field))
+        student.save()
+        messages.success(request, 'Student added to college successfully!')
+        return redirect('college_details', college_id=college.id)
+    return render(request, 'add_student_to_college.html', {
+        'college': college,
+        'skills': skills,
+    })    
