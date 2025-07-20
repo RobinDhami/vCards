@@ -24,16 +24,16 @@ def admin_dashboard(request):
 def add_user(request):
     if request.method == 'POST':
         college_id = request.POST.get('college')
-        college = get_object_or_404(College, id=college_id)
+        college = get_object_or_404(College, id=college_id)  # This ensures you have a College object
 
         student = StudentProfile(
             name=request.POST['name'],
             phone=request.POST['phone'],
             email=request.POST['email'],
             username=request.POST['username'],
-            college=college,
+            college=college,  # This is now a College object, not a string
             bio=request.POST.get('bio'),
-            password=request.POST['password'],
+            password=make_password(request.POST['password']),
         )
 
         if request.FILES.get('profile_photo'):
@@ -189,12 +189,12 @@ def add_student_to_college(request, college_id):
             username=request.POST['username'],
             college=college,
             bio=request.POST.get('bio'),
+            password=make_password(request.POST['password']),
         )
         if request.FILES.get('profile_photo'):
             student.profile_photo = request.FILES['profile_photo']
         if request.FILES.get('cover_photo'):
             student.cover_photo = request.FILES['cover_photo']
-        student.password = make_password(request.POST['password'])
         student.save()
         skill_ids = request.POST.getlist('skills')
         student.skills.set(skill_ids)
@@ -207,4 +207,4 @@ def add_student_to_college(request, college_id):
     return render(request, 'add_student_to_college.html', {
         'college': college,
         'skills': skills,
-    })    
+    })

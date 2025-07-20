@@ -4,11 +4,11 @@
 <h2 class="mb-4">Add Student to {{ college.name }}</h2>
 <form method="post" enctype="multipart/form-data" class="card p-4 shadow-sm">
     {% csrf_token %}
-    <div class="mb-3">
-        <label class="form-label">College</label>
-        <input type="text" class="form-control" value="{{ college.name }}" disabled>
-        <input type="hidden" name="college" value="{{ college.id }}">
-    </div>
+ <div class="mb-3">
+    <label class="form-label">College</label>
+    <input type="text" class="form-control" value="{{ college.name }}" disabled>
+    <input type="hidden" name="college" value="{{ college.id }}">
+</div>
     <div class="mb-3">
         <label class="form-label">Full Name</label>
         <input type="text" name="name" class="form-control" required>
