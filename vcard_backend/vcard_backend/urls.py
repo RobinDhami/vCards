@@ -18,4 +18,10 @@ urlpatterns = [
     path('dashboard/edit/<int:student_id>/', edit_student, name='edit_student'),
     path('bulk-upload/', bulk_upload, name='bulk_upload'),
     path('dashboard/college/<int:college_id>/add_student/', add_student_to_college, name='add_student_to_college'),
+    path('student/<int:student_id>/', contact_card, name='contact_card'),
+    path('student/<int:student_id>/download-vcard/', download_vcard, name='download_vcard'),
+    path('student/<int:student_id>/choose/', student_profile_choice, name='student_profile_choice'),
+    path('student/<int:student_id>/contact-card/', contact_card, name='contact_card'),
+
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -31,9 +31,11 @@
                             <td>{{ student.email }}</td>
                             <td>{{ student.phone }}</td>
                             <td>
-                                <a href="{% url 'profile' student.id %}" class="btn btn-sm btn-outline-primary" title="View Profile">
-                                    <i class="bi bi-eye"></i>
-                                </a>
+<!-- in your student list template -->
+<button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#profileChoiceModal" data-student-id="{{ student.id }}" title="View Profile">
+    <i class="bi bi-eye"></i>
+</button>
+
                                 <a href="{% url 'edit_student_auth' student.id %}" class="btn btn-sm btn-outline-warning" title="Edit">
                                     <i class="bi bi-pencil"></i>
                                 </a>
@@ -50,4 +52,5 @@
         </div>
     </div>
 </div>
+
 {% endblock %}

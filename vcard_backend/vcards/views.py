@@ -5,6 +5,7 @@ from .models import StudentProfile, ClientProfile, College, Skill
 import pandas as pd
 from collections import defaultdict
 from .models import College
+from .models import StudentProfile
 from django.contrib.auth.hashers import make_password
 def home(request):
     return render(request, 'home.html')
@@ -207,3 +208,53 @@ def add_student_to_college(request, college_id):
         'college': college,
         'skills': skills,
     })
+
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse
+from .models import StudentProfile
+
+def contact_card(request, student_id):
+    student = get_object_or_404(StudentProfile, pk=student_id)
+    
+    # Optionally increment views count
+    student.views += 1
+    student.save(update_fields=['views'])
+
+    context = {
+        'student': student,
+    }
+    return render(request, 'contact/contact.html', context)
+
+
+def download_vcard(request, student_id):
+    student = get_object_or_404(StudentProfile, pk=student_id)
+
+    # Increment downloads counter
+    student.downloads += 1
+    student.save(update_fields=['downloads'])
+
+    college_name = student.college.name if student.college else ''
+    vcard = f"""BEGIN:VCARD
+VERSION:3.0
+FN:{student.name}
+ORG:{college_name}
+TEL;TYPE=CELL:{student.phone}
+EMAIL;TYPE=INTERNET:{student.email}
+URL:{student.website or ''}
+END:VCARD
+"""
+    response = HttpResponse(vcard, content_type='text/vcard')
+    response['Content-Disposition'] = f'attachment; filename=contact_{student.name.replace(" ", "_")}.vcf'
+    return response
+
+def student_profile_choice(request, student_id):
+    student = get_object_or_404(StudentProfile, pk=student_id)
+
+    if request.method == 'POST':
+        choice = request.POST.get('choice')
+        if choice == 'contact_card':
+            return redirect('contact_card', student_id=student.id)
+        elif choice == 'portfolio':
+            return redirect('profile', student_id=student.id)
+    
+    return render(request, 'student_profile_choice.html', {'student': student})

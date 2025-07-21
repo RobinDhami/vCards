@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-5 text-center">
+    <h2>View Profile for {{ student.name }}</h2>
+    <form method="post" class="mt-4">
+        {% csrf_token %}
+        <button type="submit" name="choice" value="contact_card" class="btn btn-primary mx-2">Contact Card</button>
+        <button type="submit" name="choice" value="portfolio" class="btn btn-secondary mx-2">Portfolio</button>
+    </form>
+</div>
+{% endblock %}
