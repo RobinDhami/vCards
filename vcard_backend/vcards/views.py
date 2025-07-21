@@ -11,7 +11,7 @@ def home(request):
 
 def profile(request, student_id):
     student = get_object_or_404(StudentProfile, id=student_id)
-    return render(request, 'profile1.html', {'student': student})
+    return render(request, 'portfolio/profile1.html', {'student': student})
 def admin_dashboard(request):
     colleges = College.objects.prefetch_related('students').all()
     clients = ClientProfile.objects.all()
