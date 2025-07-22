@@ -1,122 +1,131 @@
 {% block content %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
 <style>
     .contact-card {
-        max-width: 500px;
+        max-width: 480px;
         margin: 2rem auto;
-        background: #ffffff;
-        border-radius: 16px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        border: 2px solid #facc15;
+        border-radius: 1rem;
         overflow: hidden;
-        transition: transform 0.3s ease;
-    }
-
-    .contact-card:hover {
-        transform: translateY(-4px);
+        background: #fff;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+        transition: 0.3s;
     }
 
     .cover-photo {
-        width: 100%;
         height: 160px;
+        width: 100%;
         object-fit: cover;
-        background-color: #dbeafe;
+        background: #ddd;
     }
 
-    .card-body {
-        padding: 3rem 1.5rem 2.5rem;
-        text-align: center;
+    .avatar-wrapper {
         position: relative;
+        margin-top: -60px;
+        text-align: center;
     }
 
     .avatar {
-        width: 120px;
-        height: 120px;
+        width: 100px;
+        height: 100px;
         border-radius: 50%;
-        object-fit: cover;
         border: 4px solid #fff;
-        position: absolute;
-        top: -60px;
-        left: 50%;
-        transform: translateX(-50%);
-        box-shadow: 0 0 0 4px #0d6efd;
-        background-color: #fff;
+        object-fit: cover;
+        box-shadow: 0 0 0 4px #facc15;
     }
 
     .name {
-        margin-top: 70px;
-        font-size: 1.5rem;
-        font-weight: 600;
-        color: #333;
-    }
-
-    .email {
-        color: #666;
-        font-size: 0.95rem;
-        margin-bottom: 0.5rem;
-    }
-
-    .bio {
-        font-size: 0.95rem;
-        color: #444;
-        margin-top: 1rem;
-        margin-bottom: 1.5rem;
-    }
-
-    .actions {
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-top: 0.6rem;
         display: flex;
-        flex-direction: column;
-        gap: 0.85rem;
-        margin-top: 1.2rem;
+        justify-content: center;
+        align-items: center;
+        gap: 0.3rem;
     }
 
-    .actions a {
-        display: inline-block;
-        padding: 0.8rem 1rem;
-        border-radius: 8px;
-        font-weight: 500;
+    .name i {
+        color: #facc15;
+    }
+
+    .subtitle {
         font-size: 1rem;
-        transition: background-color 0.25s ease, transform 0.2s ease;
+        color: #555;
+        margin-bottom: 0.2rem;
+        text-align: center;
     }
 
-    .actions a:hover {
-        transform: translateY(-2px);
+    .contact-section {
+        padding: 1rem 2rem;
+        font-size: 0.95rem;
     }
 
-    .btn-save {
-        background-color: #198754;
-        color: white;
-    }
-
-    .btn-save:hover {
-        background-color: #157347;
+    .contact-section h5 {
+        font-weight: 600;
+        margin-bottom: 0.3rem;
     }
 
     .socials {
         display: flex;
         justify-content: center;
-        gap: 1rem;
-        margin-top: 1.8rem;
         flex-wrap: wrap;
+        gap: 1rem;
+        margin: 1rem 0;
     }
 
     .socials a {
-        color: #0d6efd;
+        color: #333;
         font-size: 1.3rem;
-        transition: color 0.2s ease;
+        transition: 0.2s;
     }
 
     .socials a:hover {
-        color: #0a58ca;
+        color: #0d6efd;
     }
 
-    @media (min-width: 576px) {
-        .actions {
-            flex-direction: row;
-            justify-content: center;
-        }
+    .btn-save {
+        background: #22c55e;
+        color: white;
+        padding: 0.7rem 1.5rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        display: block;
+        margin: 0 auto 1rem;
+        text-align: center;
+        width: fit-content;
+    }
 
-        .actions a {
-            width: 45%;
-        }
+    .vip-section {
+        background: #fef3c7;
+        border-top: 2px solid #facc15;
+        padding: 1rem 2rem;
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .vip-section a {
+        background: #facc15;
+        color: #000;
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+    .vip-section a:hover {
+        background: #eab308;
+    }
+
+    .bio {
+        font-size: 0.95rem;
+        color: #444;
+        text-align: center;
+        margin: 0.8rem 1.5rem 1.2rem;
     }
 </style>
 
@@ -127,43 +136,59 @@
         <div class="cover-photo"></div>
     {% endif %}
 
-    <div class="card-body">
-        <img src="{{ student.profile_photo.url }}" alt="Avatar" class="avatar">
-        <div class="name">{{ student.name }}</div>
-        <div class="email">{{ student.email }}</div>
-        {% if student.bio %}
-            <p class="bio">{{ student.bio }}</p>
-        {% endif %}
-
-        <div class="actions">
-            <a href="{% url 'download_vcard' student.id %}" class="btn-save">💾 Save Contact</a>
-        </div>
-
-        <div class="socials">
-            {% if student.github %}
-                <a href="{{ student.github }}" target="_blank" title="GitHub">
-                    <i class="fab fa-github"></i>
-                </a>
-            {% endif %}
-            {% if student.youtube %}
-                <a href="{{ student.youtube }}" target="_blank" title="YouTube">
-                    <i class="fab fa-youtube"></i>
-                </a>
-            {% endif %}
-            {% if student.instagram %}
-                <a href="{{ student.instagram }}" target="_blank" title="Instagram">
-                    <i class="fab fa-instagram"></i>
-                </a>
-            {% endif %}
-            {% if student.facebook %}
-                <a href="{{ student.facebook }}" target="_blank" title="Facebook">
-                    <i class="fab fa-facebook"></i>
-                </a>
-            {% endif %}
-        </div>
+    <div class="avatar-wrapper">
+        <img src="{{ student.profile_photo.url }}" class="avatar" alt="Avatar">
     </div>
+
+    <div class="name">
+        {{ student.name }}
+        {% if student.is_vip %}
+            <i class="fas fa-crown"></i>
+        {% endif %}
+    </div>
+    <div class="subtitle">{{ student.college.name }}</div>
+    <div class="subtitle">{{ student.bio }}</div>
+
+    <div class="contact-section">
+        <h5>Contact</h5>
+        <p><strong>Email:</strong> {{ student.email }}</p>
+        <p><strong>Phone:</strong> {{ student.phone }}</p>
+    </div>
+
+    <div class="socials">
+        {% if student.instagram %}
+            <a href="{{ student.instagram }}" target="_blank"><i class="fab fa-instagram"></i></a>
+        {% endif %}
+        {% if student.linkedin %}
+            <a href="{{ student.linkedin }}" target="_blank"><i class="fab fa-linkedin"></i></a>
+        {% endif %}
+        {% if student.twitter %}
+            <a href="{{ student.twitter }}" target="_blank"><i class="fab fa-twitter"></i></a>
+        {% endif %}
+        {% if student.whatsapp %}
+            <a href="https://wa.me/{{ student.whatsapp }}" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        {% endif %}
+        {% if student.tiktok %}
+            <a href="{{ student.tiktok }}" target="_blank"><i class="fab fa-tiktok"></i></a>
+        {% endif %}
+        {% if student.github %}
+            <a href="{{ student.github }}" target="_blank"><i class="fab fa-github"></i></a>
+        {% endif %}
+        {% if student.youtube %}
+            <a href="{{ student.youtube }}" target="_blank"><i class="fab fa-youtube"></i></a>
+        {% endif %}
+    </div>
+
+    <a href="{% url 'download_vcard' student.id %}" class="btn-save">💾 Save to Contacts</a>
+
+   
+        <div class="vip-section">
+            <a href=""> View Analytics</a>
+            <a href="{% url 'edit_student_auth' student.id %}"> Edit Profile</a>
+        </div>
+   
 </div>
 
-<!-- Font Awesome for icons -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+
 {% endblock %}
