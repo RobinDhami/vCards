@@ -2,15 +2,31 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
 <style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: #f3f4f6;
+        transition: background 0.3s;
+    }
+
+    .dark-mode body {
+        background: #111827;
+    }
+
     .contact-card {
         max-width: 480px;
         margin: 2rem auto;
-        border: 2px solid #facc15;
+        border: 2px solid #d4af37;
         border-radius: 1rem;
         overflow: hidden;
-        background: #fff;
+        background: #ffffff;
         box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
-        transition: 0.3s;
+        transition: background 0.3s, color 0.3s;
+        color: #111827;
+    }
+
+    .dark-mode .contact-card {
+        background: #1f2937;
+        color: #f9fafb;
     }
 
     .cover-photo {
@@ -18,6 +34,10 @@
         width: 100%;
         object-fit: cover;
         background: #ddd;
+    }
+
+    .dark-mode .cover-photo {
+        background: #374151;
     }
 
     .avatar-wrapper {
@@ -32,7 +52,7 @@
         border-radius: 50%;
         border: 4px solid #fff;
         object-fit: cover;
-        box-shadow: 0 0 0 4px #facc15;
+        box-shadow: 0 0 0 4px #d4af37;
     }
 
     .name {
@@ -43,17 +63,36 @@
         justify-content: center;
         align-items: center;
         gap: 0.3rem;
+        color: #d97706;
+    }
+
+    .dark-mode .name {
+        color: #facc15;
     }
 
     .name i {
-        color: #facc15;
+        color: #d4af37;
     }
 
     .subtitle {
         font-size: 1rem;
         color: #555;
-        margin-bottom: 0.2rem;
         text-align: center;
+    }
+
+    .dark-mode .subtitle {
+        color: #cbd5e1;
+    }
+
+    .bio {
+        font-size: 0.95rem;
+        text-align: center;
+        margin: 0.8rem 1.5rem 1.2rem;
+        color: #444;
+    }
+
+    .dark-mode .bio {
+        color: #d1d5db;
     }
 
     .contact-section {
@@ -64,6 +103,19 @@
     .contact-section h5 {
         font-weight: 600;
         margin-bottom: 0.3rem;
+        color: #000;
+    }
+
+    .dark-mode .contact-section h5 {
+        color: #fef08a;
+    }
+
+    .contact-section p {
+        color: #333;
+    }
+
+    .dark-mode .contact-section p {
+        color: #e5e7eb;
     }
 
     .socials {
@@ -75,14 +127,21 @@
     }
 
     .socials a {
-        color: #333;
-        font-size: 1.3rem;
+        font-size: 1.4rem;
         transition: 0.2s;
     }
 
     .socials a:hover {
-        color: #0d6efd;
+        transform: scale(1.2);
     }
+
+    .fa-instagram { color: #e1306c; }
+    .fa-linkedin  { color: #0077b5; }
+    .fa-twitter   { color: #1da1f2; }
+    .fa-whatsapp  { color: #25d366; }
+    .fa-tiktok    { color: #000000; }
+    .fa-github    { color: #171515; }
+    .fa-youtube   { color: #ff0000; }
 
     .btn-save {
         background: #22c55e;
@@ -95,6 +154,11 @@
         margin: 0 auto 1rem;
         text-align: center;
         width: fit-content;
+        transition: background 0.3s;
+    }
+
+    .btn-save:hover {
+        background: #16a34a;
     }
 
     .vip-section {
@@ -107,8 +171,12 @@
         flex-wrap: wrap;
     }
 
+    .dark-mode .vip-section {
+        background: #292524;
+    }
+
     .vip-section a {
-        background: #facc15;
+        background: #d4af37;
         color: #000;
         padding: 0.6rem 1.2rem;
         border-radius: 8px;
@@ -118,16 +186,35 @@
     }
 
     .vip-section a:hover {
-        background: #eab308;
+        background: #b8860b;
+        color: white;
     }
 
-    .bio {
-        font-size: 0.95rem;
-        color: #444;
+    .theme-toggle {
         text-align: center;
-        margin: 0.8rem 1.5rem 1.2rem;
+        margin-top: 1rem;
+    }
+
+    .theme-toggle button {
+        background: #d4af37;
+        color: #111827;
+        padding: 0.4rem 1rem;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+    .theme-toggle button:hover {
+        background: #b8860b;
+        color: white;
     }
 </style>
+
+<div class="theme-toggle">
+    <button onclick="toggleTheme()">Switch Theme</button>
+</div>
 
 <div class="contact-card">
     {% if student.cover_photo %}
@@ -147,7 +234,7 @@
         {% endif %}
     </div>
     <div class="subtitle">{{ student.college.name }}</div>
-    <div class="subtitle">{{ student.bio }}</div>
+    <div class="subtitle">{{ student.college.address }}</div>
 
     <div class="contact-section">
         <h5>Contact</h5>
@@ -179,16 +266,27 @@
         {% endif %}
     </div>
 
-    <a href="{% url 'download_vcard' student.id %}" class="btn-save">💾 Save to Contacts</a>
+    <a href="{% url 'download_vcard' student.id %}" class="btn-save">Save to Contacts</a>
 
-   
-        <div class="vip-section">
-            <a href=""> View Analytics</a>
-            <a href="{% url 'edit_student_auth' student.id %}"> Edit Profile</a>
-        </div>
-   
+    <div class="vip-section">
+        <a href="">View Analytics</a>
+        <a href="{% url 'edit_student_auth' student.id %}">Edit Profile</a>
+    </div>
 </div>
 
+<script>
+    // Load saved theme
+    document.addEventListener('DOMContentLoaded', function () {
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    });
 
-
+    function toggleTheme() {
+        const root = document.documentElement;
+        root.classList.toggle('dark-mode');
+        const mode = root.classList.contains('dark-mode') ? 'dark' : 'light';
+        localStorage.setItem('theme', mode);
+    }
+</script>
 {% endblock %}
