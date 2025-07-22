@@ -258,3 +258,8 @@ def student_profile_choice(request, student_id):
             return redirect('profile', student_id=student.id)
     
     return render(request, 'student_profile_choice.html', {'student': student})
+
+def student_profile_choice(request, student_id):
+    student = get_object_or_404(StudentProfile, pk=student_id)
+
+    return render(request, 'student_profile_choice.html', {'student': student})
