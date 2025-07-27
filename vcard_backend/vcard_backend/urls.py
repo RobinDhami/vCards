@@ -1,3 +1,4 @@
+from django import views
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
@@ -22,6 +23,7 @@ urlpatterns = [
     path('student/<int:student_id>/download-vcard/', download_vcard, name='download_vcard'),
     path('student/<int:student_id>/choose/', student_profile_choice, name='student_profile_choice'),
     path('student/<int:student_id>/contact-card/', contact_card, name='contact_card'),
+    path('students/<int:id>/send-message/', send_message, name='send_message')
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

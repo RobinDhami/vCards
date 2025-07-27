@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.contrib import messages
 from .models import StudentProfile, ClientProfile, College, Skill
 import pandas as pd
-from collections import defaultdict
+from django.core.mail import send_mail
 from .models import College
 from .models import StudentProfile
 from django.contrib.auth.hashers import make_password
@@ -263,3 +263,15 @@ def student_profile_choice(request, student_id):
     student = get_object_or_404(StudentProfile, pk=student_id)
 
     return render(request, 'student_profile_choice.html', {'student': student})
+
+def send_message(request, id):
+    student = get_object_or_404(student, id=id)
+    if request.method == 'POST':
+        message = request.POST.get('message')
+        send_mail(
+            subject='New message via student card',
+            message=message,
+            from_email=request.user.email,
+            recipient_list=[student.email],
+        )
+    return redirect('student_profile', id=id)

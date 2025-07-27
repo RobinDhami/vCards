@@ -267,11 +267,22 @@
     </div>
 
     <a href="{% url 'download_vcard' student.id %}" class="btn-save">Save to Contacts</a>
+<div class="contact-section">
+    <h5>Send a Message</h5>
+    <form method="post" action="{% url 'send_message' student.id %}">
+        {% csrf_token %}
+        <div style="margin-bottom: 0.5rem;">
+            <textarea name="message" rows="4" style="width:100%; padding:0.5rem; border-radius: 6px; border: 1px solid #ccc;" placeholder="Write your message here..."></textarea>
+        </div>
+        <button type="submit" class="btn-save">Send Message</button>
+    </form>
+</div>
 
     <div class="vip-section">
         <a href="">View Analytics</a>
         <a href="{% url 'edit_student_auth' student.id %}">Edit Profile</a>
     </div>
+    
 </div>
 
 <script>
