@@ -271,12 +271,29 @@
     <h5>Send a Message</h5>
     <form method="post" action="{% url 'send_message' student.id %}">
         {% csrf_token %}
-        <div style="margin-bottom: 0.5rem;">
-            <textarea name="message" rows="4" style="width:100%; padding:0.5rem; border-radius: 6px; border: 1px solid #ccc;" placeholder="Write your message here..."></textarea>
+
+        <!-- Name Field -->
+        <div style="margin-bottom: 0.7rem;">
+            <input type="text" name="sender_name" placeholder="Your Name"
+                   style="width: 100%; padding: 0.5rem; border-radius: 6px; border: 1px solid #ccc; font-size: 0.95rem;" required>
         </div>
+
+        <!-- Email Field -->
+        <div style="margin-bottom: 0.7rem;">
+            <input type="email" name="sender_email" placeholder="Your Email"
+                   style="width: 100%; padding: 0.5rem; border-radius: 6px; border: 1px solid #ccc; font-size: 0.95rem;" required>
+        </div>
+
+        <!-- Message Field -->
+        <div style="margin-bottom: 0.7rem;">
+            <textarea name="message" rows="4" placeholder="Write your message here..."
+                      style="width: 100%; padding: 0.5rem; border-radius: 6px; border: 1px solid #ccc; font-size: 0.95rem;" required></textarea>
+        </div>
+
         <button type="submit" class="btn-save">Send Message</button>
     </form>
 </div>
+
 
     <div class="vip-section">
         <a href="">View Analytics</a>
