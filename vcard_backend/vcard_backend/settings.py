@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'tailwind',
     'theme',
+    'django_browser_reload',
 
 ]
 TAILWIND_APP_NAME = 'theme'
@@ -60,6 +61,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+
+    'django_browser_reload.middleware.BrowserReloadMiddleware',
+
 
 ]
 ROOT_URLCONF = 'vcard_backend.urls'

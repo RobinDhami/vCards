@@ -1,319 +1,144 @@
+{% load static %}
+{% load tailwind_tags %}
+
 {% block content %}
 
-<style>
-    body {
-        font-family: 'Segoe UI', sans-serif;
-        background: #f3f4f6;
-        transition: background 0.3s;
-    }
+<!-- Tailwind CSS is already included in your project -->
 
-    .dark-mode body {
-        background: #111827;
-    }
+<div class="flex justify-center mt-8 px-4">
+  <div class="max-w-md w-full relative bg-white dark:bg-gray-800 border-2 border-yellow-500 rounded-xl overflow-hidden shadow-lg transition-colors duration-300 text-gray-900 dark:text-gray-100">
 
-    .contact-card {
-        max-width: 480px;
-        margin: 2rem auto;
-        border: 2px solid #d4af37;
-        border-radius: 1rem;
-        overflow: hidden;
-        background: #ffffff;
-        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
-        transition: background 0.3s, color 0.3s;
-        color: #111827;
-    }
-
-    .dark-mode .contact-card {
-        background: #1f2937;
-        color: #f9fafb;
-    }
-
-    .cover-photo {
-        height: 160px;
-        width: 100%;
-        object-fit: cover;
-        background: #ddd;
-    }
-
-    .dark-mode .cover-photo {
-        background: #374151;
-    }
-
-    .avatar-wrapper {
-        position: relative;
-        margin-top: -60px;
-        text-align: center;
-    }
-
-    .avatar {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        border: 4px solid #fff;
-        object-fit: cover;
-        box-shadow: 0 0 0 4px #d4af37;
-    }
-
-    .name {
-        font-size: 1.4rem;
-        font-weight: 700;
-        margin-top: 0.6rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 0.3rem;
-        color: #d97706;
-    }
-
-    .dark-mode .name {
-        color: #facc15;
-    }
-
-    .name i {
-        color: #d4af37;
-    }
-
-    .subtitle {
-        font-size: 1rem;
-        color: #555;
-        text-align: center;
-    }
-
-    .dark-mode .subtitle {
-        color: #cbd5e1;
-    }
-
-    .bio {
-        font-size: 0.95rem;
-        text-align: center;
-        margin: 0.8rem 1.5rem 1.2rem;
-        color: #444;
-    }
-
-    .dark-mode .bio {
-        color: #d1d5db;
-    }
-
-    .contact-section {
-        padding: 1rem 2rem;
-        font-size: 0.95rem;
-    }
-
-    .contact-section h5 {
-        font-weight: 600;
-        margin-bottom: 0.3rem;
-        color: #000;
-    }
-
-    .dark-mode .contact-section h5 {
-        color: #fef08a;
-    }
-
-    .contact-section p {
-        color: #333;
-    }
-
-    .dark-mode .contact-section p {
-        color: #e5e7eb;
-    }
-
-    .socials {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 1rem;
-        margin: 1rem 0;
-    }
-
-    .socials a {
-        font-size: 1.4rem;
-        transition: 0.2s;
-    }
-
-    .socials a:hover {
-        transform: scale(1.2);
-    }
-
-    .fa-instagram { color: #e1306c; }
-    .fa-linkedin  { color: #0077b5; }
-    .fa-twitter   { color: #1da1f2; }
-    .fa-whatsapp  { color: #25d366; }
-    .fa-tiktok    { color: #000000; }
-    .fa-github    { color: #171515; }
-    .fa-youtube   { color: #ff0000; }
-
-    .btn-save {
-        background: #22c55e;
-        color: white;
-        padding: 0.7rem 1.5rem;
-        border-radius: 8px;
-        text-decoration: none;
-        font-weight: 600;
-        display: block;
-        margin: 0 auto 1rem;
-        text-align: center;
-        width: fit-content;
-        transition: background 0.3s;
-    }
-
-    .btn-save:hover {
-        background: #16a34a;
-    }
-
-    .vip-section {
-        background: #fef3c7;
-        border-top: 2px solid #facc15;
-        padding: 1rem 2rem;
-        display: flex;
-        gap: 1rem;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-
-    .dark-mode .vip-section {
-        background: #292524;
-    }
-
-    .vip-section a {
-        background: #d4af37;
-        color: #000;
-        padding: 0.6rem 1.2rem;
-        border-radius: 8px;
-        font-weight: 600;
-        text-decoration: none;
-        transition: 0.3s;
-    }
-
-    .vip-section a:hover {
-        background: #b8860b;
-        color: white;
-    }
-
-    .theme-toggle {
-        text-align: center;
-        margin-top: 1rem;
-    }
-
-    .theme-toggle button {
-        background: #d4af37;
-        color: #111827;
-        padding: 0.4rem 1rem;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        font-weight: 600;
-        transition: 0.3s;
-    }
-
-    .theme-toggle button:hover {
-        background: #b8860b;
-        color: white;
-    }
-</style>
-
-<div class="theme-toggle">
-    <button onclick="toggleTheme()">Switch Theme</button>
-</div>
-
-<div class="contact-card">
+    <!-- Cover Photo -->
     {% if student.cover_photo %}
-        <img src="{{ student.cover_photo.url }}" alt="Cover Photo" class="cover-photo">
+      <img src="{{ student.cover_photo.url }}" alt="Cover Photo" class="w-full h-40 object-cover bg-gray-300 dark:bg-gray-700">
     {% else %}
-        <div class="cover-photo"></div>
+      <div class="w-full h-40 bg-gray-300 dark:bg-gray-700"></div>
     {% endif %}
 
-    <div class="avatar-wrapper">
-        <img src="{{ student.profile_photo.url }}" class="avatar" alt="Avatar">
+    <!-- Avatar -->
+    <div class="relative -mt-16 flex justify-center">
+      <img src="{{ student.profile_photo.url }}" alt="Avatar" 
+           class="w-24 h-24 rounded-full border-4 border-white shadow-md dark:border-yellow-400 object-cover">
     </div>
 
-    <div class="name">
-        {{ student.name }}
-        {% if student.is_vip %}
-            <i class="fas fa-crown"></i>
-        {% endif %}
-    </div>
-    <div class="subtitle">{{ student.college.name }}</div>
-    <div class="subtitle">{{ student.college.address }}</div>
-
-    <div class="contact-section">
-        <h5>Contact</h5>
-        <p><strong>Email:</strong> {{ student.email }}</p>
-        <p><strong>Phone:</strong> {{ student.phone }}</p>
+    <!-- Name and VIP Crown -->
+    <div class="flex justify-center items-center gap-2 mt-4 font-semibold text-yellow-700 dark:text-yellow-400 text-xl">
+      {{ student.name }}
+      {% if student.is_vip %}
+        <i class="fas fa-crown text-yellow-500"></i>
+      {% endif %}
     </div>
 
-    <div class="socials">
-        {% if student.instagram %}
-            <a href="{{ student.instagram }}" target="_blank"><i class="fab fa-instagram"></i></a>
-        {% endif %}
-        {% if student.linkedin %}
-            <a href="{{ student.linkedin }}" target="_blank"><i class="fab fa-linkedin"></i></a>
-        {% endif %}
-        {% if student.twitter %}
-            <a href="{{ student.twitter }}" target="_blank"><i class="fab fa-twitter"></i></a>
-        {% endif %}
-        {% if student.whatsapp %}
-            <a href="https://wa.me/{{ student.whatsapp }}" target="_blank"><i class="fab fa-whatsapp"></i></a>
-        {% endif %}
-        {% if student.tiktok %}
-            <a href="{{ student.tiktok }}" target="_blank"><i class="fab fa-tiktok"></i></a>
-        {% endif %}
-        {% if student.github %}
-            <a href="{{ student.github }}" target="_blank"><i class="fab fa-github"></i></a>
-        {% endif %}
-        {% if student.youtube %}
-            <a href="{{ student.youtube }}" target="_blank"><i class="fab fa-youtube"></i></a>
-        {% endif %}
+    <!-- College Info -->
+    <div class="text-center text-gray-600 dark:text-gray-300 mt-1">
+      <p>{{ student.college.name }}</p>
+      <p>{{ student.college.address }}</p>
     </div>
 
-    <a href="{% url 'download_vcard' student.id %}" class="btn-save">Save to Contacts</a>
-<div class="contact-section">
-    <h5>Send a Message</h5>
-    <form method="post" action="{% url 'send_message' student.id %}">
+    <!-- Contact Section -->
+    <div class="px-6 py-4 text-sm dark:text-gray-200">
+      <h5 class="font-semibold text-black dark:text-yellow-300 mb-1">Contact</h5>
+      <p><strong>Email:</strong> {{ student.email }}</p>
+      <p><strong>Phone:</strong> {{ student.phone }}</p>
+    </div>
+
+    <!-- Social Icons -->
+    <div class="flex justify-center flex-wrap gap-4 px-6 mb-4 text-2xl">
+      {% if student.instagram %}
+        <a href="{{ student.instagram }}" target="_blank" class="hover:scale-110 transition-transform text-pink-600"><i class="fab fa-instagram"></i></a>
+      {% endif %}
+      {% if student.linkedin %}
+        <a href="{{ student.linkedin }}" target="_blank" class="hover:scale-110 transition-transform text-blue-700"><i class="fab fa-linkedin"></i></a>
+      {% endif %}
+      {% if student.twitter %}
+        <a href="{{ student.twitter }}" target="_blank" class="hover:scale-110 transition-transform text-sky-400"><i class="fab fa-twitter"></i></a>
+      {% endif %}
+      {% if student.tiktok %}
+        <a href="{{ student.tiktok }}" target="_blank" class="hover:scale-110 transition-transform text-black"><i class="fab fa-tiktok"></i></a>
+      {% endif %}
+      {% if student.github %}
+        <a href="{{ student.github }}" target="_blank" class="hover:scale-110 transition-transform text-gray-800 dark:text-gray-200"><i class="fab fa-github"></i></a>
+      {% endif %}
+      {% if student.youtube %}
+        <a href="{{ student.youtube }}" target="_blank" class="hover:scale-110 transition-transform text-red-600"><i class="fab fa-youtube"></i></a>
+      {% endif %}
+    </div>
+
+    <!-- Save Button -->
+    <div class="flex justify-center mb-6">
+      <a href="{% url 'download_vcard' student.id %}"
+         class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors">
+        Save to Contacts
+      </a>
+    </div>
+
+    <!-- Send Message Form -->
+    <div class="px-6 pb-8 text-gray-800 dark:text-gray-200">
+      <h5 class="font-semibold text-black dark:text-yellow-300 mb-2">Send a Message</h5>
+      <form method="post" action="{% url 'send_message' student.id %}">
         {% csrf_token %}
-
-        <!-- Name Field -->
-        <div style="margin-bottom: 0.7rem;">
-            <input type="text" name="sender_name" placeholder="Your Name"
-                   style="width: 100%; padding: 0.5rem; border-radius: 6px; border: 1px solid #ccc; font-size: 0.95rem;" required>
-        </div>
-
-        <!-- Email Field -->
-        <div style="margin-bottom: 0.7rem;">
-            <input type="email" name="sender_email" placeholder="Your Email"
-                   style="width: 100%; padding: 0.5rem; border-radius: 6px; border: 1px solid #ccc; font-size: 0.95rem;" required>
-        </div>
-
-        <!-- Message Field -->
-        <div style="margin-bottom: 0.7rem;">
-            <textarea name="message" rows="4" placeholder="Write your message here..."
-                      style="width: 100%; padding: 0.5rem; border-radius: 6px; border: 1px solid #ccc; font-size: 0.95rem;" required></textarea>
-        </div>
-
-        <button type="submit" class="btn-save">Send Message</button>
-    </form>
-</div>
-
-
-    <div class="vip-section">
-        <a href="">View Analytics</a>
-        <a href="{% url 'edit_student_auth' student.id %}">Edit Profile</a>
+        <input name="sender_name" type="text" placeholder="Your Name" required
+               class="w-full mb-3 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-400" />
+        <input name="sender_email" type="email" placeholder="Your Email" required
+               class="w-full mb-3 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-400" />
+        <textarea name="message" rows="4" placeholder="Write your message here..." required
+                  class="w-full mb-4 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-400"></textarea>
+        <button type="submit"
+                class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-md font-semibold transition-colors">
+          Send Message
+        </button>
+      </form>
     </div>
-    
+
+    <!-- VIP Section -->
+    <div class="bg-yellow-100 dark:bg-gray-900 border-t-2 border-yellow-400 dark:border-yellow-600 px-6 py-4 flex justify-center gap-4 flex-wrap">
+      <a href="#" class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-4 py-2 rounded-md transition-colors">
+        View Analytics
+      </a>
+      <a href="{% url 'edit_student_auth' student.id %}" class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-4 py-2 rounded-md transition-colors">
+        Edit Profile
+      </a>
+    </div>
+
+    <!-- Floating WhatsApp and Messenger Buttons on the right side -->
+    <div class="absolute top-1/4 right-[-3rem] flex flex-col space-y-4 z-50">
+      {% if student.whatsapp %}
+      <a href="https://wa.me/{{ student.whatsapp}}" target="_blank" title="Message on WhatsApp"
+         class="w-12 h-12 rounded-full bg-green-500 hover:bg-green-600 text-white flex items-center justify-center shadow-lg transition-transform transform hover:scale-110">
+        <i class="fab fa-whatsapp fa-lg"></i>
+      </a>
+      {% endif %}
+      {% if student.messenger %}
+      <a href="{{ student.messenger }}" target="_blank" title="Message on Messenger"
+         class="w-12 h-12 rounded-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center shadow-lg transition-transform transform hover:scale-110">
+        <i class="fab fa-facebook-messenger fa-lg"></i>
+      </a>
+      {% endif %}
+    </div>
+  </div>
 </div>
+
+<!-- Theme toggle button -->
+<div class="text-center mt-8">
+  <button onclick="toggleTheme()" class="bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-md font-semibold transition-colors">
+    Switch Theme
+  </button>
+</div>
+{% tailwind_css %}
 
 <script>
-    // Load saved theme
-    document.addEventListener('DOMContentLoaded', function () {
-        if (localStorage.getItem('theme') === 'dark') {
-            document.documentElement.classList.add('dark-mode');
-        }
-    });
-
-    function toggleTheme() {
-        const root = document.documentElement;
-        root.classList.toggle('dark-mode');
-        const mode = root.classList.contains('dark-mode') ? 'dark' : 'light';
-        localStorage.setItem('theme', mode);
+  document.addEventListener('DOMContentLoaded', function () {
+    if (localStorage.getItem('theme') === 'dark') {
+      document.documentElement.classList.add('dark');
     }
+  });
+
+  function toggleTheme() {
+    const root = document.documentElement;
+    root.classList.toggle('dark');
+    const mode = root.classList.contains('dark') ? 'dark' : 'light';
+    localStorage.setItem('theme', mode);
+  }
 </script>
+
 {% endblock %}

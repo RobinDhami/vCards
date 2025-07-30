@@ -51,6 +51,8 @@ class BaseProfile(models.Model):
 
     # Social media links
     facebook = models.URLField(blank=True, null=True)
+    messenger= models.URLField(blank=True, null=True)
+    whatsapp = models.CharField(max_length=20,null=True)
     instagram = models.URLField(blank=True, null=True)
     twitter = models.URLField(blank=True, null=True)
     linkedin = models.URLField(blank=True, null=True)
