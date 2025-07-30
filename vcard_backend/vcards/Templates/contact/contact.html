@@ -1,27 +1,38 @@
 {% load static %}
+
+<!DOCTYPE html>
+<html lang="en" class="{% if request.COOKIES.theme == 'dark' %}dark{% endif %}">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Student Profile</title>
+
+  <!-- Font Awesome CDN stylesheet -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        integrity="sha512-RN8WqdYf71Qdk2tMKgffTQOmHO2RgrNFXjKgQYq9tUCV9pi9S4ZTm1O8PyA9woMXFJozzVo4yUjqcN7UMga0yQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Tailwind CSS -->
+</head>
 {% load tailwind_tags %}
-
-{% block content %}
-
-<!-- Tailwind CSS is already included in your project -->
-
+<body>
 <div class="flex justify-center mt-8 px-4">
-  <div class="max-w-md w-full relative bg-white dark:bg-gray-800 border-2 border-yellow-500 rounded-xl overflow-hidden shadow-lg transition-colors duration-300 text-gray-900 dark:text-gray-100">
+  <div class="relative max-w-md w-full bg-white dark:bg-gray-800 border-2 border-yellow-500 rounded-xl overflow-hidden shadow-lg text-gray-900 dark:text-gray-100">
 
     <!-- Cover Photo -->
     {% if student.cover_photo %}
-      <img src="{{ student.cover_photo.url }}" alt="Cover Photo" class="w-full h-40 object-cover bg-gray-300 dark:bg-gray-700">
+      <img src="{{ student.cover_photo.url }}" alt="Cover Photo"
+           class="w-full h-40 object-cover bg-gray-300 dark:bg-gray-700">
     {% else %}
       <div class="w-full h-40 bg-gray-300 dark:bg-gray-700"></div>
     {% endif %}
 
     <!-- Avatar -->
     <div class="relative -mt-16 flex justify-center">
-      <img src="{{ student.profile_photo.url }}" alt="Avatar" 
+      <img src="{{ student.profile_photo.url }}" alt="Avatar"
            class="w-24 h-24 rounded-full border-4 border-white shadow-md dark:border-yellow-400 object-cover">
     </div>
 
-    <!-- Name and VIP Crown -->
+    <!-- Name + VIP -->
     <div class="flex justify-center items-center gap-2 mt-4 font-semibold text-yellow-700 dark:text-yellow-400 text-xl">
       {{ student.name }}
       {% if student.is_vip %}
@@ -35,36 +46,36 @@
       <p>{{ student.college.address }}</p>
     </div>
 
-    <!-- Contact Section -->
+    <!-- Contact Info -->
     <div class="px-6 py-4 text-sm dark:text-gray-200">
       <h5 class="font-semibold text-black dark:text-yellow-300 mb-1">Contact</h5>
       <p><strong>Email:</strong> {{ student.email }}</p>
       <p><strong>Phone:</strong> {{ student.phone }}</p>
     </div>
 
-    <!-- Social Icons -->
+    <!-- Social Links -->
     <div class="flex justify-center flex-wrap gap-4 px-6 mb-4 text-2xl">
       {% if student.instagram %}
-        <a href="{{ student.instagram }}" target="_blank" class="hover:scale-110 transition-transform text-pink-600"><i class="fab fa-instagram"></i></a>
+        <a href="{{ student.instagram }}" target="_blank" class="hover:scale-110 text-pink-600 transition-transform"><i class="fab fa-instagram"></i></a>
       {% endif %}
       {% if student.linkedin %}
-        <a href="{{ student.linkedin }}" target="_blank" class="hover:scale-110 transition-transform text-blue-700"><i class="fab fa-linkedin"></i></a>
+        <a href="{{ student.linkedin }}" target="_blank" class="hover:scale-110 text-blue-700 transition-transform"><i class="fab fa-linkedin"></i></a>
       {% endif %}
       {% if student.twitter %}
-        <a href="{{ student.twitter }}" target="_blank" class="hover:scale-110 transition-transform text-sky-400"><i class="fab fa-twitter"></i></a>
+        <a href="{{ student.twitter }}" target="_blank" class="hover:scale-110 text-sky-400 transition-transform"><i class="fab fa-twitter"></i></a>
       {% endif %}
       {% if student.tiktok %}
-        <a href="{{ student.tiktok }}" target="_blank" class="hover:scale-110 transition-transform text-black"><i class="fab fa-tiktok"></i></a>
+        <a href="{{ student.tiktok }}" target="_blank" class="hover:scale-110 text-black transition-transform"><i class="fab fa-tiktok"></i></a>
       {% endif %}
       {% if student.github %}
-        <a href="{{ student.github }}" target="_blank" class="hover:scale-110 transition-transform text-gray-800 dark:text-gray-200"><i class="fab fa-github"></i></a>
+        <a href="{{ student.github }}" target="_blank" class="hover:scale-110 text-gray-800 dark:text-gray-200 transition-transform"><i class="fab fa-github"></i></a>
       {% endif %}
       {% if student.youtube %}
-        <a href="{{ student.youtube }}" target="_blank" class="hover:scale-110 transition-transform text-red-600"><i class="fab fa-youtube"></i></a>
+        <a href="{{ student.youtube }}" target="_blank" class="hover:scale-110 text-red-600 transition-transform"><i class="fab fa-youtube"></i></a>
       {% endif %}
     </div>
 
-    <!-- Save Button -->
+    <!-- Save to Contacts Button -->
     <div class="flex justify-center mb-6">
       <a href="{% url 'download_vcard' student.id %}"
          class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors">
@@ -72,7 +83,7 @@
       </a>
     </div>
 
-    <!-- Send Message Form -->
+    <!-- Send a Message -->
     <div class="px-6 pb-8 text-gray-800 dark:text-gray-200">
       <h5 class="font-semibold text-black dark:text-yellow-300 mb-2">Send a Message</h5>
       <form method="post" action="{% url 'send_message' student.id %}">
@@ -90,7 +101,7 @@
       </form>
     </div>
 
-    <!-- VIP Section -->
+    <!-- VIP Options -->
     <div class="bg-yellow-100 dark:bg-gray-900 border-t-2 border-yellow-400 dark:border-yellow-600 px-6 py-4 flex justify-center gap-4 flex-wrap">
       <a href="#" class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-4 py-2 rounded-md transition-colors">
         View Analytics
@@ -100,27 +111,38 @@
       </a>
     </div>
 
-    <!-- Floating WhatsApp and Messenger Buttons on the right side -->
-    <div class="absolute top-1/4 right-[-3rem] flex flex-col space-y-4 z-50">
+    <!-- WhatsApp, Messenger & Call Floating Buttons -->
+    <div class="absolute top-1/2 -translate-y-1/2 right-4 flex flex-col gap-4 z-50">
       {% if student.whatsapp %}
-      <a href="https://wa.me/{{ student.whatsapp}}" target="_blank" title="Message on WhatsApp"
-         class="w-12 h-12 rounded-full bg-green-500 hover:bg-green-600 text-white flex items-center justify-center shadow-lg transition-transform transform hover:scale-110">
-        <i class="fab fa-whatsapp fa-lg"></i>
-      </a>
+        <a href="https://wa.me/{{ student.whatsapp|urlencode }}" target="_blank"
+           class="w-12 h-12 bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110"
+           title="Message on WhatsApp">
+          <i class="fab fa-whatsapp fa-lg"></i>
+        </a>
       {% endif %}
       {% if student.messenger %}
-      <a href="{{ student.messenger }}" target="_blank" title="Message on Messenger"
-         class="w-12 h-12 rounded-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center shadow-lg transition-transform transform hover:scale-110">
-        <i class="fab fa-facebook-messenger fa-lg"></i>
-      </a>
+        <a href="{{ student.messenger }}" target="_blank"
+           class="w-12 h-12 bg-blue-600 hover:bg-blue-700 text-white rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110"
+           title="Message on Messenger">
+          <i class="fab fa-facebook-messenger fa-lg"></i>
+        </a>
+      {% endif %}
+      {% if student.phone %}
+        <a href="tel:{{ student.phone|urlencode }}"
+           class="w-12 h-12 bg-gray-700 hover:bg-gray-800 text-white rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110"
+           title="Call Phone">
+          <i class="fas fa-phone fa-lg"></i>
+        </a>
       {% endif %}
     </div>
+
   </div>
 </div>
 
-<!-- Theme toggle button -->
+<!-- Theme Toggle -->
 <div class="text-center mt-8">
-  <button onclick="toggleTheme()" class="bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-md font-semibold transition-colors">
+  <button onclick="toggleTheme()"
+          class="bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-md font-semibold transition-colors">
     Switch Theme
   </button>
 </div>
@@ -136,9 +158,9 @@
   function toggleTheme() {
     const root = document.documentElement;
     root.classList.toggle('dark');
-    const mode = root.classList.contains('dark') ? 'dark' : 'light';
-    localStorage.setItem('theme', mode);
+    localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
   }
 </script>
 
-{% endblock %}
+</body>
+</html>

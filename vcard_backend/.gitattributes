@@ -1,6 +1,0 @@
-# Handle line endings automatically
-* text=auto
-
-# Always use LF for Python and templates (optional)
-*.py text eol=lf
-*.html text eol=lf
