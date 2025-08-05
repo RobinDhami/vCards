@@ -1,18 +1,23 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.contrib import messages
-from .models import StudentProfile, ClientProfile, College, Skill
-import pandas as pd
 from django.core.mail import send_mail
-from .models import College
-from .models import StudentProfile
 from django.contrib.auth.hashers import make_password
+import pandas as pd
+
+from .models import StudentProfile, ClientProfile, College, Skill
+
+
 def home(request):
     return render(request, 'home.html')
 
+
 def profile(request, student_id):
     student = get_object_or_404(StudentProfile, id=student_id)
+    # Pass CV to template automatically as student.cv.url (if exists)
     return render(request, 'portfolio/profile1.html', {'student': student})
+
+
 def admin_dashboard(request):
     colleges = College.objects.prefetch_related('students').all()
     clients = ClientProfile.objects.all()
@@ -21,19 +26,22 @@ def admin_dashboard(request):
         'clients': clients,
     })
 
+
 def add_user(request):
     if request.method == 'POST':
         college_id = request.POST.get('college')
-        college = get_object_or_404(College, id=college_id)  # This ensures you have a College object
+        college = get_object_or_404(College, id=college_id)
 
         student = StudentProfile(
             name=request.POST['name'],
             phone=request.POST['phone'],
             email=request.POST['email'],
             username=request.POST['username'],
-            college=college,  # This is now a College object, not a string
+            college=college,
             bio=request.POST.get('bio'),
             password=make_password(request.POST['password']),
+            # Handle CV upload:
+            cv=request.FILES.get('cv', None),
         )
 
         if request.FILES.get('profile_photo'):
@@ -41,13 +49,12 @@ def add_user(request):
         if request.FILES.get('cover_photo'):
             student.cover_photo = request.FILES['cover_photo']
 
-        student.set_password(request.POST['password'])
         student.save()
 
         skill_ids = request.POST.getlist('skills')
         student.skills.set(skill_ids)
 
-        # Socials
+        # Social media fields
         for field in ['facebook', 'instagram', 'twitter', 'linkedin', 'youtube', 'tiktok', 'github', 'figma', 'upwork', 'website']:
             setattr(student, field, request.POST.get(field))
 
@@ -59,6 +66,7 @@ def add_user(request):
     colleges = College.objects.all()
     return render(request, 'add_user.html', {'skills': skills, 'colleges': colleges})
 
+
 def edit_student_auth(request, student_id):
     student = get_object_or_404(StudentProfile, id=student_id)
     if request.method == 'POST':
@@ -68,6 +76,7 @@ def edit_student_auth(request, student_id):
         return redirect('edit_student_auth', student_id=student_id)
     return render(request, 'edit_student_auth.html', {'student_id': student_id})
 
+
 def edit_student(request, student_id):
     student = get_object_or_404(StudentProfile, id=student_id)
     if request.method == 'POST':
@@ -75,6 +84,11 @@ def edit_student(request, student_id):
         student.phone = request.POST['phone']
         student.email = request.POST['email']
         student.bio = request.POST.get('bio')
+
+        # Update CV if uploaded:
+        if request.FILES.get('cv'):
+            student.cv = request.FILES['cv']
+
         student.skills.set(request.POST.getlist('skills'))
 
         for field in ['facebook', 'instagram', 'twitter', 'linkedin', 'youtube', 'tiktok', 'github', 'figma', 'upwork', 'website']:
@@ -86,6 +100,7 @@ def edit_student(request, student_id):
 
     skills = Skill.objects.all()
     return render(request, 'edit_student.html', {'student': student, 'skills': skills})
+
 
 def bulk_upload(request):
     if request.method == 'POST' and request.FILES.get('file'):
@@ -117,7 +132,8 @@ def bulk_upload(request):
         return redirect('admin_dashboard')
 
     return render(request, 'bulk_upload.html')
-    
+
+
 def college_details(request, college_id):
     college = get_object_or_404(College, id=college_id)
     students = college.students.all()
@@ -126,28 +142,19 @@ def college_details(request, college_id):
 
 def add_college(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
-        slogan = request.POST.get('slogan')
-        address = request.POST.get('address')
-        logo = request.FILES.get('logo')
-        website = request.POST.get('website')
-        email = request.POST.get('email')
-        phone = request.POST.get('phone')
-        description = request.POST.get('description')
-
         college = College(
-            name=name,
-            slogan=slogan,
-            address=address,
-            logo=logo,
-            website=website,
-            email=email,
-            phone=phone,
-            description=description
+            name=request.POST.get('name'),
+            slogan=request.POST.get('slogan'),
+            address=request.POST.get('address'),
+            logo=request.FILES.get('logo'),
+            website=request.POST.get('website'),
+            email=request.POST.get('email'),
+            phone=request.POST.get('phone'),
+            description=request.POST.get('description')
         )
         college.save()
         messages.success(request, "College added successfully!")
-        return redirect('admin_dashboard')  # or wherever you want to redirect
+        return redirect('admin_dashboard')
 
     return render(request, 'add_college.html')
 
@@ -168,6 +175,7 @@ def edit_college(request, college_id):
         messages.success(request, "College updated successfully!")
         return redirect('college_details', college_id=college.id)
     return render(request, 'edit_college.html', {'college': college})
+
 
 def delete_college(request, college_id):
     college = get_object_or_404(College, id=college_id)
@@ -190,6 +198,7 @@ def add_student_to_college(request, college_id):
             college=college,
             bio=request.POST.get('bio'),
             password=make_password(request.POST['password']),
+            cv=request.FILES.get('cv', None),  # CV upload here
         )
         if request.FILES.get('profile_photo'):
             student.profile_photo = request.FILES['profile_photo']
@@ -198,7 +207,7 @@ def add_student_to_college(request, college_id):
         student.save()
         skill_ids = request.POST.getlist('skills')
         student.skills.set(skill_ids)
-        # Socials
+        # Social media fields
         for field in ['facebook', 'instagram', 'twitter', 'linkedin', 'youtube', 'tiktok', 'github', 'figma', 'upwork', 'website']:
             setattr(student, field, request.POST.get(field))
         student.save()
@@ -209,14 +218,10 @@ def add_student_to_college(request, college_id):
         'skills': skills,
     })
 
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
-from .models import StudentProfile
 
 def contact_card(request, student_id):
     student = get_object_or_404(StudentProfile, pk=student_id)
-    
-    # Optionally increment views count
+    # Increment views count
     student.views += 1
     student.save(update_fields=['views'])
 
@@ -247,6 +252,7 @@ END:VCARD
     response['Content-Disposition'] = f'attachment; filename=contact_{student.name.replace(" ", "_")}.vcf'
     return response
 
+
 def student_profile_choice(request, student_id):
     student = get_object_or_404(StudentProfile, pk=student_id)
 
@@ -256,16 +262,12 @@ def student_profile_choice(request, student_id):
             return redirect('contact_card', student_id=student.id)
         elif choice == 'portfolio':
             return redirect('profile', student_id=student.id)
-    
-    return render(request, 'student_profile_choice.html', {'student': student})
-
-def student_profile_choice(request, student_id):
-    student = get_object_or_404(StudentProfile, pk=student_id)
 
     return render(request, 'student_profile_choice.html', {'student': student})
+
 
 def send_message(request, id):
-    student = get_object_or_404(student, id=id)
+    student = get_object_or_404(StudentProfile, id=id)
     if request.method == 'POST':
         message = request.POST.get('message')
         send_mail(
@@ -274,4 +276,4 @@ def send_message(request, id):
             from_email=request.user.email,
             recipient_list=[student.email],
         )
-    return redirect('student_profile', id=id)
+    return redirect('profile', student_id=id)

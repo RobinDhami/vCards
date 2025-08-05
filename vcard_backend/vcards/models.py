@@ -10,7 +10,6 @@ class Skill(models.Model):
     def __str__(self):
         return self.name
 
-
 # -------------------------
 # College model
 # -------------------------
@@ -24,9 +23,9 @@ class College(models.Model):
     phone = models.CharField(max_length=20, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
     def __str__(self):
         return self.name
-
 
 # -------------------------
 # Abstract Base Profile
@@ -36,14 +35,14 @@ class BaseProfile(models.Model):
     phone = models.CharField(max_length=20)
     email = models.EmailField()
     bio = models.TextField(blank=True, null=True)
-
     username = models.CharField(max_length=150, unique=True)
     password = models.CharField(max_length=128)  # store hashed version
-
     profile_photo = models.ImageField(upload_to='profile_photos/', blank=True, null=True)
     cover_photo = models.ImageField(upload_to='cover_photos/', blank=True, null=True)
-
     skills = models.ManyToManyField(Skill, blank=True)
+
+    # New CV field added here:
+    cv = models.FileField(upload_to='cvs/', blank=True, null=True)
 
     # Show/hide toggles
     show_portfolio = models.BooleanField(default=True)
@@ -78,7 +77,6 @@ class BaseProfile(models.Model):
     class Meta:
         abstract = True
 
-
 # -------------------------
 # Student Profile (College)
 # -------------------------
@@ -87,7 +85,6 @@ class StudentProfile(BaseProfile):
 
     def __str__(self):
         return f"{self.name} - {self.college.name}"
-
 
 # -------------------------
 # Client Profile (Normal User)
