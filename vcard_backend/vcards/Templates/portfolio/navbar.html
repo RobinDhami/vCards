@@ -70,24 +70,25 @@
         Hello, I’m {{ student.name }}
       </h1>
       <p class="mt-4 text-lg text-gray-800 dark:text-gray-300">
-        A passionate student exploring technology, creativity, and innovation.  
-        Welcome to my digital portfolio and personal blog!
+     
+        {{ student.bio }}
+   
       </p>
 
       <!-- Call to Actions -->
-      <div class="mt-6 flex flex-wrap justify-center md:justify-start gap-4">
-        {% if student.cv %}
-        <a href="{{ student.cv.url }}" download
-           class="bg-gray-900 text-white dark:bg-yellow-400 dark:text-gray-900 font-semibold px-6 py-3 rounded-lg shadow hover:opacity-90 transition">
-          <i class="fas fa-download mr-2"></i> Download CV
-        </a>
-        {% endif %}
-        <a href="/contact"
-           class="bg-white text-yellow-500 font-semibold px-6 py-3 rounded-lg shadow hover:bg-gray-100 transition">
-          <i class="fas fa-envelope mr-2"></i> Contact Me
-        </a>
-      </div>
-    </div>
+<div class="mt-6 flex flex-wrap justify-center md:justify-start gap-4">
+  <!-- Dummy download CV button -->
+  <a href="/media/cvs/dummy-cv.pdf" download
+     class="bg-gray-900 text-white dark:bg-yellow-400 dark:text-gray-900 font-semibold px-6 py-3 rounded-lg shadow hover:opacity-90 transition">
+    <i class="fas fa-download mr-2"></i> Download CV
+  </a>
+
+  <a href="/contact"
+     class="bg-white text-yellow-500 font-semibold px-6 py-3 rounded-lg shadow hover:bg-gray-100 transition">
+    <i class="fas fa-envelope mr-2"></i> Contact Me
+  </a>
+</div>
+
 
     <!-- Right: Hero Image -->
     <div class="flex-1 flex justify-center md:justify-end">
