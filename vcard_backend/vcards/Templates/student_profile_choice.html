@@ -1,126 +1,50 @@
 {% block content %}
-<style>
-    .profile-card {
-        max-width: 500px;
-        margin: 2rem auto;
-        background: #ffffff;
-        border-radius: 16px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-        overflow: hidden;
-        transition: transform 0.3s ease;
-    }
+{% load tailwind_tags %}
 
-    .profile-card:hover {
-        transform: translateY(-4px);
-    }
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-yellow-50 via-white to-yellow-100 relative p-6">
+  
+  <!-- Blurred Background Branding -->
+  <div class="absolute inset-0">
+    <img src="/static/images/brand-bg.jpg" alt="Brand Background"
+         class="w-full h-full object-cover opacity-40">
+    <div class="absolute inset-0 bg-gradient-to-br from-yellow-500/10 to-yellow-200/10 backdrop-blur-lg"></div>
+  </div>
 
-    .cover-photo {
-        width: 100%;
-        height: 160px;
-        object-fit: cover;
-        background-color: #dbeafe; /* fallback */
-    }
-
-    .profile-card-body {
-        padding: 3rem 1.5rem 2.5rem;
-        text-align: center;
-        position: relative;
-    }
-
-    .profile-avatar {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 4px solid #fff;
-        position: absolute;
-        top: -60px;
-        left: 50%;
-        transform: translateX(-50%);
-        box-shadow: 0 0 0 4px #0d6efd;
-        background-color: #fff;
-    }
-
-    .profile-name {
-        margin-top: 70px;
-        font-size: 1.4rem;
-        font-weight: 600;
-        color: #333;
-    }
-
-    .profile-email {
-        color: #666;
-        font-size: 0.95rem;
-        margin-bottom: 1.8rem;
-    }
-
-    .profile-actions {
-        display: flex;
-        flex-direction: column;
-        gap: 0.85rem;
-        margin-top: 1.5rem;
-    }
-
-    .profile-actions a {
-        display: inline-block;
-        padding: 0.8rem 1rem;
-        border-radius: 8px;
-        font-weight: 500;
-        font-size: 1rem;
-        transition: background-color 0.25s ease, transform 0.2s ease;
-    }
-
-    .profile-actions a:hover {
-        transform: translateY(-2px);
-    }
-
-    .btn-contact {
-        background-color: #0d6efd;
-        color: white;
-    }
-
-    .btn-contact:hover {
-        background-color: #0b5ed7;
-    }
-
-    .btn-portfolio {
-        background-color: #f8f9fa;
-        color: #0d6efd;
-        border: 1px solid #ced4da;
-    }
-
-    .btn-portfolio:hover {
-        background-color: #e2e6ea;
-    }
-
-    @media (min-width: 576px) {
-        .profile-actions {
-            flex-direction: row;
-            justify-content: center;
-        }
-
-        .profile-actions a {
-            width: 45%;
-        }
-    }
-</style>
-
-<div class="profile-card">
-    {% if student.cover_photo %}
-        <img src="{{ student.cover_photo.url }}" alt="Cover Photo" class="cover-photo">
-    {% else %}
-        <div class="cover-photo"></div>
-    {% endif %}
-
-    <div class="profile-card-body">
-        <img src="{{ student.profile_photo.url }}" alt="Avatar" class="profile-avatar">
-        <div class="profile-name">{{ student.name }}</div>
-        <div class="profile-email">{{ student.email }}</div>
-
-        <div class="profile-actions">
-            <a href="{% url 'contact_card' student.id %}" class="btn-contact">📇 Contact Card</a>
-            <a href="{% url 'profile' student.id %}" class="btn-portfolio">💼 View Portfolio</a>
-        </div>
+  <!-- Content Card -->
+  <div class="relative bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl max-w-md w-full p-8 text-center border border-yellow-300">
+    
+    <!-- Branding -->
+    <div class="flex flex-col items-center mb-6">
+      <img src="/static/images/brand-logo.png" alt="Brand Logo" 
+           class="w-16 h-16 mb-2">
+      <h2 class="text-lg font-bold text-yellow-600 tracking-wide">Your Brand Name</h2>
     </div>
+
+    <!-- Profile -->
+    <div class="flex justify-center mb-4">
+      <img src="{{ student.profile_photo.url }}" alt="{{ student.name }}"
+           class="w-28 h-28 rounded-full border-4 border-yellow-400 shadow-md object-cover">
+    </div>
+    
+    <!-- Name & Intro -->
+    <h1 class="text-2xl font-bold text-gray-800">{{ student.name }}</h1>
+    <p class="text-gray-500 text-sm mb-8">Choose how you'd like to connect</p>
+    
+    <!-- Action Buttons -->
+    <div class="flex flex-col gap-4">
+      <a href="{% url 'contact_card' student.id %}"
+         class="flex items-center justify-center gap-3 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-4 rounded-xl shadow-lg transition transform hover:scale-105">
+         Contact Card
+      </a>
+      
+      <a href="{% url 'profile' student.id %}"
+         class="flex items-center justify-center gap-3 bg-white border border-yellow-300 text-yellow-600 hover:bg-yellow-50 font-semibold py-4 rounded-xl shadow-lg transition transform hover:scale-105">
+         Portfolio
+      </a>
+    </div>
+    
+  </div>
 </div>
+
+{% tailwind_css %}
 {% endblock %}
