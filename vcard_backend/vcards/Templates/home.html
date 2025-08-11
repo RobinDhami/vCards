@@ -1642,28 +1642,28 @@
                             <div class="grid md:grid-cols-2 gap-6">
                                 <div>
                                     <label class="block text-sm font-bold text-gray-700 mb-2">Full Name *</label>
-                                    <input type="text" required class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-gray-600 focus:outline-none transition-all duration-300 bg-white shadow-sm">
+                                    <input type="text" name="fullName" required class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-gray-600 focus:outline-none transition-all duration-300 bg-white shadow-sm">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-bold text-gray-700 mb-2">Email Address *</label>
-                                    <input type="email" required class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-gray-600 focus:outline-none transition-all duration-300 bg-white shadow-sm">
+                                    <input type="email" name="email" required class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-gray-600 focus:outline-none transition-all duration-300 bg-white shadow-sm">
                                 </div>
                             </div>
                             
                             <div class="grid md:grid-cols-2 gap-6">
                                 <div>
                                     <label class="block text-sm font-bold text-gray-700 mb-2">Phone Number</label>
-                                    <input type="tel" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-gray-600 focus:outline-none transition-all duration-300 bg-white shadow-sm" placeholder="Optional">
+                                    <input type="tel" name="phone" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-gray-600 focus:outline-none transition-all duration-300 bg-white shadow-sm" placeholder="Optional">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-bold text-gray-700 mb-2">Organization/School</label>
-                                    <input type="text" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-gray-600 focus:outline-none transition-all duration-300 bg-white shadow-sm" placeholder="Optional">
+                                    <input type="text" name="organization" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-gray-600 focus:outline-none transition-all duration-300 bg-white shadow-sm" placeholder="Optional">
                                 </div>
                             </div>
                             
                             <div>
                                 <label class="block text-sm font-bold text-gray-700 mb-2">How did you hear about us?</label>
-                                <select class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-gray-600 focus:outline-none transition-all duration-300 bg-white shadow-sm">
+                                <select name="hearAbout" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-gray-600 focus:outline-none transition-all duration-300 bg-white shadow-sm">
                                     <option value="">Select an option</option>
                                     <option value="google">Google Search</option>
                                     <option value="social">Social Media</option>
@@ -1676,7 +1676,7 @@
                             
                             <div>
                                 <label class="block text-sm font-bold text-gray-700 mb-2">Message *</label>
-                                <textarea rows="5" required class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-gray-600 focus:outline-none transition-all duration-300 bg-white shadow-sm resize-none" placeholder="Tell us about your networking goals, questions, or how we can help you succeed..."></textarea>
+                                <textarea rows="5" name="message" required class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-gray-600 focus:outline-none transition-all duration-300 bg-white shadow-sm resize-none" placeholder="Tell us about your networking goals, questions, or how we can help you succeed..."></textarea>
                             </div>
                             
                             <!-- Priority Response Option -->
@@ -1733,79 +1733,101 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gradient-to-br from-gray-900 via-indigo-900 to-purple-900 text-white py-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-4 gap-8">
-                <!-- Brand -->
-                <div class="md:col-span-2">
-                    <div class="flex items-center mb-6">
-                        <svg class="w-10 h-10 mr-3" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="40" height="40" rx="12" fill="url(#footerGradient)"/>
-                            <rect x="8" y="12" width="24" height="16" rx="3" fill="white" opacity="0.95"/>
-                            <circle cx="20" cy="20" r="2" fill="url(#footerGradient)"/>
-                            <path d="M15 17h10M15 23h6" stroke="url(#footerGradient)" stroke-width="1.5" stroke-linecap="round"/>
-                            <defs>
-                                <linearGradient id="footerGradient" x1="0" y1="0" x2="40" y2="40">
-                                    <stop stop-color="#2d2d2d"/>
-                                    <stop offset="1" stop-color="#404040"/>
-                                </linearGradient>
-                            </defs>
-                        </svg>
+    <footer class="bg-gradient-to-br from-gray-900 to-black text-white py-12 relative overflow-hidden">
+        <!-- Animated Background Pattern -->
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-0 left-0 w-full h-full">
+                <div class="absolute top-8 left-8 w-32 h-32 border border-gray-600 rounded-full animate-pulse"></div>
+                <div class="absolute bottom-8 right-8 w-24 h-24 border border-gray-500 rounded-full animate-pulse" style="animation-delay: 1s;"></div>
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 border border-gray-700 rounded-full animate-pulse" style="animation-delay: 2s;"></div>
+            </div>
+        </div>
+        
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <!-- Main Footer Content -->
+            <div class="flex flex-col lg:flex-row items-center justify-between mb-8">
+                <!-- Brand Section -->
+                <div class="text-center lg:text-left mb-8 lg:mb-0">
+                    <div class="flex items-center justify-center lg:justify-start mb-4">
+                        <div class="w-12 h-12 bg-gradient-to-br from-gray-600 to-gray-800 rounded-2xl flex items-center justify-center mr-4 shadow-xl">
+                            <span class="text-2xl">⚡</span>
+                        </div>
                         <div>
-                            <h3 class="text-2xl font-black">SkillConnect</h3>
-                            <p class="text-sm opacity-75">Your Contact, One Tap Away</p>
+                            <h3 class="text-3xl font-black bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">SkillConnect</h3>
+                            <p class="text-gray-400 text-sm font-medium">Networking. Reimagined.</p>
                         </div>
                     </div>
-                    <p class="text-gray-300 mb-6 leading-relaxed">
-                        Revolutionizing how students and professionals share their contact information with smart NFC technology.
+                    <p class="text-gray-300 max-w-md leading-relaxed">
+                        Join 15,000+ professionals who've revolutionized their networking with smart NFC technology.
                     </p>
-                    
-                    <!-- Social Links -->
-                    <div class="flex space-x-4">
-                        <a href="#" class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center hover:scale-110 transition-all duration-300">
-                            <span class="text-lg">📘</span>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-500 rounded-lg flex items-center justify-center hover:scale-110 transition-all duration-300">
-                            <span class="text-lg">🐦</span>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center hover:scale-110 transition-all duration-300">
-                            <span class="text-lg">📷</span>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center hover:scale-110 transition-all duration-300">
-                            <span class="text-lg">💼</span>
-                        </a>
-                    </div>
                 </div>
                 
-                <!-- Quick Links -->
-                <div>
-                    <h4 class="text-lg font-bold mb-4">Quick Links</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#home" class="text-gray-300 hover:text-white transition-colors duration-300">Home</a></li>
-                        <li><a href="#how-it-works" class="text-gray-300 hover:text-white transition-colors duration-300">How It Works</a></li>
-                        <li><a href="#features" class="text-gray-300 hover:text-white transition-colors duration-300">Features</a></li>
-                        <li><a href="#pricing" class="text-gray-300 hover:text-white transition-colors duration-300">Pricing</a></li>
-                        <li><a href="#testimonials" class="text-gray-300 hover:text-white transition-colors duration-300">Testimonials</a></li>
-                    </ul>
-                </div>
-                
-                <!-- Support -->
-                <div>
-                    <h4 class="text-lg font-bold mb-4">Support</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#faq" class="text-gray-300 hover:text-white transition-colors duration-300">FAQs</a></li>
-                        <li><a href="#contact" class="text-gray-300 hover:text-white transition-colors duration-300">Contact</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Privacy Policy</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Terms of Service</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Shipping Info</a></li>
-                    </ul>
+                <!-- Quick Actions -->
+                <div class="flex flex-col sm:flex-row items-center gap-4">
+                    <button onclick="scrollToSection('pricing')" class="bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700 text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 group">
+                        <span class="mr-2 group-hover:scale-110 transition-transform duration-300">🚀</span>
+                        Get Your Card
+                    </button>
+                    <button onclick="scrollToSection('contact')" class="border-2 border-gray-600 hover:border-gray-500 text-gray-300 hover:text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-gray-800/50 transition-all duration-300">
+                        Contact Us
+                    </button>
                 </div>
             </div>
             
-            <div class="border-t border-gray-700 mt-12 pt-8 text-center">
-                <p class="text-gray-400">&copy; 2024 SkillConnect. All rights reserved. Made with ❤️ for the next generation.</p>
+            <!-- Divider with Stats -->
+            <div class="border-t border-gray-800 py-8">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                    <div class="group cursor-pointer">
+                        <div class="text-2xl font-black text-white mb-1 group-hover:scale-110 transition-transform duration-300">15K+</div>
+                        <div class="text-gray-400 text-sm">Happy Users</div>
+                    </div>
+                    <div class="group cursor-pointer">
+                        <div class="text-2xl font-black text-white mb-1 group-hover:scale-110 transition-transform duration-300">98%</div>
+                        <div class="text-gray-400 text-sm">Satisfaction</div>
+                    </div>
+                    <div class="group cursor-pointer">
+                        <div class="text-2xl font-black text-white mb-1 group-hover:scale-110 transition-transform duration-300">50+</div>
+                        <div class="text-gray-400 text-sm">Countries</div>
+                    </div>
+                    <div class="group cursor-pointer">
+                        <div class="text-2xl font-black text-white mb-1 group-hover:scale-110 transition-transform duration-300">24/7</div>
+                        <div class="text-gray-400 text-sm">Support</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom Section -->
+            <div class="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-gray-800">
+                <!-- Copyright -->
+                <div class="text-gray-400 text-sm mb-4 md:mb-0">
+                    © 2024 SkillConnect. Crafted with <span class="text-red-400 animate-pulse">❤️</span> for the future of networking.
+                </div>
+                
+                <!-- Essential Links -->
+                <div class="flex items-center space-x-6 text-sm">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300 hover:underline">Privacy</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300 hover:underline">Terms</a>
+                    <a href="#contact" class="text-gray-400 hover:text-white transition-colors duration-300 hover:underline">Support</a>
+                    
+                    <!-- Social Icons -->
+                    <div class="flex items-center space-x-3 ml-6 border-l border-gray-700 pl-6">
+                        <a href="#" class="w-8 h-8 bg-gray-800 hover:bg-blue-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 group">
+                            <span class="text-sm group-hover:scale-110 transition-transform duration-300">📘</span>
+                        </a>
+                        <a href="#" class="w-8 h-8 bg-gray-800 hover:bg-blue-500 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 group">
+                            <span class="text-sm group-hover:scale-110 transition-transform duration-300">🐦</span>
+                        </a>
+                        <a href="#" class="w-8 h-8 bg-gray-800 hover:bg-blue-700 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 group">
+                            <span class="text-sm group-hover:scale-110 transition-transform duration-300">💼</span>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
+        
+        <!-- Floating Elements -->
+        <div class="absolute bottom-4 left-4 w-2 h-2 bg-gray-600 rounded-full animate-ping opacity-50"></div>
+        <div class="absolute top-4 right-4 w-1.5 h-1.5 bg-gray-500 rounded-full animate-ping opacity-30" style="animation-delay: 1s;"></div>
     </footer>
 
     <!-- Chatbot Widget -->
@@ -1938,12 +1960,152 @@
             }
         }
 
-        // Contact form submission
+        // Contact form submission with Google Forms integration
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Thank you for your message! We\'ll get back to you within 24 hours.');
-            this.reset();
+            
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<span class="flex items-center justify-center"><span class="animate-spin mr-2">⏳</span>Sending...</span>';
+            submitBtn.disabled = true;
+            
+            // Collect form data
+            const formData = new FormData(this);
+            const data = {
+                contactType: formData.get('contactType') || 'Not specified',
+                fullName: formData.get('fullName') || this.querySelector('input[type="text"]').value,
+                email: formData.get('email') || this.querySelector('input[type="email"]').value,
+                phone: formData.get('phone') || this.querySelector('input[type="tel"]').value || 'Not provided',
+                organization: formData.get('organization') || this.querySelectorAll('input[type="text"]')[1].value || 'Not provided',
+                hearAbout: formData.get('hearAbout') || this.querySelector('select').value || 'Not specified',
+                message: formData.get('message') || this.querySelector('textarea').value,
+                priority: formData.get('priority') ? 'Yes' : 'No',
+                timestamp: new Date().toLocaleString(),
+                userAgent: navigator.userAgent,
+                referrer: document.referrer || 'Direct'
+            };
+            
+            // Submit to Google Forms
+            submitToGoogleForm(data)
+                .then(() => {
+                    // Success
+                    submitBtn.innerHTML = '<span class="flex items-center justify-center"><span class="mr-2">✅</span>Message Sent!</span>';
+                    submitBtn.classList.remove('from-gray-700', 'to-gray-800');
+                    submitBtn.classList.add('from-green-600', 'to-green-700');
+                    
+                    // Show success message
+                    showNotification('Thank you! We\'ll get back to you within 2 hours during business hours.', 'success');
+                    
+                    // Reset form after delay
+                    setTimeout(() => {
+                        this.reset();
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.classList.remove('from-green-600', 'to-green-700');
+                        submitBtn.classList.add('from-gray-700', 'to-gray-800');
+                        submitBtn.disabled = false;
+                    }, 3000);
+                })
+                .catch((error) => {
+                    // Error
+                    console.error('Form submission error:', error);
+                    submitBtn.innerHTML = '<span class="flex items-center justify-center"><span class="mr-2">❌</span>Try Again</span>';
+                    submitBtn.classList.remove('from-gray-700', 'to-gray-800');
+                    submitBtn.classList.add('from-red-600', 'to-red-700');
+                    
+                    showNotification('Oops! Something went wrong. Please try again or email us directly.', 'error');
+                    
+                    // Reset button after delay
+                    setTimeout(() => {
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.classList.remove('from-red-600', 'to-red-700');
+                        submitBtn.classList.add('from-gray-700', 'to-gray-800');
+                        submitBtn.disabled = false;
+                    }, 3000);
+                });
         });
+
+        // Google Forms submission function
+        async function submitToGoogleForm(data) {
+            // STEP 1: Replace this with your actual Google Form URL
+            // Format: https://docs.google.com/forms/d/e/[YOUR_FORM_ID]/formResponse
+            const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/YOUR_ACTUAL_FORM_ID_HERE/formResponse';
+            
+            // STEP 2: Replace these entry IDs with your actual Google Form field IDs
+            // To find these: Open your form → View source → Search for "entry."
+            const FIELD_MAPPING = {
+                'entry.YOUR_CONTACT_TYPE_ID': data.contactType,      // Contact Type field
+                'entry.YOUR_FULL_NAME_ID': data.fullName,            // Full Name field
+                'entry.YOUR_EMAIL_ID': data.email,                   // Email field
+                'entry.YOUR_PHONE_ID': data.phone,                   // Phone field
+                'entry.YOUR_ORGANIZATION_ID': data.organization,     // Organization field
+                'entry.YOUR_HEAR_ABOUT_ID': data.hearAbout,         // How did you hear about us field
+                'entry.YOUR_MESSAGE_ID': data.message,               // Message field
+                'entry.YOUR_PRIORITY_ID': data.priority,             // Priority Response field
+                'entry.YOUR_TIMESTAMP_ID': data.timestamp,           // Timestamp field
+                'entry.YOUR_USER_AGENT_ID': data.userAgent,         // User Agent field
+                'entry.YOUR_REFERRER_ID': data.referrer              // Referrer field
+            };
+            
+            // Create form data for Google Forms
+            const googleFormData = new FormData();
+            Object.entries(FIELD_MAPPING).forEach(([fieldId, value]) => {
+                googleFormData.append(fieldId, value);
+            });
+            
+            // Submit to Google Forms
+            try {
+                const response = await fetch(GOOGLE_FORM_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // Required for Google Forms
+                    body: googleFormData
+                });
+                
+                // Since mode is 'no-cors', we can't read the response
+                // But if no error is thrown, we assume success
+                return Promise.resolve();
+            } catch (error) {
+                return Promise.reject(error);
+            }
+        }
+
+        // Notification system
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            const bgColor = type === 'success' ? 'from-green-500 to-green-600' : 'from-red-500 to-red-600';
+            const icon = type === 'success' ? '✅' : '❌';
+            
+            notification.className = `fixed top-6 right-6 bg-gradient-to-r ${bgColor} text-white px-6 py-4 rounded-2xl shadow-2xl z-50 transform translate-x-full transition-all duration-500 max-w-sm`;
+            notification.innerHTML = `
+                <div class="flex items-start">
+                    <span class="mr-3 text-xl flex-shrink-0">${icon}</span>
+                    <div>
+                        <div class="font-bold">${type === 'success' ? 'Success!' : 'Error'}</div>
+                        <div class="text-sm opacity-90 leading-relaxed">${message}</div>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-white/70 hover:text-white text-lg leading-none">&times;</button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 100);
+            
+            // Auto remove after 8 seconds
+            setTimeout(() => {
+                if (document.body.contains(notification)) {
+                    notification.classList.add('translate-x-full');
+                    setTimeout(() => {
+                        if (document.body.contains(notification)) {
+                            document.body.removeChild(notification);
+                        }
+                    }, 500);
+                }
+            }, 8000);
+        }
 
         // Navbar scroll effect
         window.addEventListener('scroll', function() {
@@ -2152,5 +2314,5 @@
         // Make selectQuickQuestion globally available
         window.selectQuickQuestion = selectQuickQuestion;
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96d90569c634c6af',t:'MTc1NDkyODgxNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96d92bd753009d7c',t:'MTc1NDkzMDM5MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
