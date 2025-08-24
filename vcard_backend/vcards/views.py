@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.contrib.auth.hashers import make_password
 import pandas as pd
+from django.conf import settings
 
 from .models import StudentProfile, ClientProfile, College, Skill
 
@@ -266,14 +267,42 @@ def student_profile_choice(request, student_id):
     return render(request, 'student_profile_choice.html', {'student': student})
 
 
-def send_message(request, id):
-    student = get_object_or_404(StudentProfile, id=id)
+def send_message(request):
     if request.method == 'POST':
+        contact_type = request.POST.get('contactType')
+        full_name = request.POST.get('fullName')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        organization = request.POST.get('organization')
+        hear_about = request.POST.get('hearAbout')
         message = request.POST.get('message')
+        priority = 'Yes' if request.POST.get('priority') else 'No'
+
+        subject = f"SkillConnect Contact: {contact_type} - {full_name}"
+        body = f"""
+Contact Form Submission - SkillConnect
+
+Contact Type: {contact_type}
+Name: {full_name}
+Email: {email}
+Phone: {phone}
+Organization: {organization}
+How they heard about us: {hear_about}
+Priority Response: {priority}
+
+Message:
+{message}
+
+---
+This message was sent from the SkillConnect website contact form.
+        """.strip()
+
         send_mail(
-            subject='New message via student card',
-            message=message,
-            from_email=request.user.email,
-            recipient_list=[student.email],
+            subject,
+            body,
+            email,  # from user's email
+            [settings.DEFAULT_FROM_EMAIL],  # your Gmail address
         )
-    return redirect('profile', student_id=id)
+        return redirect('home')  # or show a success message
+
+    return redirect('home')

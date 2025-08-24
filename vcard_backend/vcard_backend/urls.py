@@ -23,7 +23,7 @@ urlpatterns = [
     path('student/<int:student_id>/download-vcard/', download_vcard, name='download_vcard'),
     path('student/<int:student_id>/choose/', student_profile_choice, name='student_profile_choice'),
     path('student/<int:student_id>/contact-card/', contact_card, name='contact_card'),
-    path('students/<int:id>/send-message/', send_message, name='send_message'),
+    path('send-message/', send_message, name='send_message'),
 
  
     path("__reload__/", include("django_browser_reload.urls")),

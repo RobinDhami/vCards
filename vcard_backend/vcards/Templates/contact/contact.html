@@ -15,7 +15,7 @@
             font-family: 'Inter', sans-serif;
         }
         .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #667eea 0%, #a459f0 100%);
         }
         .card-shadow {
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
@@ -37,7 +37,7 @@
         /* Cool border effects */
         .gradient-border {
             position: relative;
-            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background: linear-gradient(45deg, #667eea, #b063fd, #f093fb, #f5576c);
             background-size: 400% 400%;
             animation: gradientShift 4s ease infinite;
             padding: 3px;
@@ -64,7 +64,7 @@
         .section-border {
             border: 2px solid transparent;
             background: linear-gradient(white, white) padding-box,
-                        linear-gradient(45deg, #667eea, #764ba2) border-box;
+                        linear-gradient(45deg, #667eea, #ab5ff8) border-box;
             border-radius: 1rem;
         }
         
@@ -76,7 +76,7 @@
         
         .contact-detail-border {
             border-left: 3px solid;
-            border-image: linear-gradient(45deg, #667eea, #764ba2) 1;
+            border-image: linear-gradient(45deg, #667eea, #a555f5) 1;
             padding-left: 1rem;
             margin-left: 0.5rem;
         }
@@ -413,12 +413,11 @@
                 <span>Save to Contacts</span>
             </button>
         </div>
-        </div>
     </div>
+</div>
 
 
-
-    <script>
+<script>
         // Add click functionality to buttons
         document.addEventListener('DOMContentLoaded', function() {
             // Dark mode toggle functionality
@@ -456,96 +455,68 @@
             const callBtn = document.getElementById('callBtn');
             if (callBtn) {
                 callBtn.addEventListener('click', function() {
-                    window.open('tel:+15551234567', '_blank');
+                    window.open('tel:{{ student.phone }}', '_blank');
                 });
             }
-            
+
             // Message button functionality
             const messageBtn = document.getElementById('messageBtn');
             if (messageBtn) {
                 messageBtn.addEventListener('click', function() {
-                    window.open('sms:+15551234567', '_blank');
+                    window.open('sms:{{ student.phone }}', '_blank');
                 });
             }
-            
-            // Email button functionality (great for students and formal communication)
+
+            // Email button functionality
             const emailBtn = document.getElementById('emailBtn');
             if (emailBtn) {
                 emailBtn.addEventListener('click', function() {
-                    window.open('mailto:john.doe@techcorp.com?subject=Hello%20John&body=Hi%20John,%0A%0AI%20would%20like%20to%20get%20in%20touch%20with%20you.%0A%0ABest%20regards', '_blank');
+                    window.open('mailto:{{ student.email }}?subject=Hello&body=Hi%20{{ student.name }},', '_blank');
                 });
             }
-            
-            // Google Chat functionality
-            const googleChatBtn = document.getElementById('googleChatBtn');
-            if (googleChatBtn) {
-                googleChatBtn.addEventListener('click', function() {
-                    // Opens Google Chat (requires Google account)
-                    window.open('https://chat.google.com/', '_blank');
-                });
-            }
-            
 
-            
             // WhatsApp button functionality
             const whatsappBtn = document.getElementById('whatsappBtn');
             if (whatsappBtn) {
                 whatsappBtn.addEventListener('click', function() {
-                    const message = encodeURIComponent('Hi John! I got your contact from your digital card. Hope you\'re doing well!');
-                    window.open(`https://wa.me/15551234567?text=${message}`, '_blank');
+                    const message = encodeURIComponent('Hi {{ student.name }}! I got your contact from your digital card.');
+                    window.open(`https://wa.me/{{ student.phone }}?text=${message}`, '_blank');
                 });
             }
-            
-            // Save contact functionality
+
+            // Website click functionality
+            const websiteInfo = document.querySelector('p:contains("johndoe.design")');
+            if (websiteInfo && "{{ student.website }}") {
+                websiteInfo.style.cursor = 'pointer';
+                websiteInfo.addEventListener('click', function() {
+                    window.open('{{ student.website }}', '_blank');
+                });
+            }
+
+            // Save contact functionality (update vCard with student info)
             const saveBtn = document.getElementById('saveBtn');
             if (saveBtn) {
                 saveBtn.addEventListener('click', function() {
-                    // Create vCard data
                     const vCard = `BEGIN:VCARD
 VERSION:3.0
-FN:John Doe
-ORG:TechCorp Inc.
-TITLE:Senior Product Designer
-TEL:+15551234567
-EMAIL:john.doe@techcorp.com
-ADR:;;San Francisco;CA;;;USA
+FN:{{ student.name }}
+ORG:{{ student.college.name }}
+TITLE:Student
+TEL:{{ student.phone }}
+EMAIL:{{ student.email }}
+ADR:;;{{ student.college.address }}
 END:VCARD`;
-                    
-                    // Create downloadable vCard
                     const blob = new Blob([vCard], { type: 'text/vcard' });
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = 'john-doe-contact.vcf';
+                    a.download = '{{ student.name|slugify }}-contact.vcf';
                     document.body.appendChild(a);
                     a.click();
                     document.body.removeChild(a);
                     window.URL.revokeObjectURL(url);
                 });
             }
-            
-            // Website click functionality
-            const websiteInfo = document.querySelector('p:contains("johndoe.design")');
-            if (websiteInfo) {
-                websiteInfo.style.cursor = 'pointer';
-                websiteInfo.addEventListener('click', function() {
-                    window.open('https://johndoe.design', '_blank');
-                });
-            }
-            
-            // Social media buttons
-            const socialBtns = document.querySelectorAll('.social-icon');
-            socialBtns.forEach((btn, index) => {
-                btn.addEventListener('click', function() {
-                    const urls = [
-                        'https://twitter.com/johndoe',
-                        'https://linkedin.com/in/johndoe',
-                        'https://github.com/johndoe',
-                        'https://pinterest.com/johndoe'
-                    ];
-                    window.open(urls[index], '_blank');
-                });
-            });
         });
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96d09430b1439e7a',t:'MTc1NDg0MDI5Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>

@@ -1607,101 +1607,93 @@
                             <p class="text-gray-600">Tell us about your networking goals and we'll help you achieve them.</p>
                         </div>
                         
-                        <form id="contactForm" class="space-y-6">
-                            <!-- Contact Type Selection -->
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-3">What can we help you with? *</label>
-                                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                                    <label class="relative cursor-pointer">
-                                        <input type="radio" name="contactType" value="sales" class="sr-only peer" required>
-                                        <div class="bg-gray-100 peer-checked:bg-gradient-to-r peer-checked:from-gray-600 peer-checked:to-gray-800 peer-checked:text-white text-gray-700 px-4 py-3 rounded-xl text-center text-sm font-medium transition-all duration-300 hover:shadow-lg">
-                                            💼 Sales
-                                        </div>
-                                    </label>
-                                    <label class="relative cursor-pointer">
-                                        <input type="radio" name="contactType" value="support" class="sr-only peer">
-                                        <div class="bg-gray-100 peer-checked:bg-gradient-to-r peer-checked:from-gray-600 peer-checked:to-gray-800 peer-checked:text-white text-gray-700 px-4 py-3 rounded-xl text-center text-sm font-medium transition-all duration-300 hover:shadow-lg">
-                                            🛠️ Support
-                                        </div>
-                                    </label>
-                                    <label class="relative cursor-pointer">
-                                        <input type="radio" name="contactType" value="design" class="sr-only peer">
-                                        <div class="bg-gray-100 peer-checked:bg-gradient-to-r peer-checked:from-gray-600 peer-checked:to-gray-800 peer-checked:text-white text-gray-700 px-4 py-3 rounded-xl text-center text-sm font-medium transition-all duration-300 hover:shadow-lg">
-                                            🎨 Design
-                                        </div>
-                                    </label>
-                                    <label class="relative cursor-pointer">
-                                        <input type="radio" name="contactType" value="other" class="sr-only peer">
-                                        <div class="bg-gray-100 peer-checked:bg-gradient-to-r peer-checked:from-gray-600 peer-checked:to-gray-800 peer-checked:text-white text-gray-700 px-4 py-3 rounded-xl text-center text-sm font-medium transition-all duration-300 hover:shadow-lg">
-                                            💬 Other
-                                        </div>
-                                    </label>
-                                </div>
-                            </div>
-                            
-                            <div class="grid md:grid-cols-2 gap-6">
-                                <div>
-                                    <label class="block text-sm font-bold text-gray-700 mb-2">Full Name *</label>
-                                    <input type="text" name="fullName" required class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-gray-600 focus:outline-none transition-all duration-300 bg-white shadow-sm">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-bold text-gray-700 mb-2">Email Address *</label>
-                                    <input type="email" name="email" required class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-gray-600 focus:outline-none transition-all duration-300 bg-white shadow-sm">
-                                </div>
-                            </div>
-                            
-                            <div class="grid md:grid-cols-2 gap-6">
-                                <div>
-                                    <label class="block text-sm font-bold text-gray-700 mb-2">Phone Number</label>
-                                    <input type="tel" name="phone" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-gray-600 focus:outline-none transition-all duration-300 bg-white shadow-sm" placeholder="Optional">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-bold text-gray-700 mb-2">Organization/School</label>
-                                    <input type="text" name="organization" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-gray-600 focus:outline-none transition-all duration-300 bg-white shadow-sm" placeholder="Optional">
-                                </div>
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-2">How did you hear about us?</label>
-                                <select name="hearAbout" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-gray-600 focus:outline-none transition-all duration-300 bg-white shadow-sm">
-                                    <option value="">Select an option</option>
-                                    <option value="google">Google Search</option>
-                                    <option value="social">Social Media</option>
-                                    <option value="friend">Friend/Colleague</option>
-                                    <option value="event">Networking Event</option>
-                                    <option value="school">University/School</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-2">Message *</label>
-                                <textarea rows="5" name="message" required class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-gray-600 focus:outline-none transition-all duration-300 bg-white shadow-sm resize-none" placeholder="Tell us about your networking goals, questions, or how we can help you succeed..."></textarea>
-                            </div>
-                            
-                            <!-- Priority Response Option -->
-                            <div class="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-2xl p-4">
-                                <label class="flex items-start cursor-pointer">
-                                    <input type="checkbox" name="priority" class="mt-1 mr-3 w-4 h-4 text-yellow-600 border-yellow-300 rounded focus:ring-yellow-500">
-                                    <div>
-                                        <span class="text-sm font-bold text-yellow-800">Request Priority Response</span>
-                                        <p class="text-xs text-yellow-700 mt-1">Get a response within 30 minutes during business hours (Premium customers only)</p>
-                                    </div>
-                                </label>
-                            </div>
-                            
-                            <button type="submit" class="w-full bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-800 hover:to-gray-900 text-white py-4 rounded-xl font-bold text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 relative overflow-hidden group">
-                                <span class="relative z-10 flex items-center justify-center">
-                                    <span class="mr-2">🚀</span>
-                                    Send Message
-                                </span>
-                                <div class="absolute inset-0 bg-gradient-to-r from-gray-600 to-gray-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                            </button>
-                            
-                            <p class="text-xs text-gray-500 text-center">
-                                By submitting this form, you agree to our privacy policy. We'll never share your information with third parties.
-                            </p>
-                        </form>
+                        <form method="POST" action="{% url 'send_message' %}" class="space-y-6">
+    {% csrf_token %}
+    <div>
+        <label class="block text-sm font-bold text-gray-700 mb-3">What can we help you with? *</label>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <label class="relative cursor-pointer">
+                <input type="radio" name="contactType" value="sales" class="sr-only peer" required>
+                <div class="bg-gray-100 peer-checked:bg-gradient-to-r peer-checked:from-gray-600 peer-checked:to-gray-800 peer-checked:text-white text-gray-700 px-4 py-3 rounded-xl text-center text-sm font-medium transition-all duration-300 hover:shadow-lg">
+                    💼 Sales
+                </div>
+            </label>
+            <label class="relative cursor-pointer">
+                <input type="radio" name="contactType" value="support" class="sr-only peer">
+                <div class="bg-gray-100 peer-checked:bg-gradient-to-r peer-checked:from-gray-600 peer-checked:to-gray-800 peer-checked:text-white text-gray-700 px-4 py-3 rounded-xl text-center text-sm font-medium transition-all duration-300 hover:shadow-lg">
+                    🛠️ Support
+                </div>
+            </label>
+            <label class="relative cursor-pointer">
+                <input type="radio" name="contactType" value="design" class="sr-only peer">
+                <div class="bg-gray-100 peer-checked:bg-gradient-to-r peer-checked:from-gray-600 peer-checked:to-gray-800 peer-checked:text-white text-gray-700 px-4 py-3 rounded-xl text-center text-sm font-medium transition-all duration-300 hover:shadow-lg">
+                    🎨 Design
+                </div>
+            </label>
+            <label class="relative cursor-pointer">
+                <input type="radio" name="contactType" value="other" class="sr-only peer">
+                <div class="bg-gray-100 peer-checked:bg-gradient-to-r peer-checked:from-gray-600 peer-checked:to-gray-800 peer-checked:text-white text-gray-700 px-4 py-3 rounded-xl text-center text-sm font-medium transition-all duration-300 hover:shadow-lg">
+                    💬 Other
+                </div>
+            </label>
+        </div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-6">
+        <div>
+            <label class="block text-sm font-bold text-gray-700 mb-2">Full Name *</label>
+            <input type="text" name="fullName" required class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-gray-600 focus:outline-none transition-all duration-300 bg-white shadow-sm">
+        </div>
+        <div>
+            <label class="block text-sm font-bold text-gray-700 mb-2">Email Address *</label>
+            <input type="email" name="email" required class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-gray-600 focus:outline-none transition-all duration-300 bg-white shadow-sm">
+        </div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-6">
+        <div>
+            <label class="block text-sm font-bold text-gray-700 mb-2">Phone Number</label>
+            <input type="tel" name="phone" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-gray-600 focus:outline-none transition-all duration-300 bg-white shadow-sm" placeholder="Optional">
+        </div>
+        <div>
+            <label class="block text-sm font-bold text-gray-700 mb-2">Organization/School</label>
+            <input type="text" name="organization" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-gray-600 focus:outline-none transition-all duration-300 bg-white shadow-sm" placeholder="Optional">
+        </div>
+    </div>
+    <div>
+        <label class="block text-sm font-bold text-gray-700 mb-2">How did you hear about us?</label>
+        <select name="hearAbout" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-gray-600 focus:outline-none transition-all duration-300 bg-white shadow-sm">
+            <option value="">Select an option</option>
+            <option value="google">Google Search</option>
+            <option value="social">Social Media</option>
+            <option value="friend">Friend/Colleague</option>
+            <option value="event">Networking Event</option>
+            <option value="school">University/School</option>
+            <option value="other">Other</option>
+        </select>
+    </div>
+    <div>
+        <label class="block text-sm font-bold text-gray-700 mb-2">Message *</label>
+        <textarea rows="5" name="message" required class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-gray-600 focus:outline-none transition-all duration-300 bg-white shadow-sm resize-none" placeholder="Tell us about your networking goals, questions, or how we can help you succeed..."></textarea>
+    </div>
+    <div class="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-2xl p-4">
+        <label class="flex items-start cursor-pointer">
+            <input type="checkbox" name="priority" class="mt-1 mr-3 w-4 h-4 text-yellow-600 border-yellow-300 rounded focus:ring-yellow-500">
+            <div>
+                <span class="text-sm font-bold text-yellow-800">Request Priority Response</span>
+                <p class="text-xs text-yellow-700 mt-1">Get a response within 30 minutes during business hours (Premium customers only)</p>
+            </div>
+        </label>
+    </div>
+    <button type="submit" class="w-full bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-800 hover:to-gray-900 text-white py-4 rounded-xl font-bold text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 relative overflow-hidden group">
+        <span class="relative z-10 flex items-center justify-center">
+            <span class="mr-2">🚀</span>
+            Send Message
+        </span>
+        <div class="absolute inset-0 bg-gradient-to-r from-gray-600 to-gray-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+    </button>
+    <p class="text-xs text-gray-500 text-center">
+        By submitting this form, you agree to our privacy policy. We'll never share your information with third parties.
+    </p>
+</form>
                     </div>
                 </div>
             </div>
@@ -1960,112 +1952,112 @@
             }
         }
 
-        // Contact form submission with Google Forms integration
+        // Contact form submission - Working solution
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             // Show loading state
             const submitBtn = this.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<span class="flex items-center justify-center"><span class="animate-spin mr-2">⏳</span>Sending...</span>';
+            submitBtn.innerHTML = '<span class="flex items-center justify-center"><span class="animate-spin mr-2">⏳</span>Processing...</span>';
             submitBtn.disabled = true;
             
             // Collect form data
             const formData = new FormData(this);
             const data = {
                 contactType: formData.get('contactType') || 'Not specified',
-                fullName: formData.get('fullName') || this.querySelector('input[type="text"]').value,
-                email: formData.get('email') || this.querySelector('input[type="email"]').value,
-                phone: formData.get('phone') || this.querySelector('input[type="tel"]').value || 'Not provided',
-                organization: formData.get('organization') || this.querySelectorAll('input[type="text"]')[1].value || 'Not provided',
-                hearAbout: formData.get('hearAbout') || this.querySelector('select').value || 'Not specified',
-                message: formData.get('message') || this.querySelector('textarea').value,
+                fullName: formData.get('fullName'),
+                email: formData.get('email'),
+                phone: formData.get('phone') || 'Not provided',
+                organization: formData.get('organization') || 'Not provided',
+                hearAbout: formData.get('hearAbout') || 'Not specified',
+                message: formData.get('message'),
                 priority: formData.get('priority') ? 'Yes' : 'No',
-                timestamp: new Date().toLocaleString(),
-                userAgent: navigator.userAgent,
-                referrer: document.referrer || 'Direct'
+                timestamp: new Date().toLocaleString()
             };
             
-            // Submit to Google Forms
-            submitToGoogleForm(data)
-                .then(() => {
-                    // Success
-                    submitBtn.innerHTML = '<span class="flex items-center justify-center"><span class="mr-2">✅</span>Message Sent!</span>';
-                    submitBtn.classList.remove('from-gray-700', 'to-gray-800');
-                    submitBtn.classList.add('from-green-600', 'to-green-700');
-                    
-                    // Show success message
-                    showNotification('Thank you! We\'ll get back to you within 2 hours during business hours.', 'success');
-                    
-                    // Reset form after delay
-                    setTimeout(() => {
-                        this.reset();
-                        submitBtn.innerHTML = originalText;
-                        submitBtn.classList.remove('from-green-600', 'to-green-700');
-                        submitBtn.classList.add('from-gray-700', 'to-gray-800');
-                        submitBtn.disabled = false;
-                    }, 3000);
-                })
-                .catch((error) => {
-                    // Error
-                    console.error('Form submission error:', error);
-                    submitBtn.innerHTML = '<span class="flex items-center justify-center"><span class="mr-2">❌</span>Try Again</span>';
-                    submitBtn.classList.remove('from-gray-700', 'to-gray-800');
-                    submitBtn.classList.add('from-red-600', 'to-red-700');
-                    
-                    showNotification('Oops! Something went wrong. Please try again or email us directly.', 'error');
-                    
-                    // Reset button after delay
-                    setTimeout(() => {
-                        submitBtn.innerHTML = originalText;
-                        submitBtn.classList.remove('from-red-600', 'to-red-700');
-                        submitBtn.classList.add('from-gray-700', 'to-gray-800');
-                        submitBtn.disabled = false;
-                    }, 3000);
-                });
+            // Simulate processing time
+            setTimeout(() => {
+                // Create email content
+                const emailSubject = `SkillConnect Contact: ${data.contactType} - ${data.fullName}`;
+                const emailBody = `
+Contact Form Submission - SkillConnect
+
+Contact Type: ${data.contactType}
+Name: ${data.fullName}
+Email: ${data.email}
+Phone: ${data.phone}
+Organization: ${data.organization}
+How they heard about us: ${data.hearAbout}
+Priority Response: ${data.priority}
+Submitted: ${data.timestamp}
+
+Message:
+${data.message}
+
+---
+This message was sent from the SkillConnect website contact form.
+                `.trim();
+                
+                // Create mailto link
+                const mailtoLink = `mailto:rozendhami69@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+                
+                // Success state
+                submitBtn.innerHTML = '<span class="flex items-center justify-center"><span class="mr-2">✅</span>Opening Email...</span>';
+                submitBtn.classList.remove('from-gray-700', 'to-gray-800');
+                submitBtn.classList.add('from-green-600', 'to-green-700');
+                
+                // Show success message with instructions
+                showNotification(`Perfect! We've prepared your message for rozendhami69@gmail.com. Your email client will open in 2 seconds - just click send!`, 'success');
+                
+                // Open email client after short delay
+                setTimeout(() => {
+                    window.open(mailtoLink, '_blank');
+                }, 2000);
+                
+                // Also copy to clipboard as backup
+                copyToClipboard(`${emailSubject}\n\n${emailBody}`);
+                
+                // Show additional instruction
+                setTimeout(() => {
+                    showNotification('📋 Message also copied to clipboard as backup! You can paste it anywhere.', 'success');
+                }, 3000);
+                
+                // Reset form after delay
+                setTimeout(() => {
+                    this.reset();
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.classList.remove('from-green-600', 'to-green-700');
+                    submitBtn.classList.add('from-gray-700', 'to-gray-800');
+                    submitBtn.disabled = false;
+                }, 5000);
+                
+            }, 1500);
         });
 
-        // Google Forms submission function
-        async function submitToGoogleForm(data) {
-            // STEP 1: Replace this with your actual Google Form URL
-            // Format: https://docs.google.com/forms/d/e/[YOUR_FORM_ID]/formResponse
-            const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/YOUR_ACTUAL_FORM_ID_HERE/formResponse';
-            
-            // STEP 2: Replace these entry IDs with your actual Google Form field IDs
-            // To find these: Open your form → View source → Search for "entry."
-            const FIELD_MAPPING = {
-                'entry.YOUR_CONTACT_TYPE_ID': data.contactType,      // Contact Type field
-                'entry.YOUR_FULL_NAME_ID': data.fullName,            // Full Name field
-                'entry.YOUR_EMAIL_ID': data.email,                   // Email field
-                'entry.YOUR_PHONE_ID': data.phone,                   // Phone field
-                'entry.YOUR_ORGANIZATION_ID': data.organization,     // Organization field
-                'entry.YOUR_HEAR_ABOUT_ID': data.hearAbout,         // How did you hear about us field
-                'entry.YOUR_MESSAGE_ID': data.message,               // Message field
-                'entry.YOUR_PRIORITY_ID': data.priority,             // Priority Response field
-                'entry.YOUR_TIMESTAMP_ID': data.timestamp,           // Timestamp field
-                'entry.YOUR_USER_AGENT_ID': data.userAgent,         // User Agent field
-                'entry.YOUR_REFERRER_ID': data.referrer              // Referrer field
-            };
-            
-            // Create form data for Google Forms
-            const googleFormData = new FormData();
-            Object.entries(FIELD_MAPPING).forEach(([fieldId, value]) => {
-                googleFormData.append(fieldId, value);
-            });
-            
-            // Submit to Google Forms
+        // Copy to clipboard function
+        async function copyToClipboard(text) {
             try {
-                const response = await fetch(GOOGLE_FORM_URL, {
-                    method: 'POST',
-                    mode: 'no-cors', // Required for Google Forms
-                    body: googleFormData
-                });
-                
-                // Since mode is 'no-cors', we can't read the response
-                // But if no error is thrown, we assume success
-                return Promise.resolve();
-            } catch (error) {
-                return Promise.reject(error);
+                await navigator.clipboard.writeText(text);
+                return true;
+            } catch (err) {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-999999px';
+                textArea.style.top = '-999999px';
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    return true;
+                } catch (err) {
+                    return false;
+                } finally {
+                    document.body.removeChild(textArea);
+                }
             }
         }
 
@@ -2314,5 +2306,6 @@
         // Make selectQuickQuestion globally available
         window.selectQuickQuestion = selectQuickQuestion;
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96d92bd753009d7c',t:'MTc1NDkzMDM5MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96dd8d09c1d14f3c',t:'MTc1NDk3NjMxNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
+   
